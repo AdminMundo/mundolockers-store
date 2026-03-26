@@ -48,10 +48,11 @@ export default function WhyUsSection() {
           <Button
             asChild
             variant="outline"
-            className="hidden h-10 rounded-xl border-black/10 bg-white/60 text-zinc-900 transition-colors hover:bg-[#FDC90D] hover:text-black hover:border-black/20 md:inline-flex"
+            className="hidden h-10 rounded-xl border-black/10 bg-white/60 text-zinc-900 transition-colors
+                      hover:!bg-[#FDC90D] hover:!text-black hover:!border-black/20 md:inline-flex"
           >
-            <Link href="/cotizar">
-              Cotizar <ArrowRight className="ml-2 h-4 w-4" aria-hidden="true" />
+            <Link href="/tienda">
+              Ver tienda <ArrowRight className="ml-2 h-4 w-4" />
             </Link>
           </Button>
         </div>
@@ -63,19 +64,22 @@ export default function WhyUsSection() {
               <article
                 key={it.title}
                 className={[
-                  "rounded-3xl border border-black/10",
+                  "relative overflow-hidden rounded-3xl",
+                  "border border-black/10",
                   "bg-white/55 backdrop-blur-2xl",
                   "shadow-[0_18px_45px_rgba(0,0,0,0.10)]",
                   "p-6 transition-all duration-300",
-                  "hover:-translate-y-0.5 hover:shadow-[0_28px_80px_rgba(0,0,0,0.14)]",
-                  "after:pointer-events-none after:absolute after:inset-x-6 after:bottom-0 after:h-px",
-                  "after:bg-gradient-to-r after:from-transparent after:via-black/15 after:to-transparent after:opacity-50",
-                  "relative overflow-hidden",
+                  "hover:-translate-y-0.5",
+                  "hover:border-[#FDC90D]",
+                  "hover:shadow-[0_28px_80px_rgba(253,201,13,0.18)]",
                 ].join(" ")}
               >
                 <div className="flex items-center gap-3">
                   <span className="inline-flex h-11 w-11 items-center justify-center rounded-2xl border border-black/10 bg-white/60">
-                    <Icon className="h-5 w-5 text-zinc-900" aria-hidden="true"  />
+                    <Icon
+                      className="h-5 w-5 text-zinc-900"
+                      aria-hidden="true"
+                    />
                   </span>
                   <h3 className="text-base font-semibold leading-tight">
                     {it.title}
@@ -92,10 +96,11 @@ export default function WhyUsSection() {
           <Button
             asChild
             variant="outline"
-            className="inline-flex h-11 w-full rounded-xl border-black/10 bg-white/60 text-zinc-900 transition-colors hover:bg-[#FDC90D] hover:text-black hover:border-black/20"
+            className="h-11 w-full rounded-xl border-black/10 bg-white/60 text-zinc-900 transition-colors
+                      hover:!bg-[#FDC90D] hover:!text-black hover:!border-black/20"
           >
-            <Link href="/cotizar">
-              Cotizar <ArrowRight className="ml-2 h-4 w-4" />
+            <Link href="/tienda">
+              Ver tienda <ArrowRight className="ml-2 h-4 w-4" />
             </Link>
           </Button>
         </div>

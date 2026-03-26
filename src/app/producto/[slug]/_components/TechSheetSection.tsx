@@ -1,31 +1,35 @@
 import Image from "next/image";
-import { getTechSheetBySlug } from "@/lib/techSheets";
+import { getTechSheetForProduct } from "@/lib/techSheets";
 
-export default function TechSheetSection({ slug }: { slug: string }) {
-  const tech = getTechSheetBySlug(slug);
-  if (!tech) return null;
+export default function TechSheetSection({
+  slug,
+  categorySlug,
+  productName,
+}: {
+  slug: string;
+  categorySlug: string | null;
+  productName: string;
+}) {
+  const sheet = getTechSheetForProduct({ slug, categorySlug, productName });
+  if (!sheet) return null;
 
   return (
-    <section
-      aria-label="Medidas y ficha técnica"
-      className="rounded-3xl bg-white p-6 shadow-sm border border-zinc-100"
-    >
-      <div className="flex items-center justify-between gap-3">
-        <h2 className="text-base font-semibold text-zinc-900">
-          Medidas y ficha técnica
-        </h2>
-        <span className="text-xs text-zinc-500">Imagen referencial</span>
+    <section className="rounded-3xl bg-white p-6 shadow-sm border border-zinc-100">
+      <div className="flex items-center justify-between gap-4">
+        <h2 className="text-lg font-semibold text-zinc-900">Ficha técnica</h2>
+        <span className="text-xs text-zinc-500"> Imagen referencial</span>
       </div>
 
-      <div className="relative mt-4 w-full overflow-hidden rounded-2xl bg-zinc-50 aspect-[4/5]">
-        <Image
-          src={tech.src}
-          alt={tech.alt}
-          fill
-          sizes="(min-width: 1024px) 680px, 92vw"
-          className="object-contain p-4"
-          
-        />
+      <div className="mt-4 overflow-hidden rounded-3xl border border-zinc-100 bg-zinc-50">
+        <div className="relative aspect-[3/4] w-full">
+          <Image
+            src={sheet.src}
+            alt={sheet.alt}
+            fill
+            sizes="(min-width: 1024px) 720px, 100vw"
+            className="object-contain p-4"
+          />
+        </div>
       </div>
     </section>
   );

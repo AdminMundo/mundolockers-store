@@ -2,7 +2,7 @@
 
 export default function CTAGroup({ productName }: { productName: string }) {
   const text = encodeURIComponent(`Hola! Quiero cotizar: ${productName}`);
-  const href = `https://wa.me/569XXXXXXXX?text=${text}`;
+  const href = `https://wa.me/569?text=${text}`;
 
   return (
     <div className="grid gap-3 sm:grid-cols-2">

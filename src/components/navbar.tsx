@@ -52,7 +52,7 @@ export default function Navbar() {
           {/* Left: Logo */}
           <Link href="/" className="flex items-center shrink-0">
             <Image
-              src="/brand/logobueno.png"
+              src="/brand/logonuevo.webp"
               alt="Mundo Lockers"
               width={260}
               height={60}

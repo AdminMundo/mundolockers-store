@@ -25,7 +25,7 @@ export default function Footer() {
             <div className="md:col-span-1">
               <Link href="/" className="inline-flex items-center gap-3">
                 <Image
-                  src="/brand/logobueno.png"
+                  src="/brand/logonegro.png"
                   alt="Mundo Lockers"
                   width={140}
                   height={32}

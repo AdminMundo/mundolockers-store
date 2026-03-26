@@ -66,6 +66,7 @@ export default function RootLayout({
     <html lang="es" className={`${inter.variable}`}>
       <body className={`${inter.className} ${inter.variable}`}>
         <Navbar />
+        
         {children}
         <Footer />
       </body>

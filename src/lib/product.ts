@@ -46,7 +46,6 @@ export type ProductDetail = {
   variants: ProductVariant[];
 };
 
-/** Tipado real de la vista product_detail */
 type ProductDetailRow = {
   id: string;
   slug: string;
@@ -56,14 +55,9 @@ type ProductDetailRow = {
   specs: Json | null;
   is_active: boolean | null;
   is_featured: boolean | null;
-
-  // ✅ vienen DIRECTO desde la view
+  price_clp: number | null;
   category_slug: string | null;
   category_name: string | null;
-};
-
-type ProductImportRow = {
-  price_clp: number | null;
 };
 
 type ProductVariantRow = {
@@ -85,26 +79,17 @@ type ProductVariantRow = {
 export async function getProductBySlug(slug: string): Promise<ProductDetail | null> {
   const supabase = createSupabasePublicServer();
 
-  // 1) producto base desde view (SIN categories(...))
+  // 1 sola query a product_detail (ahora incluye price_clp directamente)
   const { data: p, error } = await supabase
     .from("product_detail")
-    .select("id,slug,name,sku,description,specs,is_active,is_featured,category_slug,category_name")
+    .select("id,slug,name,sku,description,specs,is_active,is_featured,price_clp,category_slug,category_name")
     .eq("slug", slug)
     .maybeSingle<ProductDetailRow>();
 
   if (error) throw new Error(error.message);
   if (!p) return null;
 
-  // 2) import por slug
-  const { data: imp, error: iErr } = await supabase
-    .from("products_import")
-    .select("price_clp")
-    .eq("slug", slug)
-    .maybeSingle<ProductImportRow>();
-
-  if (iErr) throw new Error(iErr.message);
-
-  // 3) variantes por product_id
+  // Variantes activas del producto
   const { data: variants, error: vErr } = await supabase
     .from("product_variants")
     .select("id,product_id,name,color,door_color,doors,bodies,price_clp,stock_status,image_urls,sort_order,is_active,variant_sku")
@@ -114,9 +99,6 @@ export async function getProductBySlug(slug: string): Promise<ProductDetail | nu
     .returns<ProductVariantRow[]>();
 
   if (vErr) throw new Error(vErr.message);
-
-  // 4) imagen principal desde /public
-  const image_url = resolveProductImageUrl(p.slug);
 
   return {
     id: p.id,
@@ -132,8 +114,8 @@ export async function getProductBySlug(slug: string): Promise<ProductDetail | nu
     category_slug: p.category_slug ?? null,
     category_name: p.category_name ?? null,
 
-    price_from_clp: safeNumber(imp?.price_clp),
-    image_url,
+    price_from_clp: safeNumber(p.price_clp),
+    image_url: resolveProductImageUrl(p.slug),
 
     variants: (variants ?? []).map((x) => ({
       id: x.id,

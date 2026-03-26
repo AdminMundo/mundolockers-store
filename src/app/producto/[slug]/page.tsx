@@ -36,7 +36,7 @@ export default async function ProductPage({ params }: PageProps) {
             </div>
 
             {/* ✅ Esto llena el espacio blanco (cuando el panel derecho es más alto) */}
-            <TechSheetSection slug={product.slug} />
+            <TechSheetSection slug={product.slug} categorySlug={product.category_slug} productName={product.name} />
           </div>
 
           {/* RIGHT column */}

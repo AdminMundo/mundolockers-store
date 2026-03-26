@@ -14,8 +14,7 @@ export async function getCatalog(params: CatalogQuery) {
   const supabase = createSupabasePublicServer();
 
   const q = params.q?.trim() || "";
-  const cat =
-    params.cat && params.cat !== "all" ? params.cat.trim() : null;
+  const cat = params.cat && params.cat !== "all" ? params.cat.trim() : null;
 
   const page = Math.max(1, Number(params.page ?? 1));
   const from = (page - 1) * PAGE_SIZE;
@@ -24,8 +23,8 @@ export async function getCatalog(params: CatalogQuery) {
   let query = supabase
     .from("catalog_products")
     .select(
-      "product_id,slug,name,category_slug,price_from_clp,has_in_stock,image_url,is_featured",
-      { count: "exact" }
+      "product_id,slug,sku,name,category_slug,price_from_clp,has_in_stock,image_url,hover_image_url,is_featured",
+      { count: "exact" },
     )
     .eq("is_active", true);
 

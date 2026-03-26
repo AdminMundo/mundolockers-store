@@ -33,15 +33,23 @@ const CATEGORIES: Category[] = [
     title: "Lockers Metálicos",
     slug: "lockers-metalicos",
     href: "/tienda?cat=lockers-metalicos",
-    image: "/images/categoria/LockerMetalico.svg",
+    image: "/images/categoria/LockerMetalico.webp",
     priceFrom: "$89.900",
     tag: "Popular",
   },
   {
+  title: "Lockers para Celulares",
+  slug: "lockers-celulares",
+  href: "/tienda?cat=lockers-celulares",
+  image: "/images/categoria/phonetrans.webp",
+  priceFrom: "$159.900",
+  tag: "Popular",
+},
+  {
     title: "Lockers Kids",
     slug: "lockers-kids",
     href: "/tienda?cat=lockers-kids",
-    image: "/images/categoria/CatLockerKids.svg",
+    image: "/images/categoria/CatLockerKids.webp",
     priceFrom: "$129.900",
     tag: "Popular",
   },
@@ -49,27 +57,27 @@ const CATEGORIES: Category[] = [
     title: "Lockers Mineros",
     slug: "lockers-mineros",
     href: "/tienda?cat=lockers-mineros",
-    image: "/images/categoria/LockerMinero.svg",
+    image: "/images/categoria/LockerMinero.webp",
     priceFrom: "$159.900",
     tag: "Popular",
   },
   {
-    title: "Lockers Mecano",
-    slug: "lockers-mecanos",
-    href: "/tienda?cat=lockers-mecanos",
-    image: "/images/categoria/Estante.svg",
+    title: "Estanterias Mecano",
+    slug: "estanterias-mecano",
+    href: "/tienda?cat=estanterias-mecano",
+    image: "/images/categoria/Estante.webp",
   },
   {
     title: "Storages & Roperillos",
     slug: "storages-roperillos",
     href: "/tienda?cat=storages-roperillos",
-    image: "/images/categoria/RoperilloRojo.svg",
+    image: "/images/categoria/Roperillos.webp",
   },
   {
     title: "Kardex & Cajoneras",
     slug: "kardex-cajoneras",
     href: "/tienda?cat=kardex-cajoneras",
-    image: "/images/categoria/Kardex.svg",
+    image: "/images/categoria/Kardex.webp",
   },
   {
     title: "Bancas Metálicas",
@@ -83,12 +91,7 @@ const CATEGORIES: Category[] = [
     href: "/tienda?cat=lockers-home",
     image: "/images/categoria/LockerHome.svg",
   },
-  {
-    title: "Lockers Escolares",
-    slug: "lockers-Escolares",
-    href: "/tienda?cat=lockers-escolares",
-    image: "/images/categoria/lockerescolar.svg",
-  },
+
 ];
 
 function CategoryCard({ c }: { c: Category }) {
@@ -101,8 +104,7 @@ function CategoryCard({ c }: { c: Category }) {
       <article
         className={[
           "relative overflow-hidden rounded-3xl",
-          // altura estable + espacio para la barra inferior
-          "min-h-[420px] pb-[150px] h-full",
+          "min-h-[420px] pb-[135px] h-full", // un poco menos espacio reservado
           "border border-black/10",
           "bg-zinc-200/70 backdrop-blur-xl",
           "shadow-[0_18px_25px_rgba(0,0,0,0.0)]",
@@ -118,10 +120,9 @@ function CategoryCard({ c }: { c: Category }) {
             </Badge>
           )}
 
-          {/* Imagen flotante grande (se mete bajo la barra) */}
+          {/* Imagen */}
           <div className="mt-4 relative h-[170px] w-full">
-            {/* glow suave detrás */}
-            <div className="pointer-events-none absolute inset-x-6 top-30 h-50 rounded-full blur-2xl bg-black/10" />
+            <div className="pointer-events-none absolute inset-x-6 top-10 h-36 rounded-full blur-2xl bg-black/10" />
 
             <Image
               src={c.image}
@@ -133,50 +134,30 @@ function CategoryCard({ c }: { c: Category }) {
           </div>
         </div>
 
-        {/* INFO BAR (una sola, pegada abajo, con blur) */}
+        {/* INFO BAR (más baja) */}
         <div className="absolute inset-x-0 bottom-0">
-          {/* fade para mezclar imagen con barra */}
-          <div className="pointer-events-none h-16 bg-gradient-to-b from-transparent to-white/80" />
+          <div className="pointer-events-none h-14 bg-gradient-to-b from-transparent to-white/80" />
 
-          <div className="relative z-10 flex items-end justify-between gap-4 px-5 pb-5 pt-4 bg-white/60 backdrop-blur-2xl border-t border-black/10  h-[180px]]">
+          <div className="relative z-10 flex items-end justify-between gap-4 px-5 pb-4 pt-3 bg-white/60 backdrop-blur-2xl border-t border-black/10 h-[150px]">
             <div className="min-w-0">
-              <h3
-                className="text-lg font-semibold text-zinc-900 leading-tight min-h-[100px] line-clamp-2"
-                style={{
-                  display: "-webkit-box",
-                  WebkitLineClamp: 2,
-                  WebkitBoxOrient: "vertical",
-                  overflow: "hidden",
-                }}
-              >
+              <h3 className="text-lg font-semibold text-zinc-900 leading-tight line-clamp-2 min-h-[48px]">
                 {c.title}
               </h3>
 
-              {/* reserva espacio para alinear aunque no haya precio */}
-              <p className="mt-1 text-sm text-zinc-600 min-h-[20px]">
-                {c.priceFrom ? (
-                  <>
-                      
 
-                  </>
-                ) : (
-                  <span className="opacity-0">Desde $0</span>
-                )}
-              </p>
 
               <Button
                 variant="outline"
-                className="mt-3 h-9 rounded-xl border-black/10 bg-white/40 text-zinc-900 transition-colors duration-200 hover:bg-[#000000] hover:text-white hover:border-black/20"
+                className="mt-2 h-9 rounded-xl border-black/10 bg-white/40 text-zinc-900 transition-colors duration-200 hover:bg-[#000000] hover:text-white hover:border-black/20"
               >
                 Ver más <ArrowRight className="ml-2 h-4 w-4" />
               </Button>
             </div>
 
-            {/* precio grande derecha (solo si hay precio) */}
             {c.priceFrom && (
               <div className="hidden sm:block text-right">
-                <div className="text-sm text-zinc-500">Desde</div>
-                <div className="text-xl font-semibold text-zinc-900">
+                <div className="text-xs text-zinc-500">Desde</div>
+                <div className="text-lg font-semibold text-zinc-900">
                   {c.priceFrom}
                 </div>
               </div>

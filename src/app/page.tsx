@@ -49,7 +49,7 @@ export default function HomePage() {
 
         {/* Imagen de fondo */}
         <Image
-          src="/images/home/Cabezerablanca.png"
+          src="/images/home/Encabezadoprincipal.svg"
           alt="Showroom de lockers Mundo Lockers"
           fill
           priority

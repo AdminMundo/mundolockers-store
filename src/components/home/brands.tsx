@@ -10,16 +10,17 @@ type Brand = {
 };
 
 const BRANDS: Brand[] = [
-  { name: "CODELCO", logo: "/brand/Codelco.svg" },
-  { name: "Atacama Mineral", logo: "/brand/Atacama.svg" },
-  { name: "Walmart", logo: "/brand/walmart.svg" },
-  { name: "PDI", logo: "/brand/pdi.svg" },
-  { name: "Carabineros", logo: "/brand/Carabineros.svg" },
-  { name: "Cencosud", logo: "/brand/Cencosud.svg" },
-  { name: "Colegios", logo: "/brand/british.svg" },
+  { name: "CODELCO", logo: "/brand/Codelco.webp" },
+  { name: "Atacama Mineral", logo: "/brand/Atacama.webp" },
+  { name: "Walmart", logo: "/brand/Walmart-logo-1.png" },
+  { name: "PDI", logo: "/brand/PDI.webp" },
+  { name: "Carabineros", logo: "/brand/Carabineros.webp" },
+  { name: "Cencosud", logo: "/brand/Cencosud.webp" },
+  { name: "Colegios", logo: "/brand/british.webp" },
   { name: "Colegios", logo: "/brand/ColegioPedrodevldivia.svg" },
-  { name: "Armada", logo: "/brand/Armada.svg" },
-  { name: "Unimarc", logo: "/brand/Uni.svg" },
+  { name: "Armada", logo: "/brand/Armada.webp" },
+  { name: "Unimarc", logo: "/brand/Unimarc.webp" },
+  { name: "Construmart", logo: "/brand/Construmart.svg" },
 ];
 
 // duplicamos para loop infinito sin saltos
@@ -61,17 +62,18 @@ export default function BrandsSection() {
             <Button
               asChild
               variant="outline"
-              className="h-10 rounded-xl border-black/10 bg-white/70 text-zinc-900
-              shadow-sm hover:shadow-md
-              transition-all duration-200
-              hover:bg-black hover:text-white hover:border-black"
+              className="h-10 rounded-xl border-black/10 bg-white/60 text-zinc-900
+                          transition-colors duration-200
+                          hover:bg-white hover:text-zinc-900
+                          hover:border-[#FDC90D] hover:shadow-[0_10px_25px_rgba(253,201,13,0.18)]"
             >
               <Link href="/proyectos">Ver proyectos</Link>
             </Button>
 
             <Button
               asChild
-              className="h-10 rounded-xl bg-black text-white hover:bg-black/90"
+              className="h-10 rounded-xl bg-black text-white transition-colors
+                       hover:bg-[#FDC90D] hover:text-black"
             >
               <Link href="/cotizar">Cotizar</Link>
             </Button>
@@ -93,7 +95,7 @@ export default function BrandsSection() {
               <div className="brands-marquee flex gap-10 px-6">
                 {LOOP.map((b, idx) => {
                   const Item = (
-                    <div className="flex h-20 w-[150px] items-center justify-center rounded-2xl border border-black/10 bg-white/60 backdrop-blur-xl shadow-[0_10px_30px_rgba(0,0,0,0.06)]">
+                    <div className="flex h-20 w-[170px] items-center justify-center rounded-2xl border border-black/10 bg-white/60 backdrop-blur-xl shadow-[0_10px_30px_rgba(0,0,0,0.06)]">
                       <Image
                         src={b.logo}
                         alt={b.name}

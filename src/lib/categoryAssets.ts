@@ -9,8 +9,7 @@ const CATEGORY_ASSETS: Record<string, CategoryAsset> = {
     src: "public/images/categoria/Estanterias/Estanteriaespecificacion.svg",
     alt: "Estructura de acero – Estanterías MundoLockers",
   },
-  // ejemplo:
-  // lockers-metalicos: { src: "...", alt: "..." },
+ 
 };
 
 export function getCategoryAsset(categorySlug: string | null): CategoryAsset | null {
