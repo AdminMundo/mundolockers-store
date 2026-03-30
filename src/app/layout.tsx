@@ -1,8 +1,6 @@
 import "./globals.css";
 import type { Metadata, Viewport } from "next";
-import Navbar from "@/components/navbar";
 import { Inter } from "next/font/google";
-import Footer from "@/components/footer";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -11,7 +9,7 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://www.mundolockers.cl"),
+  metadataBase: new URL("https://www.mundolockers.com"),
   title: "Mundo Lockers Store | Lockers metálicos y plásticos en Chile",
   description:
     "Lockers metálicos y plásticos para industria, colegios, minería y hogar. Compra online o cotiza por WhatsApp. Despacho a todo Chile.",
@@ -44,7 +42,6 @@ export const metadata: Metadata = {
       "max-video-preview": -1,
     },
   },
-  // Ajusta rutas reales cuando tengas íconos
   icons: {
     icon: "/favicon.ico",
     apple: "/apple-touch-icon.png",
@@ -63,12 +60,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="es" className={`${inter.variable}`}>
+    <html lang="es" className={inter.variable}>
       <body className={`${inter.className} ${inter.variable}`}>
-        <Navbar />
-        
         {children}
-        <Footer />
       </body>
     </html>
   );

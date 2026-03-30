@@ -74,6 +74,12 @@ export default function Navbar() {
               <Link href="/carrito" className="hover:text-white transition">
                 Carrito
               </Link>
+              <Link
+                href="/login"
+                className="inline-flex items-center rounded-2xl border border-black/10 bg-white/80 px-4 py-2 text-sm font-medium text-black backdrop-blur-sm transition hover:border-black/20 hover:bg-white"
+              >
+                Login
+              </Link>
             </nav>
 
             <form
@@ -125,13 +131,12 @@ export default function Navbar() {
               asChild
               className="h-10 bg-yellow-400 px-4 text-base font-semibold text-black hover:bg-yellow-300"
             >
-              <a
-                href="https://wa.me/56933882434?text=Hola!%20Quiero%20cotizar%20lockers."
-                target="_blank"
-                rel="noopener noreferrer"
+              <Link
+                href="/tienda"
+                className="block rounded-2xl px-4 py-3 text-sm font-medium text-black/80 transition hover:bg-black/[0.03]"
               >
-                Cotizar
-              </a>
+                Tienda
+              </Link>
             </Button>
           </div>
 

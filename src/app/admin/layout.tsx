@@ -11,14 +11,12 @@ export default async function AdminLayout({ children }: AdminLayoutProps) {
 
   return (
     <div className="min-h-screen bg-[#F5F5F7]">
-      <div className="mx-auto max-w-screen-2xl px-4 py-6 sm:px-6 lg:px-8">
-        <div className="grid gap-6 lg:grid-cols-[280px_1fr]">
-          <aside className="hidden lg:block">
-            <AdminSidebar userEmail={user.email ?? ""} />
-          </aside>
+      <div className="mx-auto flex w-full max-w-[1600px] gap-6 px-4 py-6 sm:px-6 lg:px-8">
+        <aside className="hidden xl:block xl:w-[290px] xl:shrink-0">
+          <AdminSidebar userEmail={user.email ?? ""} />
+        </aside>
 
-          <div className="min-w-0">{children}</div>
-        </div>
+        <div className="min-w-0 flex-1">{children}</div>
       </div>
     </div>
   );

@@ -15,16 +15,16 @@ const jsonLd = {
     {
       "@type": "Organization",
       name: "Mundo Lockers Store",
-      url: "https://www.mundolockers.cl",
-      logo: "https://www.mundolockers.cl/brand/logobueno.png",
+      url: "https://www.mundolockers.com",
+      logo: "https://www.mundolockers.com/brand/logobueno.png",
     },
     {
       "@type": "WebSite",
       name: "Mundo Lockers Store",
-      url: "https://www.mundolockers.cl",
+      url: "https://www.mundolockers.com",
       potentialAction: {
         "@type": "SearchAction",
-        target: "https://www.mundolockers.cl/tienda?q={search_term_string}",
+        target: "https://www.mundolockers.com/tienda?q={search_term_string}",
         "query-input": "required name=search_term_string",
       },
     },
