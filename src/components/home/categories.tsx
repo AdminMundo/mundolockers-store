@@ -40,9 +40,9 @@ const CATEGORIES: Category[] = [
   {
   title: "Lockers para Celulares",
   slug: "lockers-celulares",
-  href: "/tienda?cat=lockers-celulares",
-  image: "/images/categoria/phonetrans.webp",
-  priceFrom: "$159.900",
+  href: "/tienda?cat=lockers-phone&page=1",
+  image: "/images/categoria/phonetrans2.webp",
+  priceFrom: "$190.900",
   tag: "Popular",
 },
   {
@@ -83,14 +83,9 @@ const CATEGORIES: Category[] = [
     title: "Bancas Metálicas",
     slug: "bancas-metalicas",
     href: "/tienda?cat=bancas-metalicas",
-    image: "/images/categoria/Banca.svg",
+    image: "/images/products/banca-metalica-simple-120x45x45.webp",
   },
-  {
-    title: "Lockers Home",
-    slug: "lockers-home",
-    href: "/tienda?cat=lockers-home",
-    image: "/images/categoria/LockerHome.svg",
-  },
+
 
 ];
 
@@ -231,7 +226,7 @@ export default function CategoriesSection() {
           <Button
             asChild
             variant="outline"
-            className="mt-3 h-9 rounded-xl border-black/10 bg-white/40 text-zinc-900 transition-colors duration-200 hover:bg-[#FDC90D] hover:text-black hover:border-black/20"
+            className="mt-3 h-9 rounded-xl border-black/10 bg-neutral-200 px-5 md:px-6 text-base md:text-lg text-black hover:bg-black hover:text-white"
           >
             <Link href="/tienda">Ver todo</Link>
           </Button>

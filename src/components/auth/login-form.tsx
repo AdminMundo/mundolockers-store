@@ -17,6 +17,7 @@ export function LoginForm({ next = "/admin" }: LoginFormProps) {
   return (
     <form action={formAction} className="space-y-4">
       <input type="hidden" name="next" value={next} />
+      
 
       <div className="space-y-2">
         <label htmlFor="email" className="text-sm font-medium text-black/80">
@@ -61,6 +62,8 @@ export function LoginForm({ next = "/admin" }: LoginFormProps) {
       >
         {pending ? "Ingresando..." : "Entrar al panel"}
       </button>
+
+      
     </form>
   );
 }

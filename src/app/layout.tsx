@@ -9,19 +9,19 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://www.mundolockers.com"),
-  title: "Mundo Lockers Store | Lockers metálicos y plásticos en Chile",
+  metadataBase: new URL("https://www.Lockersstore.com"),
+  title: "Lockers Store | Lockers metálicos y plásticos en Chile",
   description:
     "Lockers metálicos y plásticos para industria, colegios, minería y hogar. Compra online o cotiza por WhatsApp. Despacho a todo Chile.",
   alternates: {
     canonical: "/",
   },
   openGraph: {
-    title: "Mundo Lockers Store | Lockers metálicos y plásticos en Chile",
+    title: "Lockers Store | Lockers metálicos y plásticos en Chile",
     description:
       "Compra lockers metálicos y plásticos. Modelos para industria, colegios y minería. Despacho a todo Chile.",
     url: "/",
-    siteName: "Mundo Lockers Store",
+    siteName: "Lockers Store",
     type: "website",
     locale: "es_CL",
   },

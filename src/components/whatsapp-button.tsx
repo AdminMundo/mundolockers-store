@@ -1,6 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 
 type Props = {
   href: string;
@@ -12,11 +13,10 @@ export default function WhatsAppButton({ href, className, children }: Props) {
   return (
     <Button
       type="button"
-      variant="outline"
-      className={
-        className ??
-        "h-9 rounded-xl border-black/10 bg-white/30 text-zinc-900 hover:bg-white/55"
-      }
+      className={cn(
+        "h-9 rounded-xl border border-black/10 bg-white/30 text-zinc-900 hover:bg-white/55 hover:text-zinc-900",
+        className
+      )}
       onClick={(e) => {
         e.preventDefault();
         e.stopPropagation();

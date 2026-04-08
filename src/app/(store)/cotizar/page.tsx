@@ -4,9 +4,9 @@ import { QuotePageClient } from "@/components/quote/quote-page-client";
 import { getCartServerState } from "@/lib/cart/server";
 
 export const metadata: Metadata = {
-  title: "Cotizar | Mundo Lockers",
+  title: "Cotizar | Lockers Store",
   description:
-    "Solicita una cotización para proyectos institucionales, compras por volumen y soluciones personalizadas de Mundo Lockers.",
+    "Solicita una cotización para proyectos institucionales, compras por volumen y soluciones personalizadas de Lockers Store.",
 };
 
 export default async function CotizarPage() {

@@ -7,12 +7,12 @@ type Props = {
   imageSrc?: string;
 };
 
-const DEFAULT_HERO_IMAGE = "/images/Tienda/shopencabezado.svg";
+const DEFAULT_HERO_IMAGE = "/images/home/Encabezadoprincipal.webp";
 
 export function CartHero({
   title,
   description,
-  eyebrow = "MUNDOLOCKERSSTORE",
+  eyebrow = "LOCKERSSTORE",
   imageSrc = DEFAULT_HERO_IMAGE,
 }: Props) {
   return (

@@ -6,8 +6,11 @@ const nextConfig: NextConfig = {
     remotePatterns: [
       {
         protocol: "https",
-        hostname: "mundolockers-store.supabase.co",
+        hostname: "mnoybuethuabjzlmxmmo.supabase.co",
+        port: "",
         pathname: "/storage/v1/object/public/**",
+        
+        
       },
           ],
   },  

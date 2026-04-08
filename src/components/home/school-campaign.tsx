@@ -8,7 +8,7 @@ function waLink() {
   const msg = encodeURIComponent(
     "Hola! Quiero cotizar lockers escolares para resguardo de celulares. ¿Me ayudas con modelos, capacidad y despacho?",
   );
-  // Cambia al número real cuando lo tengas
+ 
   return `https://wa.me/56933882434?text=${msg}`;
 }
 
@@ -63,7 +63,7 @@ export default function SchoolCampaignSection() {
               <div className="mt-5 flex flex-wrap gap-2">
                 <span className="inline-flex items-center gap-2 rounded-full border border-black/10 bg-white/60 px-3 py-1 text-xs text-zinc-800 backdrop-blur-xl">
                   <ShieldCheck className="h-4 w-4" aria-hidden="true" />
-                  Cerradura portacandado
+                  Cerradura con chapa y llave
                 </span>
                 <span className="inline-flex items-center gap-2 rounded-full border border-black/10 bg-white/60 px-3 py-1 text-xs text-zinc-800 backdrop-blur-xl">
                   <ShieldCheck className="h-4 w-4" aria-hidden="true"/>
@@ -109,7 +109,7 @@ export default function SchoolCampaignSection() {
               <div className="relative mx-auto h-[260px] w-full max-w-[520px]">
                 <div className="pointer-events-none absolute inset-x-10 top-12 h-40 rounded-full bg-black/10 blur-3xl" />
                 <Image
-                  src="/images/topProductos/Lockerescolar1puerta.svg"
+                  src="/images/topProductos/Lockerescolar1puerta.webp"
                   alt="Lockers escolares Mundo Lockers"
                   fill
                   sizes="(max-width: 768px) 90vw, 520px"

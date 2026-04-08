@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 
 const WHATSAPP_NUMBER = "56933882434";
 const WHATSAPP_TEXT = encodeURIComponent(
-  "Hola Mundo Lockers, necesito cotizar. ¿Me ayudas?"
+  "Hola Lockers Store, necesito cotizar. ¿Me ayudas?",
 );
 
 export default function Footer() {
@@ -23,15 +23,26 @@ export default function Footer() {
           <div className="grid gap-10 md:grid-cols-4">
             {/* Brand */}
             <div className="md:col-span-1">
-              <Link href="/" className="inline-flex items-center gap-3">
-                <Image
-                  src="/brand/logonegro.png"
-                  alt="Mundo Lockers"
-                  width={140}
-                  height={32}
-                  priority={false}
-                />
-              </Link>
+          <Link href="/" className="group flex items-center shrink-0">
+            <Image
+              src="/brand/logometalico2.webp"
+              alt="Lockers Store"
+              width={320}
+              height={90}
+              priority
+              sizes="(max-width: 768px) 180px, 320px"
+              className="
+                logo-float
+                h-10 md:h-9 w-auto
+                opacity-95 brightness-110 contrast-125
+                drop-shadow-[0_4px_18px_rgba(0,0,0,0.28)]
+                transition-all duration-500 ease-out
+                group-hover:scale-[1.04]
+                group-hover:brightness-125
+                group-hover:drop-shadow-[0_8px_24px_rgba(255,255,255,0.18)]
+              "
+            />
+          </Link>
 
               <p className="mt-3 text-sm text-zinc-600">
                 Lockers metálicos y plásticos para industria, colegios y
@@ -41,7 +52,7 @@ export default function Footer() {
               <div className="mt-5 flex flex-wrap gap-2">
                 <Button
                   asChild
-                  className="h-10 rounded-xl bg-black text-white hover:bg-[#FDC90D] hover:text-black"
+                  className="h-10 rounded-xl  bg-black text-white  hover:text-black text hover:bg-gray-500 px-5 text-sm font-medium"
                 >
                   <a
                     href={`https://wa.me/${WHATSAPP_NUMBER}?text=${WHATSAPP_TEXT}`}
@@ -67,27 +78,50 @@ export default function Footer() {
               <h3 className="text-sm font-semibold tracking-tight">Tienda</h3>
               <ul className="mt-4 space-y-3 text-sm text-zinc-700">
                 <li>
-                  <Link className="hover:text-black" href="/tienda?cat=lockers-metalicos">
+                  <Link
+                    className="hover:text-black"
+                    href="/tienda?cat=lockers-metalicos"
+                  >
                     Lockers Metálicos
                   </Link>
                 </li>
                 <li>
-                  <Link className="hover:text-black" href="/tienda?cat=lockers-kids">
+                  <Link
+                    className="hover:text-black"
+                    href="/tienda?cat=lockers-kids"
+                  >
                     Lockers Kids
                   </Link>
                 </li>
                 <li>
-                  <Link className="hover:text-black" href="/tienda?cat=lockers-escolares">
+                  <Link
+                    className="hover:text-black"
+                    href="/tienda?cat=lockers-escolares"
+                  >
                     Lockers Escolares
                   </Link>
                 </li>
                 <li>
-                  <Link className="hover:text-black" href="/tienda?cat=lockers-mineros">
+                  <Link
+                    className="hover:text-black"
+                    href="/tienda?cat=lockers-mineros"
+                  >
                     Lockers Mineros
                   </Link>
                 </li>
                 <li>
-                  <Link className="hover:text-black" href="/tienda?cat=kardex-cajoneras">
+                  <Link
+                    className="hover:text-black"
+                    href="/tienda?cat=lockers-phone&page=1"
+                  >
+                    Lockers Para Telefonos
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    className="hover:text-black"
+                    href="/tienda?cat=kardex-cajoneras"
+                  >
                     Kardex &amp; Cajoneras
                   </Link>
                 </li>
@@ -140,18 +174,27 @@ export default function Footer() {
 
                 <li className="flex gap-3">
                   <Mail className="mt-0.5 h-4 w-4 text-zinc-500" />
-                  <a className="hover:text-black" href="mailto:ventas@mundolockers.cl">
-                    ventas@mundolockers.cl
+                  <a
+                    className="hover:text-black"
+                    href="mailto:ventas@LockersStore.cl"
+                  >
+                    ventas@LockersStore.cl
                   </a>
                 </li>
 
                 <li className="flex gap-3">
                   <Phone className="mt-0.5 h-4 w-4 text-zinc-500" />
                   <div className="space-y-1">
-                    <a className="block hover:text-black" href="tel:+56224354519">
+                    <a
+                      className="block hover:text-black"
+                      href="tel:+56224354519"
+                    >
                       +56 2 243 54 519
                     </a>
-                    <a className="block hover:text-black" href="tel:+56224354518">
+                    <a
+                      className="block hover:text-black"
+                      href="tel:+56224354518"
+                    >
                       +56 2 243 54 518
                     </a>
                   </div>
@@ -171,14 +214,17 @@ export default function Footer() {
               </ul>
 
               <div className="mt-5 text-xs text-zinc-500">
-                Dominio: <span className="text-zinc-700">mundolockers.com</span>
+                Dominio: <span className="text-zinc-700">lockerstore.cl</span>
               </div>
             </div>
           </div>
 
           {/* Bottom bar */}
           <div className="mt-10 flex flex-col gap-3 border-t border-black/10 pt-6 text-xs text-zinc-500 md:flex-row md:items-center md:justify-between">
-            <p>© {new Date().getFullYear()} Mundo Lockers. Todos los derechos reservados.</p>
+            <p>
+              © {new Date().getFullYear()} Mundo Lockers. Todos los derechos
+              reservados.
+            </p>
 
             <div className="flex flex-wrap gap-x-4 gap-y-2">
               <Link className="hover:text-black" href="/politicas/privacidad">
@@ -187,7 +233,10 @@ export default function Footer() {
               <Link className="hover:text-black" href="/politicas/terminos">
                 Términos
               </Link>
-              <Link className="hover:text-black" href="/politicas/cambios-y-devoluciones">
+              <Link
+                className="hover:text-black"
+                href="/politicas/cambios-y-devoluciones"
+              >
                 Cambios y devoluciones
               </Link>
             </div>

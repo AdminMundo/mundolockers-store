@@ -97,7 +97,7 @@ export default function ProcessFaqSection() {
               asChild
               variant="outline"
               className="h-10 rounded-xl border-black/10 bg-white/60 text-zinc-900 transition-colors
-                      hover:bg-white hover:text-zinc-900 hover:border-[#FDC90D]"
+                      hover:bg-white hover:text-zinc-900 hover:border-[#b9b9b9]"
             >
               <Link href="/tienda">
                 Ver tienda <ArrowRight className="ml-2 h-4 w-4" />
@@ -106,7 +106,7 @@ export default function ProcessFaqSection() {
             <Button
               asChild
               className="h-10 rounded-xl bg-black text-white transition-colors
-                        hover:bg-[#FDC90D] hover:text-black"
+                        hover:bg-[#97958f] hover:text-black"
             >
               <a
                 href="https://wa.me/56933882434"

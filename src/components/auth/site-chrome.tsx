@@ -4,7 +4,7 @@ import type { ReactNode } from "react";
 import { usePathname } from "next/navigation";
 
 // Ajusta estos imports a tus archivos reales:
-import { Navbar } from  "components/ui/navbar";
+
 import { Component } from "lucide-react";
 // import { Footer } from "@/components/footer";
 
@@ -24,7 +24,7 @@ export function SiteChrome({ children }: SiteChromeProps) {
 
   return (
     <>
-      <Navbar />
+
       {children}
       {/* <Footer /> */}
     </>

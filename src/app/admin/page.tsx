@@ -2,10 +2,12 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { logoutAction } from "@/app/admin/actions";
 import { createSupabaseServerAuthClient } from "@/lib/supabase/auth-server";
+import Image from "next/image";
+
 
 export const metadata: Metadata = {
-  title: "Admin | Mundo Lockers",
-  description: "Panel administrativo de Mundo Lockers.",
+  title: "Admin | Lockers Store",
+  description: "Panel administrativo de Lockers Store.",
   robots: {
     index: false,
     follow: false,
@@ -20,126 +22,65 @@ export default async function AdminPage() {
 
   return (
     <div className="space-y-6">
-      <section
-        className="overflow-hidden rounded-[36px] border border-black/10 text-white"
-        style={{
-          background:
-            "linear-gradient(135deg, #0B1220 0%, #111827 45%, #1E293B 100%)",
-          boxShadow: "0 18px 50px rgba(15,23,42,0.16)",
-        }}
-      >
-        <div className="relative">
-          <div
-            style={{
-              position: "absolute",
-              inset: 0,
-              pointerEvents: "none",
-            }}
-          >
-            <div
-              style={{
-                position: "absolute",
-                right: "-64px",
-                top: "-64px",
-                width: "224px",
-                height: "224px",
-                borderRadius: "9999px",
-                background: "rgba(255,255,255,0.08)",
-                filter: "blur(48px)",
-              }}
-            />
-            <div
-              style={{
-                position: "absolute",
-                left: 0,
-                bottom: 0,
-                width: "176px",
-                height: "176px",
-                borderRadius: "9999px",
-                background: "rgba(253,201,13,0.16)",
-                filter: "blur(48px)",
-              }}
-            />
+      <section className="relative overflow-hidden rounded-[36px] border border-black/10 text-white shadow-[0_18px_50px_rgba(15,23,42,0.16)]">
+        <div className="absolute inset-0">
+          <Image
+            src="/images/home/Encabezadoprincipal.webp"
+            alt="Banner panel admin Mundo Lockers"
+            fill
+            priority
+            className="object-cover"
+            sizes="100vw"
+          />
+        </div>
+
+        <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(5,10,20,0.82)_0%,rgba(7,15,30,0.68)_42%,rgba(10,20,35,0.42)_100%)]" />
+
+        <div className="relative flex min-h-[260px] flex-col justify-between gap-8 p-6 md:min-h-[300px] md:flex-row md:items-end md:p-8">
+          <div className="max-w-3xl">
+            <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-white/70">
+              Panel de administración
+            </p>
+
+            <h1 className="mt-4 text-4xl font-semibold tracking-tight md:text-5xl">
+              Dashboard
+            </h1>
+
+            <p className="mt-4 max-w-2xl text-sm leading-6 text-white/85 md:text-base">
+              Controla productos, cotizaciones y operación comercial desde un
+              panel limpio, rápido y preparado para crecer con Mundo Lockers.
+            </p>
+
+            <div className="mt-6 flex flex-wrap gap-3">
+              <Link
+                href="/admin/productos"
+                className="inline-flex items-center rounded-2xl bg-[#FDC90D] px-4 py-2.5 text-sm font-medium text-black transition hover:brightness-95"
+              >
+                Ir a productos
+              </Link>
+
+              <Link
+                href="/admin/cotizaciones"
+                className="inline-flex items-center rounded-2xl border border-white/15 bg-white/8 px-4 py-2.5 text-sm font-medium text-white transition hover:bg-white/12"
+              >
+                Ver cotizaciones
+              </Link>
+            </div>
           </div>
 
-          <div className="relative flex min-h-[260px] flex-col justify-between gap-8 p-6 md:min-h-[300px] md:flex-row md:items-end md:p-8">
-            <div className="max-w-3xl">
-              <p
-                className="text-[11px] font-semibold uppercase"
-                style={{
-                  letterSpacing: "0.2em",
-                  color: "rgba(255,255,255,0.62)",
-                }}
-              >
-                Panel de administración
-              </p>
-
-              <h1
-                className="mt-4 text-4xl font-semibold tracking-tight md:text-5xl"
-                style={{ color: "#FFFFFF" }}
-              >
-                Dashboard
-              </h1>
-
-              <p
-                className="mt-4 max-w-2xl text-sm leading-6 md:text-base"
-                style={{ color: "rgba(255,255,255,0.78)" }}
-              >
-                Controla productos, cotizaciones y operación comercial desde un
-                panel limpio, rápido y preparado para crecer con Mundo Lockers.
-              </p>
-
-              <div className="mt-6 flex flex-wrap gap-3">
-                <Link
-                  href="/admin/productos"
-                  className="inline-flex items-center rounded-2xl px-4 py-2.5 text-sm font-medium transition"
-                  style={{
-                    backgroundColor: "#FDC90D",
-                    color: "#111111",
-                  }}
-                >
-                  Ir a productos
-                </Link>
-
-                <Link
-                  href="/admin/cotizaciones"
-                  className="inline-flex items-center rounded-2xl px-4 py-2.5 text-sm font-medium transition"
-                  style={{
-                    border: "1px solid rgba(255,255,255,0.15)",
-                    background: "rgba(255,255,255,0.06)",
-                    color: "#FFFFFF",
-                  }}
-                >
-                  Ver cotizaciones
-                </Link>
-              </div>
+          <div className="flex flex-col items-start gap-3 md:items-end">
+            <div className="rounded-2xl border border-white/15 bg-white/10 px-4 py-3 text-sm text-white/90 backdrop-blur-sm">
+              {user?.email ?? "admin"}
             </div>
 
-            <div className="flex flex-col items-start gap-3 md:items-end">
-              <div
-                className="rounded-2xl px-4 py-3 text-sm"
-                style={{
-                  border: "1px solid rgba(255,255,255,0.10)",
-                  background: "rgba(255,255,255,0.06)",
-                  color: "rgba(255,255,255,0.82)",
-                }}
+            <form action={logoutAction}>
+              <button
+                type="submit"
+                className="rounded-2xl bg-white px-4 py-2.5 text-sm font-medium text-black transition hover:opacity-95"
               >
-                {user?.email ?? "admin"}
-              </div>
-
-              <form action={logoutAction}>
-                <button
-                  type="submit"
-                  className="rounded-2xl px-4 py-2.5 text-sm font-medium transition"
-                  style={{
-                    backgroundColor: "#FFFFFF",
-                    color: "#111111",
-                  }}
-                >
-                  Cerrar sesión
-                </button>
-              </form>
-            </div>
+                Cerrar sesión
+              </button>
+            </form>
           </div>
         </div>
       </section>

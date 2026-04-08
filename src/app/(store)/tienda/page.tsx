@@ -28,8 +28,8 @@ export default async function TiendaPage({
       {/* HERO full */}
       <section className="relative h-[420px] w-full overflow-hidden bg-zinc-300 md:h-[520px]">
         <Image
-          src="/images/Tienda/shopencabezado.svg"
-          alt="Tienda Mundo Lockers"
+          src="/images/home/Encabezadoprincipal.webp"
+          alt="Tienda Lockers Store"
           fill
           priority
           className="object-cover"
@@ -39,7 +39,7 @@ export default async function TiendaPage({
         <div className="absolute bottom-10 left-0 right-0">
           <div className="mx-auto max-w-6xl px-4">
             <p className="text-xs uppercase tracking-widest text-white/80">
-              MundoLockersStore
+              LockersStore
             </p>
             <h1 className="mt-2 text-4xl font-semibold tracking-tight text-white md:text-5xl">
               Tienda

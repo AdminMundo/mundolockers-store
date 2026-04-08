@@ -1,15 +1,13 @@
 "use client";
 
-import {  useMemo,  useTransition } from "react";
+import { useMemo, useTransition } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 
 import { useCart } from "@/lib/cart/use-cart";
 import type { AddCartLineInput, CartFlow } from "@/lib/cart/types";
-import { Label } from "@radix-ui/react-dropdown-menu";  
-
-
+import { Label } from "@radix-ui/react-dropdown-menu";
 
 const CATEGORIES = [
   { label: "All", value: "all" },
@@ -94,7 +92,6 @@ export default function CatalogClient({
     };
   }, [sp, initialParams]);
 
-
   function setParams(next: Partial<typeof current>) {
     const params = new URLSearchParams(sp.toString());
 
@@ -144,14 +141,14 @@ export default function CatalogClient({
   return (
     <div className="space-y-6">
       <div className="rounded-2xl border border-zinc-200 bg-white/80 p-3 backdrop-blur md:p-4">
-        <div className="flex items-center gap-2 overflow-x-auto pb-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+        <div className="flex flex-wrap items-center gap-2 pb-2">
           {CATEGORIES.map((c) => (
             <button
               key={c.value}
               type="button"
               onClick={() => setParams({ cat: c.value })}
               className={cn(
-                "whitespace-nowrap rounded-full border px-4 py-2 text-xs transition",
+                "whitespace-nowrap rounded-full border px-3 py-2 text-[11px] lg:px-4 lg:text-xs transition",
                 current.cat === c.value
                   ? "border-zinc-900 bg-zinc-900 text-white"
                   : "border-zinc-200 bg-white text-zinc-700 hover:border-[#F5B301] hover:shadow-[0_0_0_3px_rgba(245,179,1,0.18)] hover:text-zinc-900",
@@ -165,17 +162,16 @@ export default function CatalogClient({
         <div className="mt-3 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
           <div className="w-full sm:max-w-[420px]">
             <input
-                key={current.q}
-                defaultValue={current.q}
-                onKeyDown={(e) => {
-                  if (e.key === "Enter") {
-                    setParams({ q: e.currentTarget.value.trim() });
-                  }
-                }}
-                placeholder="Buscar…"
-                className="w-full rounded-full border border-zinc-200 bg-white px-4 py-2 text-sm outline-none focus:border-[#F5B301] focus:shadow-[0_0_0_3px_rgba(245,179,1,0.18)]"
-              />
-
+              key={current.q}
+              defaultValue={current.q}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  setParams({ q: e.currentTarget.value.trim() });
+                }
+              }}
+              placeholder="Buscar…"
+              className="w-full rounded-full border border-zinc-200 bg-white px-4 py-2 text-sm outline-none focus:border-[#F5B301] focus:shadow-[0_0_0_3px_rgba(245,179,1,0.18)]"
+            />
           </div>
 
           <div className="w-full sm:w-auto">

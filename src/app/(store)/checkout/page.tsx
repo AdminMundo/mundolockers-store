@@ -4,9 +4,9 @@ import { CheckoutPageClient } from "@/components/checkout/checkout-page-client";
 import { getCartServerState } from "@/lib/cart/server";
 
 export const metadata: Metadata = {
-  title: "Checkout | Mundo Lockers",
+  title: "Checkout | Lockers Store",
   description:
-    "Completa tus datos para continuar con la compra directa en Mundo Lockers.",
+    "Completa tus datos para continuar con la compra directa en Lockers Store.",
   robots: {
     index: false,
     follow: false,

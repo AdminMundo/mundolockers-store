@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { createSupabaseServer } from "@/lib/supabase/server";
+import DeleteProductButton from "@/components/admin/delete-product-button";
 
 export const metadata: Metadata = {
-  title: "Productos | Admin | Mundo Lockers",
+  title: "Productos | Admin | Lockers Store",
   description: "Gestión de productos del panel admin.",
   robots: {
     index: false,
@@ -30,6 +31,8 @@ type AdminProductosPageProps = {
     category?: string;
     status?: string;
     stock?: string;
+    deleted?: string;
+    error?: string;
   }>;
 };
 
@@ -159,19 +162,44 @@ export default async function AdminProductosPage({
           </div>
 
           <div className="flex flex-wrap gap-3">
-            <Link
-              href="/tienda"
-              className="inline-flex items-center rounded-2xl px-4 py-2.5 text-sm font-medium transition"
-              style={{
-                backgroundColor: "#FDC90D",
-                color: "#111111",
-              }}
-            >
-              Ver tienda
-            </Link>
+            <div className="flex flex-wrap gap-3">
+              <Link
+                href="/admin/productos/nuevo"
+                className="inline-flex items-center rounded-2xl px-4 py-2.5 text-sm font-medium transition"
+                style={{
+                  backgroundColor: "#FDC90D",
+                  color: "#111111",
+                }}
+              >
+                Nuevo producto
+              </Link>
+
+              <Link
+                href="/tienda"
+                className="inline-flex items-center rounded-2xl border border-white/15 px-4 py-2.5 text-sm font-medium transition"
+                style={{
+                  backgroundColor: "rgba(255,255,255,0.08)",
+                  color: "#FFFFFF",
+                }}
+              >
+                Ver tienda
+              </Link>
+            </div>
           </div>
         </div>
       </section>
+
+      {params.deleted === "1" ? (
+        <div className="rounded-2xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-700">
+          Producto eliminado correctamente.
+        </div>
+      ) : null}
+
+      {params.error === "delete_failed" ? (
+        <div className="rounded-2xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+          No se pudo eliminar el producto.
+        </div>
+      ) : null}
 
       <section className="grid gap-4 md:grid-cols-4">
         <div className="rounded-[28px] border border-black/10 bg-white p-6 shadow-sm">
@@ -349,6 +377,9 @@ export default async function AdminProductosPage({
                     Estado
                   </th>
                   <th className="px-6 py-4 text-xs font-semibold uppercase tracking-[0.14em] text-black/45">
+                    Slug
+                  </th>
+                  <th className="px-6 py-4 text-xs font-semibold uppercase tracking-[0.14em] text-black/45">
                     Acción
                   </th>
                 </tr>
@@ -396,14 +427,19 @@ export default async function AdminProductosPage({
                     <td className="px-6 py-4 text-sm text-black/50">
                       {product.slug}
                     </td>
-
                     <td className="px-6 py-4">
-                      <Link
-                        href={`/admin/productos/${product.slug}`}
-                        className="inline-flex items-center rounded-2xl border border-black/10 px-3 py-2 text-sm font-medium text-black transition hover:border-black/20 hover:bg-black/[0.02]"
-                      >
-                        Editar
-                      </Link>
+                      <div className="flex flex-col gap-2">
+                        <Link
+                          href={`/admin/productos/${product.slug}`}
+                          className="inline-flex items-center justify-center rounded-2xl border border-black/10 px-3 py-2 text-sm font-medium text-black transition hover:border-black/20 hover:bg-black/[0.02]"
+                        >
+                          Editar
+                        </Link>
+
+                        {product.sku ? (
+                          <DeleteProductButton sku={product.sku} />
+                        ) : null}
+                      </div>
                     </td>
                   </tr>
                 ))}

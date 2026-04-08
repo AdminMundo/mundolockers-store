@@ -24,7 +24,7 @@ export default async function LoginPage({ searchParams }: LoginPageProps) {
     <main className="min-h-screen bg-[#F5F5F7] px-6 py-16">
       <div className="mx-auto max-w-md">
         <div className="rounded-[32px] border border-black/10 bg-white p-8 shadow-sm">
-          <p className="text-sm text-black/50">Mundo Lockers</p>
+          <p className="text-sm text-black/50">Lockers Store</p>
 
           <h1 className="mt-2 text-3xl font-semibold tracking-tight">
             Acceso administrador

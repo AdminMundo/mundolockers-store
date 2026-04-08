@@ -4,9 +4,9 @@ import { CartPageClient } from "@/components/cart/cart-page-client";
 import { getCartServerState } from "@/lib/cart/server";
 
 export const metadata: Metadata = {
-  title: "Carrito | Mundo Lockers",
+  title: "Carrito | Lockers Store",
   description:
-    "Revisa tus productos, ajusta cantidades y continúa con compra directa o solicitud de cotización en Mundo Lockers.",
+    "Revisa tus productos, ajusta cantidades y continúa con compra directa o solicitud de cotización en Lockers Store.",
   robots: {
     index: false,
     follow: false,

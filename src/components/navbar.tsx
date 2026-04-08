@@ -50,15 +50,24 @@ export default function Navbar() {
           ].join(" ")}
         >
           {/* Left: Logo */}
-          <Link href="/" className="flex items-center shrink-0">
+          <Link href="/" className="group flex items-center shrink-0">
             <Image
-              src="/brand/logonuevo.webp"
-              alt="Mundo Lockers"
-              width={260}
-              height={60}
+              src="/brand/logometalico2.webp"
+              alt="Lockers Store"
+              width={320}
+              height={90}
               priority
-              sizes="(max-width: 768px) 160px, 260px"
-              className="h-10 md:h-12 w-auto"
+              sizes="(max-width: 768px) 180px, 320px"
+              className="
+                logo-float
+                h-10 md:h-9 w-auto
+                opacity-95 brightness-110 contrast-125
+                drop-shadow-[0_4px_18px_rgba(0,0,0,0.28)]
+                transition-all duration-500 ease-out
+                group-hover:scale-[1.04]
+                group-hover:brightness-125
+                group-hover:drop-shadow-[0_8px_24px_rgba(255,255,255,0.18)]
+              "
             />
           </Link>
 
@@ -73,12 +82,6 @@ export default function Navbar() {
               </Link>
               <Link href="/carrito" className="hover:text-white transition">
                 Carrito
-              </Link>
-              <Link
-                href="/login"
-                className="inline-flex items-center rounded-2xl border border-black/10 bg-white/80 px-4 py-2 text-sm font-medium text-black backdrop-blur-sm transition hover:border-black/20 hover:bg-white"
-              >
-                Login
               </Link>
             </nav>
 
@@ -129,7 +132,7 @@ export default function Navbar() {
 
             <Button
               asChild
-              className="h-10 bg-yellow-400 px-4 text-base font-semibold text-black hover:bg-yellow-300"
+              className="h-10 bg-fuchsia-50 px-4 text-base font-semibold text-black hover:bg-purple-200"
             >
               <Link
                 href="/tienda"
@@ -143,7 +146,7 @@ export default function Navbar() {
           {/* Desktop CTA (mantener) */}
           <Button
             asChild
-            className="hidden md:inline-flex h-10 md:h-11 bg-yellow-400 px-5 md:px-6 text-base md:text-lg text-black hover:bg-yellow-300"
+            className="hidden md:inline-flex h-10 md:h-11 bg-neutral-200 px-5 md:px-6 text-base md:text-lg text-black hover:bg-black/10 hover:text-white"
           >
             <a
               href="https://wa.me/56933882434?text=Hola!%20Quiero%20cotizar%20lockers."
@@ -152,6 +155,13 @@ export default function Navbar() {
             >
               Cotizar
             </a>
+          </Button>
+          <Button
+            asChild
+            variant="outline"
+            className="h-12 rounded-2xl border-white/20 bg-neutral-200 px-5 text-sm font-medium text-black hover:bg-black/10 hover:text-white"
+          >
+            <Link href="/login">Login</Link>
           </Button>
 
           {/* Mobile Search Panel */}

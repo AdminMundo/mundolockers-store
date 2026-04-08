@@ -14,17 +14,17 @@ const jsonLd = {
   "@graph": [
     {
       "@type": "Organization",
-      name: "Mundo Lockers Store",
-      url: "https://www.mundolockers.com",
-      logo: "https://www.mundolockers.com/brand/logobueno.png",
+      name: "Lockers Store",
+      url: "https://www.Lockersstore.com",
+      logo: "https://www.lockersstore.com/brand/logometalico.webp",
     },
     {
       "@type": "WebSite",
-      name: "Mundo Lockers Store",
-      url: "https://www.mundolockers.com",
+      name: "Lockers Store",
+      url: "https://www.lockersstore.com",
       potentialAction: {
         "@type": "SearchAction",
-        target: "https://www.mundolockers.com/tienda?q={search_term_string}",
+        target: "https://www.lockersstore.com/tienda?q={search_term_string}",
         "query-input": "required name=search_term_string",
       },
     },
@@ -49,8 +49,8 @@ export default function HomePage() {
 
         {/* Imagen de fondo */}
         <Image
-          src="/images/home/Encabezadoprincipal.svg"
-          alt="Showroom de lockers Mundo Lockers"
+          src="/images/home/Encabezadoprincipal.webp"
+          alt="Showroom de lockers Lockers Store"
           fill
           priority
           sizes="100vw"
@@ -77,7 +77,7 @@ export default function HomePage() {
               <div className="mt-7 flex gap-4">
                 <Button
                   asChild
-                  className="h-12 bg-yellow-400 px-7 text-base font-semibold text-black hover:bg-yellow-300"
+                  className="h-12  bg-white px-7 text-base font-semibold text-black hover:bg-white/10 hover:text-white"
                 >
                   <Link href="/cotizar">Cotizar Ahora</Link>
                 </Button>
