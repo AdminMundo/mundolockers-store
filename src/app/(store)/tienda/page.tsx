@@ -1,8 +1,23 @@
+import type { Metadata } from "next";
 import Image from "next/image";
 import CatalogClient from "./CatalogClient";
 import { getCatalog } from "@/lib/catalog";
 
 export const dynamic = "force-dynamic";
+
+export const metadata: Metadata = {
+  title: "Tienda",
+  description:
+    "Catálogo completo de lockers metálicos, plásticos, casilleros escolares, estantes mecano y kardex. Precios directos, despacho a todo Chile.",
+  alternates: { canonical: "/tienda" },
+  openGraph: {
+    title: "Tienda | LockerStore",
+    description:
+      "Explora nuestro catálogo de lockers y soluciones de almacenamiento para industria, colegios y hogar.",
+    url: "/tienda",
+    type: "website",
+  },
+};
 
 type SP = Record<string, string | string[] | undefined>;
 
@@ -29,7 +44,7 @@ export default async function TiendaPage({
       <section className="relative h-[420px] w-full overflow-hidden bg-zinc-300 md:h-[520px]">
         <Image
           src="/images/home/Encabezadoprincipal.webp"
-          alt="Tienda Lockers Store"
+          alt="Tienda LockerStore"
           fill
           priority
           className="object-cover"
@@ -39,7 +54,7 @@ export default async function TiendaPage({
         <div className="absolute bottom-10 left-0 right-0">
           <div className="mx-auto max-w-6xl px-4">
             <p className="text-xs uppercase tracking-widest text-white/80">
-              LockersStore
+              LockerStore
             </p>
             <h1 className="mt-2 text-4xl font-semibold tracking-tight text-white md:text-5xl">
               Tienda

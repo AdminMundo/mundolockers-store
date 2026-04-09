@@ -63,8 +63,8 @@ const CATEGORIES: Category[] = [
   },
   {
     title: "Estanterias Mecano",
-    slug: "estanterias-mecano",
-    href: "/tienda?cat=estanterias-mecano",
+    slug: "estantes-mecano",
+    href: "/tienda?cat=estantes-mecano",
     image: "/images/categoria/Estante.webp",
   },
   {
@@ -75,8 +75,8 @@ const CATEGORIES: Category[] = [
   },
   {
     title: "Kardex & Cajoneras",
-    slug: "kardex-cajoneras",
-    href: "/tienda?cat=kardex-cajoneras",
+    slug: "kardex-y-cajoneras",
+    href: "/tienda?cat=kardex-y-cajoneras",
     image: "/images/categoria/Kardex.webp",
   },
   {
@@ -211,7 +211,6 @@ export default function CategoriesSection() {
       <div className="pointer-events-none absolute inset-x-0 top-0 h-10 bg-gradient-to-b from-[#F5F5F7] to-transparent" />
       <div className="pointer-events-none absolute inset-x-0 bottom-0 h-10 bg-gradient-to-t from-[#F5F5F7] to-transparent" />
 
-      <div className="relative mx-auto max-w-6xl px-4 py-16"></div>
       <div className="relative mx-auto max-w-6xl px-4 py-16">
         <div className="flex items-end justify-between gap-4">
           <div>

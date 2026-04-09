@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 
 const WHATSAPP_NUMBER = "56933882434";
 const WHATSAPP_TEXT = encodeURIComponent(
-  "Hola Lockers Store, necesito cotizar. ¿Me ayudas?",
+  "Hola LockerStore, necesito cotizar. ¿Me ayudas?",
 );
 
 export default function Footer() {
@@ -26,7 +26,7 @@ export default function Footer() {
           <Link href="/" className="group flex items-center shrink-0">
             <Image
               src="/brand/logometalico2.webp"
-              alt="Lockers Store"
+              alt="LockerStore"
               width={320}
               height={90}
               priority
@@ -120,7 +120,7 @@ export default function Footer() {
                 <li>
                   <Link
                     className="hover:text-black"
-                    href="/tienda?cat=kardex-cajoneras"
+                    href="/tienda?cat=kardex-y-cajoneras"
                   >
                     Kardex &amp; Cajoneras
                   </Link>
@@ -176,9 +176,9 @@ export default function Footer() {
                   <Mail className="mt-0.5 h-4 w-4 text-zinc-500" />
                   <a
                     className="hover:text-black"
-                    href="mailto:ventas@LockersStore.cl"
+                    href="mailto:lockerstore2@gmail.com"
                   >
-                    ventas@LockersStore.cl
+                    lockerstore2@gmail.com
                   </a>
                 </li>
 
@@ -222,7 +222,7 @@ export default function Footer() {
           {/* Bottom bar */}
           <div className="mt-10 flex flex-col gap-3 border-t border-black/10 pt-6 text-xs text-zinc-500 md:flex-row md:items-center md:justify-between">
             <p>
-              © {new Date().getFullYear()} Mundo Lockers. Todos los derechos
+              © {new Date().getFullYear()} LockerStore. Todos los derechos
               reservados.
             </p>
 
@@ -238,6 +238,9 @@ export default function Footer() {
                 href="/politicas/cambios-y-devoluciones"
               >
                 Cambios y devoluciones
+              </Link>
+              <Link className="hover:text-black" href="/login">
+                Administrador
               </Link>
             </div>
           </div>

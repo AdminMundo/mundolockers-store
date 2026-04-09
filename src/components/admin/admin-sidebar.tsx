@@ -10,6 +10,7 @@ type AdminSidebarProps = {
 const navItems = [
   { href: "/admin", label: "Dashboard" },
   { href: "/admin/productos", label: "Productos" },
+  { href: "/admin/pedidos", label: "Pedidos" },
   { href: "/admin/cotizaciones", label: "Cotizaciones" },
 ];
 
@@ -20,7 +21,7 @@ export function AdminSidebar({ userEmail }: AdminSidebarProps) {
     <div className="sticky top-6 overflow-hidden rounded-[32px] border border-black/10 bg-white shadow-[0_12px_35px_rgba(15,23,42,0.06)]">
       <div className="border-b border-black/8 px-6 py-6">
         <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-black/35">
-          Mundo Lockers
+          LockerStore
         </p>
         <h2 className="mt-2 text-[32px] font-semibold tracking-tight text-black">
           Admin
@@ -33,7 +34,10 @@ export function AdminSidebar({ userEmail }: AdminSidebarProps) {
       <div className="px-4 py-4">
         <nav className="space-y-2">
           {navItems.map((item) => {
-            const isActive = pathname === item.href;
+            const isActive =
+              item.href === "/admin"
+                ? pathname === "/admin"
+                : pathname.startsWith(item.href);
 
             return (
               <Link

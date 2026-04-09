@@ -15,6 +15,16 @@ export async function updateProductAction(formData: FormData) {
   const descriptionRaw = String(formData.get("description") ?? "").trim();
   const description = descriptionRaw.length > 0 ? descriptionRaw : null;
 
+  const specsRaw = String(formData.get("specs") ?? "").trim();
+  let specs: unknown = null;
+  if (specsRaw.length > 0) {
+    try {
+      specs = JSON.parse(specsRaw);
+    } catch {
+      redirect(`/admin/productos/${originalSlug}?error=invalid_specs`);
+    }
+  }
+
   const imageUrlRaw = String(formData.get("image_url") ?? "").trim();
   const image_url = imageUrlRaw.length > 0 ? imageUrlRaw : null;
 
@@ -78,6 +88,7 @@ export async function updateProductAction(formData: FormData) {
       slug,
       sku,
       description,
+      specs,
       price_clp,
       image_url,
       hover_image_url,
@@ -110,6 +121,16 @@ export async function createProductAction(formData: FormData) {
 
   const descriptionRaw = String(formData.get("description") ?? "").trim();
   const description = descriptionRaw.length > 0 ? descriptionRaw : null;
+
+  const specsRaw = String(formData.get("specs") ?? "").trim();
+  let specs: unknown = null;
+  if (specsRaw.length > 0) {
+    try {
+      specs = JSON.parse(specsRaw);
+    } catch {
+      redirect("/admin/productos/nuevo?error=invalid_specs");
+    }
+  }
 
   const imageUrlRaw = String(formData.get("image_url") ?? "").trim();
   const image_url = imageUrlRaw.length > 0 ? imageUrlRaw : null;
@@ -172,6 +193,7 @@ export async function createProductAction(formData: FormData) {
       slug,
       sku,
       description,
+      specs,
       price_clp,
       image_url,
       hover_image_url,
@@ -227,7 +249,7 @@ export async function deleteProductAction(formData: FormData) {
   const { error: deleteError } = await supabase
     .from("products")
     .delete()
-    .eq("sku", sku);
+    .eq("id", product.id);
 
   if (deleteError) {
     redirect("/admin/productos?error=delete_failed");

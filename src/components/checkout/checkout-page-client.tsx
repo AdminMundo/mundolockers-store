@@ -1,14 +1,16 @@
 "use client";
 
 import type { FormEvent } from "react";
-import { useMemo, useState } from "react";
+import { useMemo, useState, useTransition } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 import { CheckoutEmptyState } from "@/components/checkout/checkout-empty-state";
 import { formatClp } from "@/lib/cart/format";
 import { useCart } from "@/lib/cart/use-cart";
 import type { CartLine, CartState } from "@/lib/cart/types";
 import { CartHero } from "@/components/cart/cart-hero";
+import { createPedidoAction } from "@/app/(store)/checkout/actions";
 
 type Props = {
   initialState: CartState;
@@ -16,7 +18,6 @@ type Props = {
 
 type DocumentType = "boleta" | "factura";
 type ShippingMode = "despacho" | "retiro";
-type PaymentMethod = "webpay" | "transferencia";
 
 type CheckoutFormState = {
   fullName: string;
@@ -31,7 +32,6 @@ type CheckoutFormState = {
   addressLine1: string;
   addressLine2: string;
   orderNotes: string;
-  paymentMethod: PaymentMethod;
 };
 
 type CheckoutFormErrors = Partial<Record<keyof CheckoutFormState, string>>;
@@ -49,7 +49,6 @@ const INITIAL_FORM_STATE: CheckoutFormState = {
   addressLine1: "",
   addressLine2: "",
   orderNotes: "",
-  paymentMethod: "webpay",
 };
 
 function getPurchaseLineSubtotal(item: CartLine): number {
@@ -233,11 +232,13 @@ function CheckoutLineItem({ item }: { item: CartLine }) {
 }
 
 export function CheckoutPageClient({ initialState }: Props) {
-  const { purchaseItems, quoteItems, summary } = useCart(initialState);
+  const { purchaseItems, quoteItems, summary, clear } = useCart(initialState);
+  const router = useRouter();
+  const [isPending, startTransition] = useTransition();
 
   const [form, setForm] = useState<CheckoutFormState>(INITIAL_FORM_STATE);
   const [errors, setErrors] = useState<CheckoutFormErrors>({});
-  const [submitMessage, setSubmitMessage] = useState<string>("");
+  const [submitError, setSubmitError] = useState<string>("");
 
   const subtotal = summary.purchaseSubtotal;
   const shippingLabel = "Se confirma según comuna y volumen";
@@ -247,6 +248,18 @@ export function CheckoutPageClient({ initialState }: Props) {
     return `${summary.purchaseQuantity} producto(s)`;
   }, [summary.purchaseQuantity]);
 
+  const productosJson = useMemo(() => {
+    return JSON.stringify(
+      purchaseItems.map((item) => ({
+        name: item.product.name,
+        sku: item.product.sku,
+        quantity: item.quantity,
+        unitPrice: item.pricing.unitPrice,
+        variant: item.variant?.name ?? null,
+      })),
+    );
+  }, [purchaseItems]);
+
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
@@ -254,13 +267,38 @@ export function CheckoutPageClient({ initialState }: Props) {
     setErrors(nextErrors);
 
     if (Object.keys(nextErrors).length > 0) {
-      setSubmitMessage("");
+      setSubmitError("");
       return;
     }
 
-    setSubmitMessage(
-      "Formulario validado. El siguiente paso es conectar este checkout con Webpay/transferencia y crear la orden real.",
-    );
+    setSubmitError("");
+
+    startTransition(async () => {
+      const result = await createPedidoAction({
+        nombre: form.fullName,
+        correo: form.email,
+        telefono: form.phone,
+        empresa: form.companyName,
+        tipo_documento: form.documentType,
+        rut_empresa: form.taxId,
+        tipo_entrega: form.shippingMode,
+        region: form.region,
+        ciudad: form.commune,
+        direccion: [form.addressLine1, form.addressLine2].filter(Boolean).join(", "),
+        tipo_pago: "transferencia",
+        notas: form.orderNotes,
+        productosJson,
+        subtotal,
+      });
+
+      if (!result.success) {
+        setSubmitError(result.error);
+        return;
+      }
+
+      clear();
+      router.push(`/gracias?pedido=${result.orderId}`);
+    });
   };
 
   if (purchaseItems.length === 0) {
@@ -495,28 +533,13 @@ export function CheckoutPageClient({ initialState }: Props) {
                 Pago
               </h2>
 
-              <div className="mt-5 grid gap-3 sm:grid-cols-2">
-                <RadioCard<PaymentMethod>
-                  name="paymentMethod"
-                  value="webpay"
-                  checked={form.paymentMethod === "webpay"}
-                  title="Webpay"
-                  description="Pago online con tarjeta o débito."
-                  onChange={(value) =>
-                    setForm((current) => ({ ...current, paymentMethod: value }))
-                  }
-                />
-
-                <RadioCard<PaymentMethod>
-                  name="paymentMethod"
-                  value="transferencia"
-                  checked={form.paymentMethod === "transferencia"}
-                  title="Transferencia"
-                  description="Pago coordinado con instrucciones bancarias."
-                  onChange={(value) =>
-                    setForm((current) => ({ ...current, paymentMethod: value }))
-                  }
-                />
+              <div className="mt-5 rounded-2xl border border-neutral-950 bg-neutral-50 p-4">
+                <p className="text-sm font-medium text-neutral-950">
+                  Transferencia bancaria
+                </p>
+                <p className="mt-1 text-sm leading-6 text-neutral-600">
+                  Al confirmar el pedido recibirás los datos de transferencia por correo. Una vez confirmado el pago, procesaremos tu pedido.
+                </p>
               </div>
             </section>
 
@@ -541,20 +564,15 @@ export function CheckoutPageClient({ initialState }: Props) {
               <div className="rounded-[28px] border border-black/10 bg-white p-5 shadow-sm sm:p-6">
                 <button
                   type="submit"
-                  className="inline-flex min-h-12 w-full items-center justify-center rounded-2xl bg-neutral-950 px-5 py-3 text-sm font-medium text-white transition hover:bg-neutral-800"
+                  disabled={isPending}
+                  className="inline-flex min-h-12 w-full items-center justify-center rounded-2xl bg-neutral-950 px-5 py-3 text-sm font-medium text-white transition hover:bg-neutral-800 disabled:opacity-60"
                 >
-                  Validar datos y continuar
+                  {isPending ? "Creando pedido…" : "Confirmar pedido"}
                 </button>
 
-                <p className="mt-3 text-xs leading-5 text-neutral-500">
-                  Este paso deja listo el checkout. El siguiente bloque será la
-                  conexión con la pasarela de pago y la creación real de la
-                  orden.
-                </p>
-
-                {submitMessage ? (
-                  <div className="mt-4 rounded-2xl bg-emerald-50 px-4 py-3 text-sm leading-6 text-emerald-800">
-                    {submitMessage}
+                {submitError ? (
+                  <div className="mt-4 rounded-2xl bg-red-50 px-4 py-3 text-sm leading-6 text-red-700">
+                    {submitError}
                   </div>
                 ) : null}
               </div>
@@ -614,9 +632,10 @@ export function CheckoutPageClient({ initialState }: Props) {
                 <button
                   type="submit"
                   form="checkout-form"
-                  className="inline-flex min-h-12 w-full items-center justify-center rounded-2xl bg-neutral-950 px-5 py-3 text-sm font-medium text-white transition hover:bg-neutral-800"
+                  disabled={isPending}
+                  className="inline-flex min-h-12 w-full items-center justify-center rounded-2xl bg-neutral-950 px-5 py-3 text-sm font-medium text-white transition hover:bg-neutral-800 disabled:opacity-60"
                 >
-                  Validar datos y continuar
+                  {isPending ? "Creando pedido…" : "Confirmar pedido"}
                 </button>
 
                 <Link
@@ -627,9 +646,9 @@ export function CheckoutPageClient({ initialState }: Props) {
                 </Link>
               </div>
 
-              {submitMessage ? (
-                <div className="mt-4 rounded-2xl bg-emerald-50 px-4 py-3 text-sm leading-6 text-emerald-800">
-                  {submitMessage}
+              {submitError ? (
+                <div className="mt-4 rounded-2xl bg-red-50 px-4 py-3 text-sm leading-6 text-red-700">
+                  {submitError}
                 </div>
               ) : null}
             </section>

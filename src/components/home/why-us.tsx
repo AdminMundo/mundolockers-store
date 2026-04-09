@@ -38,7 +38,7 @@ export default function WhyUsSection() {
         <div className="flex items-end justify-between gap-4">
           <div>
             <h2 className="text-3xl font-semibold tracking-tight">
-              Por qué elegir Mundo Lockers
+              Por qué elegir LockerStore
             </h2>
             <p className="mt-2 text-sm text-zinc-600">
               Diseñado para compra rápida y proyectos institucionales.

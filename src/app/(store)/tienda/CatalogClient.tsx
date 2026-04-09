@@ -7,7 +7,6 @@ import Link from "next/link";
 
 import { useCart } from "@/lib/cart/use-cart";
 import type { AddCartLineInput, CartFlow } from "@/lib/cart/types";
-import { Label } from "@radix-ui/react-dropdown-menu";
 
 const CATEGORIES = [
   { label: "All", value: "all" },
@@ -34,6 +33,7 @@ type CatalogItem = {
   price_from_clp: number;
   has_in_stock: boolean;
   image_url: string | null;
+  hover_image_url: string | null;
 };
 
 type CatalogData = {
@@ -206,21 +206,27 @@ export default function CatalogClient({
               <Link href={`/producto/${p.slug}`} className="group block">
                 <div className="relative aspect-[4/3] w-full overflow-hidden rounded-xl bg-zinc-100">
                   <Image
-                    src={p.image_url ?? `/images/products/${p.slug}.webp`}
+                    src={
+                      p.image_url && p.image_url.trim().length > 0
+                        ? p.image_url
+                        : `/images/products/${p.slug}.webp`
+                    }
                     alt={p.name}
                     fill
                     sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                    className="object-contain transition group-hover:scale-[1.02]"
+                    className="object-contain transition duration-200 ease-out group-hover:opacity-0"
                   />
 
-                  <Image
-                    src={`/images/products/${p.slug}-hover.webp`}
-                    alt={`${p.name} (vista alterna)`}
-                    aria-hidden="true"
-                    fill
-                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                    className="object-cover opacity-0 transition duration-200 ease-out group-hover:opacity-100 group-hover:scale-[1.02]"
-                  />
+                  {p.hover_image_url && p.hover_image_url.trim().length > 0 ? (
+                    <Image
+                      src={p.hover_image_url}
+                      alt={`${p.name} (vista alterna)`}
+                      aria-hidden="true"
+                      fill
+                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                      className="object-contain opacity-0 transition duration-200 ease-out group-hover:opacity-100"
+                    />
+                  ) : null}
                 </div>
 
                 <div className="mt-3 flex items-start justify-between gap-3">

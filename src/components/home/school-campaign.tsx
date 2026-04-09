@@ -110,7 +110,7 @@ export default function SchoolCampaignSection() {
                 <div className="pointer-events-none absolute inset-x-10 top-12 h-40 rounded-full bg-black/10 blur-3xl" />
                 <Image
                   src="/images/topProductos/Lockerescolar1puerta.webp"
-                  alt="Lockers escolares Mundo Lockers"
+                  alt="Lockers escolares LockerStore"
                   fill
                   sizes="(max-width: 768px) 90vw, 520px"
                   className="object-contain drop-shadow-[0_28px_34px_rgba(0,0,0,0.20)]"

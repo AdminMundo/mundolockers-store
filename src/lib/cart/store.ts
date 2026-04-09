@@ -1,7 +1,5 @@
 "use client";
 
-"use client";
-
 import { CART_STORAGE_KEY } from "@/lib/cart/constants";
 import {
   addLineToCart,

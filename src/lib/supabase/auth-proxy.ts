@@ -56,7 +56,8 @@ export async function updateAuthSession(request: NextRequest) {
   }
 
   if (isLoginRoute && user) {
-    const next = request.nextUrl.searchParams.get("next") || "/admin";
+    const rawNext = request.nextUrl.searchParams.get("next") || "/admin";
+    const next = rawNext.startsWith("/") ? rawNext : "/admin";
     const redirectUrl = request.nextUrl.clone();
     redirectUrl.pathname = next;
     redirectUrl.search = "";

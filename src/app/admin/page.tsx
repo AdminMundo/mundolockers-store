@@ -1,82 +1,150 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { logoutAction } from "@/app/admin/actions";
-import { createSupabaseServerAuthClient } from "@/lib/supabase/auth-server";
 import Image from "next/image";
-
+import { logoutAction } from "@/app/admin/actions";
+import { requireAdmin } from "@/lib/auth/admin";
+import { createSupabaseServer } from "@/lib/supabase/server";
 
 export const metadata: Metadata = {
-  title: "Admin | Lockers Store",
-  description: "Panel administrativo de Lockers Store.",
-  robots: {
-    index: false,
-    follow: false,
-  },
+  title: "Admin | LockerStore",
+  description: "Panel administrativo de LockerStore.",
+  robots: { index: false, follow: false },
 };
 
+const ESTADO_DOT: Record<string, string> = {
+  pendiente: "bg-amber-400",
+  "en-proceso": "bg-blue-500",
+  respondida: "bg-green-500",
+  cerrada: "bg-zinc-400",
+};
+
+const ESTADO_LABEL: Record<string, string> = {
+  pendiente: "Pendiente",
+  "en-proceso": "En proceso",
+  respondida: "Respondida",
+  cerrada: "Cerrada",
+};
+
+function formatDate(iso: string) {
+  return new Date(iso).toLocaleDateString("es-CL", {
+    day: "2-digit",
+    month: "short",
+    hour: "2-digit",
+    minute: "2-digit",
+  });
+}
+
 export default async function AdminPage() {
-  const supabase = await createSupabaseServerAuthClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  const user = await requireAdmin();
+  const supabase = createSupabaseServer();
+
+  const [productsRes, cotizacionesRes] = await Promise.all([
+    supabase
+      .from("catalog_products")
+      .select("product_id,is_active,is_featured,has_in_stock,price_from_clp,image_url"),
+    supabase
+      .from("cotizaciones")
+      .select("id,nombre,empresa,correo,estado,created_at")
+      .order("created_at", { ascending: false })
+      .limit(50),
+  ]);
+
+  const products = productsRes.data ?? [];
+  const cotizaciones = cotizacionesRes.data ?? [];
+
+  // Stats de productos
+  const totalProductos = products.length;
+  const activosCount = products.filter((p) => p.is_active).length;
+  const sinPrecio = products.filter(
+    (p) => !p.price_from_clp || p.price_from_clp === 0,
+  ).length;
+  const sinImagen = products.filter((p) => !p.image_url).length;
+  const conStock = products.filter((p) => p.has_in_stock).length;
+
+  // Stats de cotizaciones
+  const pendientes = cotizaciones.filter((c) => c.estado === "pendiente").length;
+  const enProceso = cotizaciones.filter((c) => c.estado === "en-proceso").length;
+  const respondidas = cotizaciones.filter((c) => c.estado === "respondida").length;
+  const cerradas = cotizaciones.filter((c) => c.estado === "cerrada").length;
+  const recientes = cotizaciones.slice(0, 4);
+
+  const kpis = [
+    {
+      label: "Productos activos",
+      value: activosCount,
+      sub: `de ${totalProductos} totales`,
+      color: "text-white",
+      bg: "bg-zinc-900",
+      accent: "#FDC90D",
+    },
+    {
+      label: "Cotizaciones pendientes",
+      value: pendientes,
+      sub: `${enProceso} en proceso`,
+      color: "text-amber-400",
+      bg: "bg-white",
+      accent: null,
+    },
+    {
+      label: "Con stock",
+      value: conStock,
+      sub: `${totalProductos - conStock} a pedido`,
+      color: "text-green-600",
+      bg: "bg-white",
+      accent: null,
+    },
+    {
+      label: "Sin precio",
+      value: sinPrecio,
+      sub: sinPrecio > 0 ? "requieren atención" : "todo en orden",
+      color: sinPrecio > 0 ? "text-red-500" : "text-green-600",
+      bg: "bg-white",
+      accent: null,
+    },
+  ];
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-5">
+      {/* Banner */}
       <section className="relative overflow-hidden rounded-[36px] border border-black/10 text-white shadow-[0_18px_50px_rgba(15,23,42,0.16)]">
         <div className="absolute inset-0">
           <Image
             src="/images/home/Encabezadoprincipal.webp"
-            alt="Banner panel admin Mundo Lockers"
+            alt="Banner panel admin LockerStore"
             fill
             priority
             className="object-cover"
             sizes="100vw"
           />
         </div>
+        <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(5,10,20,0.88)_0%,rgba(7,15,30,0.72)_50%,rgba(10,20,35,0.45)_100%)]" />
 
-        <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(5,10,20,0.82)_0%,rgba(7,15,30,0.68)_42%,rgba(10,20,35,0.42)_100%)]" />
-
-        <div className="relative flex min-h-[260px] flex-col justify-between gap-8 p-6 md:min-h-[300px] md:flex-row md:items-end md:p-8">
-          <div className="max-w-3xl">
-            <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-white/70">
+        <div className="relative flex min-h-55 flex-col justify-between gap-6 p-6 md:flex-row md:items-end md:p-8">
+          <div>
+            <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-white/60">
               Panel de administración
             </p>
-
-            <h1 className="mt-4 text-4xl font-semibold tracking-tight md:text-5xl">
+            <h1 className="mt-3 text-4xl font-semibold tracking-tight md:text-5xl">
               Dashboard
             </h1>
-
-            <p className="mt-4 max-w-2xl text-sm leading-6 text-white/85 md:text-base">
-              Controla productos, cotizaciones y operación comercial desde un
-              panel limpio, rápido y preparado para crecer con Mundo Lockers.
+            <p className="mt-2 text-sm text-white/70">
+              {new Date().toLocaleDateString("es-CL", {
+                weekday: "long",
+                day: "numeric",
+                month: "long",
+                year: "numeric",
+              })}
             </p>
-
-            <div className="mt-6 flex flex-wrap gap-3">
-              <Link
-                href="/admin/productos"
-                className="inline-flex items-center rounded-2xl bg-[#FDC90D] px-4 py-2.5 text-sm font-medium text-black transition hover:brightness-95"
-              >
-                Ir a productos
-              </Link>
-
-              <Link
-                href="/admin/cotizaciones"
-                className="inline-flex items-center rounded-2xl border border-white/15 bg-white/8 px-4 py-2.5 text-sm font-medium text-white transition hover:bg-white/12"
-              >
-                Ver cotizaciones
-              </Link>
-            </div>
           </div>
 
           <div className="flex flex-col items-start gap-3 md:items-end">
-            <div className="rounded-2xl border border-white/15 bg-white/10 px-4 py-3 text-sm text-white/90 backdrop-blur-sm">
+            <div className="rounded-2xl border border-white/10 bg-white/8 px-4 py-2.5 text-sm text-white/80 backdrop-blur-sm">
               {user?.email ?? "admin"}
             </div>
-
             <form action={logoutAction}>
               <button
                 type="submit"
-                className="rounded-2xl bg-white px-4 py-2.5 text-sm font-medium text-black transition hover:opacity-95"
+                className="rounded-2xl bg-white px-4 py-2 text-sm font-medium text-black transition hover:opacity-90"
               >
                 Cerrar sesión
               </button>
@@ -85,90 +153,227 @@ export default async function AdminPage() {
         </div>
       </section>
 
-      <section className="grid gap-4 md:grid-cols-3">
-        <div className="rounded-[28px] border border-black/10 bg-white p-6 shadow-sm">
-          <p className="text-sm text-black/45">Productos</p>
-          <p className="mt-3 text-3xl font-semibold tracking-tight text-black">
-            —
-          </p>
-          <p className="mt-2 text-sm text-black/55">
-            Catálogo, variantes, precios y estado.
-          </p>
-        </div>
+      {/* KPIs */}
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        {kpis.map((k) => (
+          <div
+            key={k.label}
+            className={[
+              "rounded-[28px] border border-black/8 p-6 shadow-sm",
+              k.bg,
+            ].join(" ")}
+          >
+            <p className={["text-[11px] font-semibold uppercase tracking-widest", k.bg === "bg-zinc-900" ? "text-white/50" : "text-black/40"].join(" ")}>
+              {k.label}
+            </p>
+            <p className={["mt-3 text-4xl font-semibold tabular-nums tracking-tight", k.color].join(" ")}>
+              {k.value}
+            </p>
+            <p className={["mt-1.5 text-xs", k.bg === "bg-zinc-900" ? "text-white/40" : "text-black/40"].join(" ")}>
+              {k.sub}
+            </p>
+            {k.accent && (
+              <div
+                className="mt-4 h-0.5 w-10 rounded-full"
+                style={{ backgroundColor: k.accent }}
+              />
+            )}
+          </div>
+        ))}
+      </div>
 
-        <div className="rounded-[28px] border border-black/10 bg-white p-6 shadow-sm">
-          <p className="text-sm text-black/45">Cotizaciones</p>
-          <p className="mt-3 text-3xl font-semibold tracking-tight text-black">
-            —
-          </p>
-          <p className="mt-2 text-sm text-black/55">
-            Solicitudes recibidas y seguimiento comercial.
-          </p>
-        </div>
-
-        <div className="rounded-[28px] border border-black/10 bg-white p-6 shadow-sm">
-          <p className="text-sm text-black/45">Sesión</p>
-          <p className="mt-3 text-lg font-medium text-black">
-            {user?.email ?? "admin"}
-          </p>
-          <p className="mt-2 text-sm text-black/55">
-            Cuenta autorizada con acceso al panel.
-          </p>
-        </div>
-      </section>
-
-      <section className="grid gap-4 lg:grid-cols-[1.2fr_0.8fr]">
-        <div className="rounded-[32px] border border-black/10 bg-white p-6 shadow-sm">
+      {/* Cotizaciones recientes + Alertas */}
+      <div className="grid gap-5 lg:grid-cols-[1fr_340px]">
+        {/* Cotizaciones recientes */}
+        <div className="rounded-[32px] border border-black/8 bg-white p-6 shadow-sm">
           <div className="flex items-center justify-between gap-4">
             <div>
-              <p className="text-sm text-black/45">Accesos rápidos</p>
-              <h2 className="mt-2 text-2xl font-semibold tracking-tight text-black">
-                Gestión central
+              <p className="text-[11px] font-semibold uppercase tracking-widest text-black/40">
+                Últimas solicitudes
+              </p>
+              <h2 className="mt-1 text-xl font-semibold tracking-tight text-black">
+                Cotizaciones recientes
               </h2>
+            </div>
+            <Link
+              href="/admin/cotizaciones"
+              className="rounded-xl border border-black/10 px-3 py-1.5 text-xs font-medium text-black/60 transition hover:border-black/20 hover:text-black"
+            >
+              Ver todas →
+            </Link>
+          </div>
+
+          {recientes.length === 0 ? (
+            <div className="mt-6 rounded-2xl border border-dashed border-black/10 p-6 text-center text-sm text-black/35">
+              Aún no hay cotizaciones recibidas.
+            </div>
+          ) : (
+            <ul className="mt-5 divide-y divide-black/5">
+              {recientes.map((c) => (
+                <li key={c.id} className="flex items-center justify-between gap-4 py-3.5">
+                  <div className="min-w-0">
+                    <div className="flex items-center gap-2">
+                      <span
+                        className={[
+                          "h-2 w-2 shrink-0 rounded-full",
+                          ESTADO_DOT[c.estado] ?? "bg-zinc-300",
+                        ].join(" ")}
+                      />
+                      <span className="truncate text-sm font-medium text-black">
+                        {c.nombre}
+                      </span>
+                      {c.empresa && (
+                        <span className="hidden truncate text-xs text-black/40 sm:block">
+                          · {c.empresa}
+                        </span>
+                      )}
+                    </div>
+                    <p className="mt-0.5 pl-4 text-xs text-black/40">
+                      {c.correo} · {formatDate(c.created_at)}
+                    </p>
+                  </div>
+                  <span className="shrink-0 rounded-full border border-black/8 px-2.5 py-0.5 text-[11px] font-medium text-black/60">
+                    {ESTADO_LABEL[c.estado] ?? c.estado}
+                  </span>
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
+
+        {/* Panel derecho */}
+        <div className="space-y-5">
+          {/* Resumen cotizaciones */}
+          <div className="rounded-[32px] border border-black/8 bg-white p-6 shadow-sm">
+            <p className="text-[11px] font-semibold uppercase tracking-widest text-black/40">
+              Estado general
+            </p>
+            <h2 className="mt-1 text-xl font-semibold tracking-tight text-black">
+              Cotizaciones
+            </h2>
+            <div className="mt-4 space-y-2.5">
+              {[
+                { label: "Pendientes", value: pendientes, dot: "bg-amber-400" },
+                { label: "En proceso", value: enProceso, dot: "bg-blue-500" },
+                { label: "Respondidas", value: respondidas, dot: "bg-green-500" },
+                { label: "Cerradas", value: cerradas, dot: "bg-zinc-300" },
+              ].map((row) => (
+                <div key={row.label} className="flex items-center justify-between gap-3">
+                  <div className="flex items-center gap-2">
+                    <span className={["h-2 w-2 rounded-full", row.dot].join(" ")} />
+                    <span className="text-sm text-black/60">{row.label}</span>
+                  </div>
+                  <span className="text-sm font-semibold tabular-nums text-black">
+                    {row.value}
+                  </span>
+                </div>
+              ))}
             </div>
           </div>
 
-          <div className="mt-6 grid gap-3 sm:grid-cols-2">
+          {/* Alertas de catálogo */}
+          <div className="rounded-[32px] border border-black/8 bg-white p-6 shadow-sm">
+            <p className="text-[11px] font-semibold uppercase tracking-widest text-black/40">
+              Calidad del catálogo
+            </p>
+            <h2 className="mt-1 text-xl font-semibold tracking-tight text-black">
+              Alertas
+            </h2>
+            <div className="mt-4 space-y-2">
+              <AlertRow
+                label="Sin precio definido"
+                value={sinPrecio}
+                total={totalProductos}
+                warn={sinPrecio > 0}
+              />
+              <AlertRow
+                label="Sin imagen"
+                value={sinImagen}
+                total={totalProductos}
+                warn={sinImagen > 0}
+              />
+              <AlertRow
+                label="Inactivos"
+                value={totalProductos - activosCount}
+                total={totalProductos}
+                warn={false}
+              />
+            </div>
             <Link
               href="/admin/productos"
-              className="rounded-[24px] border border-black/10 bg-[#F8F8FA] p-5 transition hover:border-black/20 hover:bg-white"
+              className="mt-4 block rounded-2xl border border-black/10 bg-[#F8F8FA] px-4 py-2.5 text-center text-xs font-medium text-black/60 transition hover:border-black/20 hover:text-black"
             >
-              <p className="text-base font-medium text-black">Productos</p>
-              <p className="mt-2 text-sm text-black/55">
-                Edita catálogo, stock y precios.
-              </p>
-            </Link>
-
-            <Link
-              href="/admin/cotizaciones"
-              className="rounded-[24px] border border-black/10 bg-[#F8F8FA] p-5 transition hover:border-black/20 hover:bg-white"
-            >
-              <p className="text-base font-medium text-black">Cotizaciones</p>
-              <p className="mt-2 text-sm text-black/55">
-                Revisa solicitudes y próximos pasos.
-              </p>
+              Ir al catálogo →
             </Link>
           </div>
         </div>
+      </div>
 
-        <div className="rounded-[32px] border border-black/10 bg-white p-6 shadow-sm">
-          <p className="text-sm text-black/45">Estado del panel</p>
-          <h2 className="mt-2 text-2xl font-semibold tracking-tight text-black">
-            Base lista
-          </h2>
-          <p className="mt-3 text-sm leading-6 text-black/60">
-            La arquitectura ya quedó separada del storefront. El siguiente paso
-            recomendado es conectar el módulo de productos a Supabase.
-          </p>
-
-          <div className="mt-6 rounded-[24px] border border-dashed border-black/10 bg-[#F8F8FA] p-4">
-            <p className="text-sm text-black/60">
-              Próximo módulo sugerido:
-              <span className="ml-1 font-medium text-black">Productos</span>
+      {/* Accesos rápidos */}
+      <div className="grid gap-4 sm:grid-cols-3">
+        {[
+          {
+            href: "/admin/productos/nuevo",
+            title: "Nuevo producto",
+            desc: "Agrega un producto al catálogo.",
+            cta: "Crear →",
+          },
+          {
+            href: "/admin/cotizaciones",
+            title: "Bandeja de cotizaciones",
+            desc: `${pendientes} solicitud${pendientes !== 1 ? "es" : ""} pendiente${pendientes !== 1 ? "s" : ""} de responder.`,
+            cta: "Revisar →",
+          },
+          {
+            href: "/tienda",
+            title: "Ver tienda",
+            desc: "Revisa cómo se ve el catálogo en la tienda.",
+            cta: "Abrir →",
+          },
+        ].map((item) => (
+          <Link
+            key={item.href}
+            href={item.href}
+            className="group rounded-[28px] border border-black/8 bg-white p-5 shadow-sm transition hover:border-black/15 hover:shadow-md"
+          >
+            <p className="text-base font-semibold text-black">{item.title}</p>
+            <p className="mt-1.5 text-sm text-black/50">{item.desc}</p>
+            <p className="mt-4 text-xs font-medium text-black/30 transition group-hover:text-black/60">
+              {item.cta}
             </p>
-          </div>
-        </div>
-      </section>
+          </Link>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function AlertRow({
+  label,
+  value,
+  total,
+  warn,
+}: {
+  label: string;
+  value: number;
+  total: number;
+  warn: boolean;
+}) {
+  const pct = total > 0 ? Math.round((value / total) * 100) : 0;
+  return (
+    <div>
+      <div className="flex items-center justify-between text-sm">
+        <span className="text-black/60">{label}</span>
+        <span className={["font-semibold tabular-nums", warn && value > 0 ? "text-red-500" : "text-black/60"].join(" ")}>
+          {value}
+        </span>
+      </div>
+      <div className="mt-1 h-1.5 w-full rounded-full bg-black/5">
+        <div
+          className={["h-1.5 rounded-full transition-all", warn && value > 0 ? "bg-red-400" : "bg-zinc-300"].join(" ")}
+          style={{ width: `${pct}%` }}
+        />
+      </div>
     </div>
   );
 }

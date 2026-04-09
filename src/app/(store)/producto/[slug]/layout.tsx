@@ -1,8 +1,11 @@
 import type { Metadata } from "next";
+import Script from "next/script";
 import { notFound } from "next/navigation";
 import { getProductBySlug } from "@/lib/product";
 import ProductHeroHeader from "./_components/ProductHeroHeader";
 import { getCategoryAsset } from "@/lib/categoryAssets";
+
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.lockerstore.cl";
 
 type Props = {
   children: React.ReactNode;
@@ -19,65 +22,116 @@ export async function generateMetadata({
 
   if (!product) {
     return {
-      title: "Producto no encontrado | MundoLockers",
+      title: "Producto no encontrado",
       robots: { index: false, follow: false },
     };
   }
 
-
-
-  const title = `${product.name} | MundoLockers`;
+  const title = product.name;
   const description =
     (product.description?.trim() && product.description.trim().slice(0, 155)) ||
-    `Compra y cotiza ${product.name} en MundoLockers.`;
+    `Compra y cotiza ${product.name} en LockerStore. Despacho a todo Chile.`;
 
-  // OG necesita URL absoluta idealmente, pero por ahora dejamos relativa (funciona local).
-  const ogImage = product.image_url ?? "/images/og-default.webp";
+  const ogImage = product.image_url ?? "/images/home/Encabezadoprincipal.webp";
   const canonicalUrl = `/producto/${product.slug}`;
-  
-
-
- 
 
   return {
     title,
     description,
-    alternates: {
-      canonical: canonicalUrl,
-    },
+    alternates: { canonical: canonicalUrl },
     openGraph: {
-      title,
+      title: `${title} | LockerStore`,
       description,
       url: canonicalUrl,
-      siteName: "MundoLockers",
+      siteName: "LockerStore",
       type: "website",
-      images: [
-        {
-          url: ogImage,
-          alt: product.name,
-        },
-      ],
+      locale: "es_CL",
+      images: [{ url: ogImage, width: 800, height: 600, alt: product.name }],
     },
     twitter: {
       card: "summary_large_image",
-      title,
+      title: `${title} | LockerStore`,
       description,
       images: [ogImage],
     },
+    robots: { index: true, follow: true },
   };
 }
 
 export default async function ProductLayout({ children, params }: Props) {
   const { slug } = await params;
   const product = await getProductBySlug(slug);
-  
 
   if (!product) return notFound();
 
   const catAsset = getCategoryAsset(product.category_slug);
 
+  // JSON-LD: Product + BreadcrumbList
+  const productUrl = `${SITE_URL}/producto/${product.slug}`;
+  const productSchema = {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Product",
+        name: product.name,
+        description: product.description ?? undefined,
+        image: product.image_url ?? undefined,
+        sku: product.sku ?? undefined,
+        brand: { "@type": "Brand", name: "LockerStore" },
+        offers: {
+          "@type": "Offer",
+          url: productUrl,
+          priceCurrency: "CLP",
+          ...(product.price_from_clp > 0
+            ? { price: product.price_from_clp.toString() }
+            : { priceSpecification: { "@type": "PriceSpecification", description: "Consultar precio" } }),
+          availability: product.variants?.some((v) => v.stock_status === "in_stock")
+            ? "https://schema.org/InStock"
+            : "https://schema.org/OutOfStock",
+          seller: { "@type": "Organization", name: "LockerStore" },
+        },
+      },
+      {
+        "@type": "BreadcrumbList",
+        itemListElement: [
+          { "@type": "ListItem", position: 1, name: "Inicio", item: SITE_URL },
+          { "@type": "ListItem", position: 2, name: "Tienda", item: `${SITE_URL}/tienda` },
+          ...(product.category_slug
+            ? [
+                {
+                  "@type": "ListItem",
+                  position: 3,
+                  name: product.category_name ?? "Categoría",
+                  item: `${SITE_URL}/tienda?cat=${product.category_slug}`,
+                },
+                {
+                  "@type": "ListItem",
+                  position: 4,
+                  name: product.name,
+                  item: productUrl,
+                },
+              ]
+            : [
+                {
+                  "@type": "ListItem",
+                  position: 3,
+                  name: product.name,
+                  item: productUrl,
+                },
+              ]),
+        ],
+      },
+    ],
+  };
+
   return (
     <>
+      <Script
+        id="jsonld-product"
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(productSchema) }}
+      />
+
       <ProductHeroHeader
         title={product.name}
         subtitle={product.category_name ?? "Producto"}
@@ -98,11 +152,9 @@ export default async function ProductLayout({ children, params }: Props) {
           { label: product.name, href: `/producto/${product.slug}` },
         ]}
         backgroundImage="/images/tienda/shopencabezado.svg"
-      topImage=
-      {catAsset ?? {
-        src: product.image_url ?? "/images/categoria/Estanterias/Estanteriaespecificacion.svg",
-        alt: product.name,
-      
+        topImage={catAsset ?? {
+          src: product.image_url ?? "/images/categoria/Estanterias/Estanteriaespecificacion.svg",
+          alt: product.name,
         }}
       />
 

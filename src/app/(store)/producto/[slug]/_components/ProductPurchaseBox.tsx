@@ -118,14 +118,14 @@ export default function ProductPurchaseBox({
       displayPrice !== null ? formatCLP(displayPrice) : "Consultar";
 
     const lines = [
-      "Hola, quiero cotizar este producto de Mundo Lockers:",
+      "Hola, quiero cotizar este producto de LockerStore:",
       "",
       `Producto: ${product.name}`,
       `SKU: ${sku}`,
       `Cantidad: ${quantity}`,
       variantLabel ? `Variante/Color: ${variantLabel}` : null,
       `Precio: ${priceText}`,
-      `Link: ${typeof window !== "undefined" ? window.location.href : `https://www.mundolockers.com/producto/${product.slug}`}`,
+      `Link: ${typeof window !== "undefined" ? window.location.href : `https://www.lockerstore.cl/producto/${product.slug}`}`,
     ].filter(Boolean);
 
     return `${base}?text=${encodeURIComponent(lines.join("\n"))}`;

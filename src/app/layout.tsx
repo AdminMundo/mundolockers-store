@@ -8,28 +8,36 @@ const inter = Inter({
   display: "swap",
 });
 
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.lockerstore.cl";
+const OG_IMAGE = "/images/home/Encabezadoprincipal.webp";
+
 export const metadata: Metadata = {
-  metadataBase: new URL("https://www.Lockersstore.com"),
-  title: "Lockers Store | Lockers metálicos y plásticos en Chile",
+  metadataBase: new URL(SITE_URL),
+  title: {
+    default: "LockerStore | Lockers metálicos y plásticos en Chile",
+    template: "%s | LockerStore",
+  },
   description:
     "Lockers metálicos y plásticos para industria, colegios, minería y hogar. Compra online o cotiza por WhatsApp. Despacho a todo Chile.",
   alternates: {
     canonical: "/",
   },
   openGraph: {
-    title: "Lockers Store | Lockers metálicos y plásticos en Chile",
+    title: "LockerStore | Lockers metálicos y plásticos en Chile",
     description:
       "Compra lockers metálicos y plásticos. Modelos para industria, colegios y minería. Despacho a todo Chile.",
     url: "/",
-    siteName: "Lockers Store",
+    siteName: "LockerStore",
     type: "website",
     locale: "es_CL",
+    images: [{ url: OG_IMAGE, width: 1200, height: 630, alt: "LockerStore — Lockers en Chile" }],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Mundo Lockers Store",
+    title: "LockerStore | Lockers en Chile",
     description:
       "Compra lockers metálicos y plásticos. Modelos para industria, colegios y minería. Despacho a todo Chile.",
+    images: [OG_IMAGE],
   },
   robots: {
     index: true,

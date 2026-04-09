@@ -1,12 +1,13 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import Image from "next/image";
 import { notFound } from "next/navigation";
 import { createSupabaseServer } from "@/lib/supabase/server";
 import { updateProductAction } from "@/app/admin/productos/[slug]/actions";
 import ProductImageUpload from "@/components/admin/product-image-upload";
 
 export const metadata: Metadata = {
-  title: "Editar producto | Admin |  Lockers Store ",
+  title: "Editar producto | Admin |  LockerStore ",
   description: "Edición base de producto en el panel admin.",
   robots: {
     index: false,
@@ -55,7 +56,7 @@ export default async function AdminProductoDetallePage({
   const { data, error } = await supabase
     .from("products")
     .select(
-      "id, sku, slug, name, description, category_id, price_clp, has_in_stock, is_active, is_featured, image_url, hover_image_url, gallery_urls",
+      "id, sku, slug, name, description, specs, category_id, price_clp, has_in_stock, is_active, is_featured, image_url, hover_image_url, gallery_urls",
     )
     .eq("slug", slug)
     .maybeSingle();
@@ -161,6 +162,12 @@ export default async function AdminProductoDetallePage({
         </div>
       ) : null}
 
+      {query.error === "invalid_specs" ? (
+        <div className="rounded-2xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+          Las especificaciones no son JSON válido. Revisa la sintaxis.
+        </div>
+      ) : null}
+
       {query.error === "save_failed" ? (
         <div className="rounded-2xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
           No se pudo guardar el producto. Revisa columnas, permisos o tipos en
@@ -243,6 +250,26 @@ export default async function AdminProductoDetallePage({
                   defaultValue={data.description ?? ""}
                   className="w-full rounded-2xl border border-black/10 bg-white px-4 py-3 text-sm outline-none transition focus:border-black/20"
                 />
+              </div>
+
+              <div className="space-y-2 md:col-span-2">
+                <label
+                  htmlFor="specs"
+                  className="text-sm font-medium text-black/70"
+                >
+                  Especificaciones
+                </label>
+                <textarea
+                  id="specs"
+                  name="specs"
+                  rows={10}
+                  defaultValue={data.specs != null ? JSON.stringify(data.specs, null, 2) : ""}
+                  placeholder={'{\n  "Medidas": { "Alto": "180 cm", "Ancho": "90 cm" },\n  "Notas": ["Detalle 1", "Detalle 2"]\n}'}
+                  className="w-full rounded-2xl border border-black/10 bg-white px-4 py-3 font-mono text-sm outline-none transition focus:border-black/20"
+                />
+                <p className="text-xs text-black/45">
+                  Formato JSON. Las secciones (Medidas, Notas, etc.) se muestran en la página del producto.
+                </p>
               </div>
 
               <div className="space-y-2">
@@ -417,9 +444,11 @@ export default async function AdminProductoDetallePage({
 
             <div className="mt-6 overflow-hidden rounded-[24px] border border-black/10 bg-[#F8F8FA]">
               {data.image_url ? (
-                <img
+                <Image
                   src={data.image_url}
                   alt={data.name}
+                  width={600}
+                  height={260}
                   className="h-[260px] w-full object-contain p-4"
                 />
               ) : (
@@ -431,9 +460,11 @@ export default async function AdminProductoDetallePage({
 
             <div className="mt-6 overflow-hidden rounded-[24px] border border-black/10 bg-[#F8F8FA]">
               {data.hover_image_url ? (
-                <img
+                <Image
                   src={data.hover_image_url}
                   alt={`${data.name} hover`}
+                  width={600}
+                  height={220}
                   className="h-[220px] w-full object-contain p-4"
                 />
               ) : (
@@ -453,9 +484,11 @@ export default async function AdminProductoDetallePage({
                       key={`${url}-${index}`}
                       className="overflow-hidden rounded-2xl border border-black/10 bg-[#F8F8FA]"
                     >
-                      <img
+                      <Image
                         src={url}
                         alt={`Imagen extra ${index + 1}`}
+                        width={300}
+                        height={140}
                         className="h-[140px] w-full object-contain p-3"
                       />
                     </div>

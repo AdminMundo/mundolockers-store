@@ -1,30 +1,53 @@
 "use client";
 
 import Link from "next/link";
+import { useActionState, useMemo } from "react";
 
 import { CartHero } from "@/components/cart/cart-hero";
 import { CartLineItem } from "@/components/cart/cart-line-item";
 import { useCart } from "@/lib/cart/use-cart";
 import type { CartState } from "@/lib/cart/types";
+import {
+  submitQuoteAction,
+  type QuoteActionState,
+} from "@/app/(store)/cotizar/actions";
 
 type Props = {
   initialState: CartState;
 };
 
+const initialActionState: QuoteActionState = { success: false, error: null };
+
 export function QuotePageClient({ initialState }: Props) {
-  const {
-    quoteItems,
-    purchaseItems,
-    summary,
-    setQuantity,
-    removeItem,
-  } = useCart(initialState);
+  const { quoteItems, purchaseItems, summary, setQuantity, removeItem } =
+    useCart(initialState);
+
+  const [state, formAction, pending] = useActionState(
+    submitQuoteAction,
+    initialActionState,
+  );
+
+  const productosJson = useMemo(
+    () =>
+      quoteItems.length > 0
+        ? JSON.stringify(
+            quoteItems.map((item) => ({
+              name: item.product.name,
+              sku: item.product.sku,
+              quantity: item.quantity,
+              unitPrice: item.pricing.unitPrice,
+              variant: item.variant?.name ?? null,
+            })),
+          )
+        : "",
+    [quoteItems],
+  );
 
   return (
     <main className="relative z-0 bg-neutral-50">
       <CartHero
         title="Cotizar"
-        description="Solicita una propuesta para compras por volumen, proyectos institucionales, personalización o muebles especiales de Mundo Lockers."
+        description="Solicita una propuesta para compras por volumen, proyectos institucionales, personalización o muebles especiales de LockerStore."
       />
 
       <div className="mx-auto max-w-7xl px-4 pb-12 pt-8 sm:px-6 lg:px-8 lg:pb-16 lg:pt-10">
@@ -92,106 +115,163 @@ export function QuotePageClient({ initialState }: Props) {
               </section>
             )}
 
+            {/* Formulario */}
             <section className="rounded-[28px] border border-black/10 bg-white p-6 shadow-sm sm:p-8">
-              <div className="max-w-2xl">
-                <p className="text-sm font-medium text-neutral-500">
-                  Solicitud comercial
-                </p>
-                <h1 className="mt-2 text-3xl font-semibold tracking-tight text-neutral-950 sm:text-4xl">
-                  Cuéntanos tu proyecto
-                </h1>
-                <p className="mt-4 text-sm leading-7 text-neutral-600 sm:text-base">
-                  Completa los datos de tu requerimiento y nuestro equipo te
-                  ayudará con una propuesta según cantidad, medidas, despacho,
-                  personalización y tipo de uso.
-                </p>
-              </div>
-
-              <form className="mt-8 grid gap-4 sm:grid-cols-2">
-                <label className="block">
-                  <span className="mb-2 block text-sm font-medium text-neutral-800">
-                    Nombre
-                  </span>
-                  <input
-                    type="text"
-                    placeholder="Nombre y apellido"
-                    className="min-h-12 w-full rounded-2xl border border-black/10 bg-white px-4 text-sm text-neutral-950 outline-none transition placeholder:text-neutral-400 focus:border-neutral-900"
-                  />
-                </label>
-
-                <label className="block">
-                  <span className="mb-2 block text-sm font-medium text-neutral-800">
-                    Empresa
-                  </span>
-                  <input
-                    type="text"
-                    placeholder="Nombre de empresa"
-                    className="min-h-12 w-full rounded-2xl border border-black/10 bg-white px-4 text-sm text-neutral-950 outline-none transition placeholder:text-neutral-400 focus:border-neutral-900"
-                  />
-                </label>
-
-                <label className="block">
-                  <span className="mb-2 block text-sm font-medium text-neutral-800">
-                    Correo
-                  </span>
-                  <input
-                    type="email"
-                    placeholder="ventas@mundolockers.cl"
-                    className="min-h-12 w-full rounded-2xl border border-black/10 bg-white px-4 text-sm text-neutral-950 outline-none transition placeholder:text-neutral-400 focus:border-neutral-900"
-                  />
-                </label>
-
-                <label className="block">
-                  <span className="mb-2 block text-sm font-medium text-neutral-800">
-                    Teléfono
-                  </span>
-                  <input
-                    type="tel"
-                    placeholder="+56 9 3388 2434"
-                    className="min-h-12 w-full rounded-2xl border border-black/10 bg-white px-4 text-sm text-neutral-950 outline-none transition placeholder:text-neutral-400 focus:border-neutral-900"
-                  />
-                </label>
-
-                <label className="block sm:col-span-2">
-                  <span className="mb-2 block text-sm font-medium text-neutral-800">
-                    Tipo de proyecto
-                  </span>
-                  <input
-                    type="text"
-                    placeholder="Ejemplo: colegio, minería, oficina, bodega, camarines"
-                    className="min-h-12 w-full rounded-2xl border border-black/10 bg-white px-4 text-sm text-neutral-950 outline-none transition placeholder:text-neutral-400 focus:border-neutral-900"
-                  />
-                </label>
-
-                <label className="block sm:col-span-2">
-                  <span className="mb-2 block text-sm font-medium text-neutral-800">
-                    Mensaje
-                  </span>
-                  <textarea
-                    rows={6}
-                    placeholder="Cuéntanos cantidad, medidas, colores, comuna de entrega o cualquier detalle importante."
-                    className="w-full rounded-2xl border border-black/10 bg-white px-4 py-3 text-sm text-neutral-950 outline-none transition placeholder:text-neutral-400 focus:border-neutral-900"
-                  />
-                </label>
-
-                <div className="flex flex-col gap-3 pt-2 sm:col-span-2 sm:flex-row">
-                  <button
-                    type="submit"
-                    className="inline-flex min-h-12 items-center justify-center rounded-2xl bg-neutral-950 px-6 py-3 text-sm font-medium text-white transition duration-200 hover:bg-[#F5B301] hover:text-neutral-950 hover:shadow-[0_0_0_3px_rgba(245,179,1,0.15)]"
+              {state.success ? (
+                <div className="flex flex-col items-start gap-4 py-4">
+                  <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-green-100">
+                    <svg
+                      className="h-6 w-6 text-green-600"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                      strokeWidth={2}
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M5 13l4 4L19 7"
+                      />
+                    </svg>
+                  </div>
+                  <div>
+                    <h2 className="text-2xl font-semibold tracking-tight text-neutral-950">
+                      Solicitud enviada
+                    </h2>
+                    <p className="mt-2 text-sm leading-7 text-neutral-600">
+                      Recibimos tu solicitud de cotización. Nuestro equipo te
+                      contactará a la brevedad al correo indicado.
+                    </p>
+                  </div>
+                  <Link
+                    href="/tienda"
+                    className="inline-flex min-h-10 items-center justify-center rounded-2xl border border-black/10 bg-white px-5 py-2.5 text-sm font-medium text-neutral-900 transition duration-200 hover:border-[#F5B301] hover:shadow-[0_0_0_3px_rgba(245,179,1,0.15)]"
                   >
-                    Enviar solicitud
-                  </button>
-
-                  <a
-                    href="https://wa.me/56933882434"
-                    target="_blank"
-                    rel="noreferrer"
-                    className="inline-flex min-h-12 items-center justify-center rounded-2xl border border-black/10 bg-white px-6 py-3 text-sm font-medium text-neutral-900 transition duration-200 hover:border-[#F5B301] hover:bg-white hover:shadow-[0_0_0_3px_rgba(245,179,1,0.15)]"
-                  >
-                    Cotizar por WhatsApp
-                  </a>
+                    Seguir viendo productos
+                  </Link>
                 </div>
-              </form>
+              ) : (
+                <>
+                  <div className="max-w-2xl">
+                    <p className="text-sm font-medium text-neutral-500">
+                      Solicitud comercial
+                    </p>
+                    <h1 className="mt-2 text-3xl font-semibold tracking-tight text-neutral-950 sm:text-4xl">
+                      Cuéntanos tu proyecto
+                    </h1>
+                    <p className="mt-4 text-sm leading-7 text-neutral-600 sm:text-base">
+                      Completa los datos de tu requerimiento y nuestro equipo te
+                      ayudará con una propuesta según cantidad, medidas, despacho,
+                      personalización y tipo de uso.
+                    </p>
+                  </div>
+
+                  <form action={formAction} className="mt-8 grid gap-4 sm:grid-cols-2">
+                    {productosJson && (
+                      <input type="hidden" name="productos" value={productosJson} />
+                    )}
+
+                    <label className="block">
+                      <span className="mb-2 block text-sm font-medium text-neutral-800">
+                        Nombre <span className="text-red-500">*</span>
+                      </span>
+                      <input
+                        type="text"
+                        name="nombre"
+                        required
+                        placeholder="Nombre y apellido"
+                        className="min-h-12 w-full rounded-2xl border border-black/10 bg-white px-4 text-sm text-neutral-950 outline-none transition placeholder:text-neutral-400 focus:border-neutral-900"
+                      />
+                    </label>
+
+                    <label className="block">
+                      <span className="mb-2 block text-sm font-medium text-neutral-800">
+                        Empresa
+                      </span>
+                      <input
+                        type="text"
+                        name="empresa"
+                        placeholder="Nombre de empresa"
+                        className="min-h-12 w-full rounded-2xl border border-black/10 bg-white px-4 text-sm text-neutral-950 outline-none transition placeholder:text-neutral-400 focus:border-neutral-900"
+                      />
+                    </label>
+
+                    <label className="block">
+                      <span className="mb-2 block text-sm font-medium text-neutral-800">
+                        Correo <span className="text-red-500">*</span>
+                      </span>
+                      <input
+                        type="email"
+                        name="correo"
+                        required
+                        placeholder="tucorreo@empresa.cl"
+                        className="min-h-12 w-full rounded-2xl border border-black/10 bg-white px-4 text-sm text-neutral-950 outline-none transition placeholder:text-neutral-400 focus:border-neutral-900"
+                      />
+                    </label>
+
+                    <label className="block">
+                      <span className="mb-2 block text-sm font-medium text-neutral-800">
+                        Teléfono
+                      </span>
+                      <input
+                        type="tel"
+                        name="telefono"
+                        placeholder="+56 9 3388 2434"
+                        className="min-h-12 w-full rounded-2xl border border-black/10 bg-white px-4 text-sm text-neutral-950 outline-none transition placeholder:text-neutral-400 focus:border-neutral-900"
+                      />
+                    </label>
+
+                    <label className="block sm:col-span-2">
+                      <span className="mb-2 block text-sm font-medium text-neutral-800">
+                        Tipo de proyecto
+                      </span>
+                      <input
+                        type="text"
+                        name="tipo_proyecto"
+                        placeholder="Ejemplo: colegio, minería, oficina, bodega, camarines"
+                        className="min-h-12 w-full rounded-2xl border border-black/10 bg-white px-4 text-sm text-neutral-950 outline-none transition placeholder:text-neutral-400 focus:border-neutral-900"
+                      />
+                    </label>
+
+                    <label className="block sm:col-span-2">
+                      <span className="mb-2 block text-sm font-medium text-neutral-800">
+                        Mensaje
+                      </span>
+                      <textarea
+                        name="mensaje"
+                        rows={6}
+                        placeholder="Cuéntanos cantidad, medidas, colores, comuna de entrega o cualquier detalle importante."
+                        className="w-full rounded-2xl border border-black/10 bg-white px-4 py-3 text-sm text-neutral-950 outline-none transition placeholder:text-neutral-400 focus:border-neutral-900"
+                      />
+                    </label>
+
+                    {state.error ? (
+                      <div className="sm:col-span-2 rounded-2xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+                        {state.error}
+                      </div>
+                    ) : null}
+
+                    <div className="flex flex-col gap-3 pt-2 sm:col-span-2 sm:flex-row">
+                      <button
+                        type="submit"
+                        disabled={pending}
+                        className="inline-flex min-h-12 items-center justify-center rounded-2xl bg-neutral-950 px-6 py-3 text-sm font-medium text-white transition duration-200 hover:bg-[#F5B301] hover:text-neutral-950 hover:shadow-[0_0_0_3px_rgba(245,179,1,0.15)] disabled:cursor-not-allowed disabled:opacity-60"
+                      >
+                        {pending ? "Enviando…" : "Enviar solicitud"}
+                      </button>
+
+                      <a
+                        href="https://wa.me/56933882434"
+                        target="_blank"
+                        rel="noreferrer"
+                        className="inline-flex min-h-12 items-center justify-center rounded-2xl border border-black/10 bg-white px-6 py-3 text-sm font-medium text-neutral-900 transition duration-200 hover:border-[#F5B301] hover:bg-white hover:shadow-[0_0_0_3px_rgba(245,179,1,0.15)]"
+                      >
+                        Cotizar por WhatsApp
+                      </a>
+                    </div>
+                  </form>
+                </>
+              )}
             </section>
           </section>
 

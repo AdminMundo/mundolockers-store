@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import Image from "next/image";
 import { createSupabaseServer } from "@/lib/supabase/server";
 import DeleteProductButton from "@/components/admin/delete-product-button";
 
 export const metadata: Metadata = {
-  title: "Productos | Admin | Lockers Store",
+  title: "Productos | Admin | LockerStore",
   description: "Gestión de productos del panel admin.",
   robots: {
     index: false,
@@ -125,66 +126,45 @@ export default async function AdminProductosPage({
 
   return (
     <div className="space-y-6">
-      <section
-        className="overflow-hidden rounded-[36px] border border-black/10 text-white"
-        style={{
-          background:
-            "linear-gradient(135deg, #0B1220 0%, #111827 45%, #1E293B 100%)",
-          boxShadow: "0 18px 50px rgba(15,23,42,0.16)",
-        }}
-      >
-        <div className="relative flex min-h-[240px] flex-col justify-between gap-8 p-6 md:min-h-[280px] md:flex-row md:items-end md:p-8">
+      <section className="relative overflow-hidden rounded-[36px] border border-black/10 text-white shadow-[0_18px_50px_rgba(15,23,42,0.16)]">
+        <div className="absolute inset-0">
+          <Image
+            src="/images/home/Encabezadoprincipal.webp"
+            alt="Banner productos"
+            fill
+            priority
+            className="object-cover"
+            sizes="100vw"
+          />
+        </div>
+        <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(5,10,20,0.82)_0%,rgba(7,15,30,0.68)_42%,rgba(10,20,35,0.42)_100%)]" />
+
+        <div className="relative flex min-h-60 flex-col justify-between gap-8 p-6 md:flex-row md:items-end md:p-8">
           <div className="max-w-3xl">
-            <p
-              className="text-[11px] font-semibold uppercase"
-              style={{
-                letterSpacing: "0.2em",
-                color: "rgba(255,255,255,0.62)",
-              }}
-            >
+            <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-white/70">
               Panel de administración
             </p>
-
-            <h1
-              className="mt-4 text-4xl font-semibold tracking-tight md:text-5xl"
-              style={{ color: "#FFFFFF" }}
-            >
+            <h1 className="mt-4 text-4xl font-semibold tracking-tight md:text-5xl">
               Productos
             </h1>
-
-            <p
-              className="mt-4 max-w-2xl text-sm leading-6 md:text-base"
-              style={{ color: "rgba(255,255,255,0.78)" }}
-            >
-              Administra catálogo, precio base, estado y stock visible de tu
-              tienda.
+            <p className="mt-4 max-w-2xl text-sm leading-6 text-white/80 md:text-base">
+              Administra catálogo, precio base, estado y stock visible de tu tienda.
             </p>
           </div>
 
           <div className="flex flex-wrap gap-3">
-            <div className="flex flex-wrap gap-3">
-              <Link
-                href="/admin/productos/nuevo"
-                className="inline-flex items-center rounded-2xl px-4 py-2.5 text-sm font-medium transition"
-                style={{
-                  backgroundColor: "#FDC90D",
-                  color: "#111111",
-                }}
-              >
-                Nuevo producto
-              </Link>
-
-              <Link
-                href="/tienda"
-                className="inline-flex items-center rounded-2xl border border-white/15 px-4 py-2.5 text-sm font-medium transition"
-                style={{
-                  backgroundColor: "rgba(255,255,255,0.08)",
-                  color: "#FFFFFF",
-                }}
-              >
-                Ver tienda
-              </Link>
-            </div>
+            <Link
+              href="/admin/productos/nuevo"
+              className="inline-flex items-center rounded-2xl bg-[#FDC90D] px-4 py-2.5 text-sm font-medium text-black transition hover:brightness-95"
+            >
+              Nuevo producto
+            </Link>
+            <Link
+              href="/tienda"
+              className="inline-flex items-center rounded-2xl border border-white/15 bg-white/8 px-4 py-2.5 text-sm font-medium text-white transition hover:bg-white/12"
+            >
+              Ver tienda
+            </Link>
           </div>
         </div>
       </section>
@@ -358,6 +338,9 @@ export default async function AdminProductosPage({
             <table className="min-w-full border-collapse">
               <thead>
                 <tr className="border-b border-black/10 bg-black/[0.02] text-left">
+                  <th className="px-4 py-4 text-xs font-semibold uppercase tracking-[0.14em] text-black/45">
+                    Foto
+                  </th>
                   <th className="px-6 py-4 text-xs font-semibold uppercase tracking-[0.14em] text-black/45">
                     SKU
                   </th>
@@ -377,9 +360,6 @@ export default async function AdminProductosPage({
                     Estado
                   </th>
                   <th className="px-6 py-4 text-xs font-semibold uppercase tracking-[0.14em] text-black/45">
-                    Slug
-                  </th>
-                  <th className="px-6 py-4 text-xs font-semibold uppercase tracking-[0.14em] text-black/45">
                     Acción
                   </th>
                 </tr>
@@ -391,6 +371,24 @@ export default async function AdminProductosPage({
                     key={product.product_id}
                     className="border-b border-black/6 transition hover:bg-black/[0.02]"
                   >
+                    <td className="px-4 py-3">
+                      <div className="h-12 w-12 overflow-hidden rounded-xl border border-black/10 bg-black/[0.03]">
+                        {product.image_url ? (
+                          <Image
+                            src={product.image_url}
+                            alt={product.name}
+                            width={48}
+                            height={48}
+                            className="h-full w-full object-contain p-1"
+                          />
+                        ) : (
+                          <div className="flex h-full w-full items-center justify-center text-[10px] text-black/30">
+                            —
+                          </div>
+                        )}
+                      </div>
+                    </td>
+
                     <td className="px-6 py-4">
                       <span className="inline-flex rounded-xl border border-black/10 bg-black/[0.03] px-2.5 py-1 font-mono text-xs text-black/75">
                         {product.sku ?? "—"}
@@ -424,14 +422,11 @@ export default async function AdminProductosPage({
                       {statusLabel(product.is_active)}
                     </td>
 
-                    <td className="px-6 py-4 text-sm text-black/50">
-                      {product.slug}
-                    </td>
-                    <td className="px-6 py-4">
-                      <div className="flex flex-col gap-2">
+                    <td className="px-4 py-3">
+                      <div className="flex items-center gap-2">
                         <Link
                           href={`/admin/productos/${product.slug}`}
-                          className="inline-flex items-center justify-center rounded-2xl border border-black/10 px-3 py-2 text-sm font-medium text-black transition hover:border-black/20 hover:bg-black/[0.02]"
+                          className="inline-flex items-center justify-center whitespace-nowrap rounded-xl border border-black/10 px-3 py-1.5 text-sm font-medium text-black transition hover:border-black/20 hover:bg-black/2"
                         >
                           Editar
                         </Link>

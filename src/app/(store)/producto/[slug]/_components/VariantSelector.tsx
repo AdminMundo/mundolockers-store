@@ -139,7 +139,7 @@ export default function VariantSelector({
         type="button"
         className="h-12 w-full rounded-2xl bg-zinc-900 text-white font-medium hover:bg-zinc-800"
         onClick={() => {
-          console.log("Comprar", { variantId: pickedVariant?.id ?? null, qty: state.qty });
+          // TODO: conectar con el carrito (addItem)
         }}
       >
         Comprar ahora

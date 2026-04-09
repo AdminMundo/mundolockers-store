@@ -12,7 +12,7 @@ const DEFAULT_HERO_IMAGE = "/images/Tienda/shopencabezado.svg";
 export function CartHero({
   title,
   description,
-  eyebrow = "LOCKERSSTORE",
+  eyebrow = "LOCKERSTORE",
   imageSrc = DEFAULT_HERO_IMAGE,
 }: Props) {
   return (

@@ -6,8 +6,8 @@ export type CategoryAsset = {
 const CATEGORY_ASSETS: Record<string, CategoryAsset> = {
   // usa el slug real de tu category_slug en Supabase
   estanterias: {
-    src: "public/images/categoria/Estanterias/Estanteriaespecificacion.svg",
-    alt: "Estructura de acero – Estanterías MundoLockers",
+    src: "/images/categoria/Estanterias/Estanteriaespecificacion.svg",
+    alt: "Estructura de acero – Estanterías LockerStore",
   },
  
 };

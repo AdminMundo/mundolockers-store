@@ -7,7 +7,7 @@ export function QuotePage() {
     <main className="relative z-0 bg-neutral-50">
       <CartHero
         title="Cotizar"
-        description="Solicita una propuesta para compras por volumen, proyectos institucionales, personalización o muebles especiales de Mundo Lockers."
+        description="Solicita una propuesta para compras por volumen, proyectos institucionales, personalización o muebles especiales de LockerStore."
       />
 
       <div className="mx-auto max-w-7xl px-4 pb-12 pt-8 sm:px-6 lg:px-8 lg:pb-16 lg:pt-10">
@@ -56,7 +56,7 @@ export function QuotePage() {
                 </span>
                 <input
                   type="email"
-                  placeholder="ventas@mundolockers.cl"
+                  placeholder="lockerstore2@gmail.com"
                   className="min-h-12 w-full rounded-2xl border border-black/10 bg-white px-4 text-sm text-neutral-950 outline-none transition placeholder:text-neutral-400 focus:border-neutral-900"
                 />
               </label>

@@ -9,22 +9,24 @@ import SchoolCampaignSection from "@/components/home/school-campaign";
 import WhyUsSection from "@/components/home/why-us";
 import ProcessFaqSection from "@/components/home/process-faq";
 
+const SITE = process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.lockerstore.cl";
+
 const jsonLd = {
   "@context": "https://schema.org",
   "@graph": [
     {
       "@type": "Organization",
-      name: "Lockers Store",
-      url: "https://www.Lockersstore.com",
-      logo: "https://www.lockersstore.com/brand/logometalico.webp",
+      name: "LockerStore",
+      url: SITE,
+      logo: `${SITE}/brand/logometalico2.webp`,
     },
     {
       "@type": "WebSite",
-      name: "Lockers Store",
-      url: "https://www.lockersstore.com",
+      name: "LockerStore",
+      url: SITE,
       potentialAction: {
         "@type": "SearchAction",
-        target: "https://www.lockersstore.com/tienda?q={search_term_string}",
+        target: `${SITE}/tienda?q={search_term_string}`,
         "query-input": "required name=search_term_string",
       },
     },
@@ -50,7 +52,7 @@ export default function HomePage() {
         {/* Imagen de fondo */}
         <Image
           src="/images/home/Encabezadoprincipal.webp"
-          alt="Showroom de lockers Lockers Store"
+          alt="Showroom de lockers LockerStore"
           fill
           priority
           sizes="100vw"

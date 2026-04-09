@@ -5,7 +5,7 @@ import { createProductAction } from "@/app/admin/productos/[slug]/actions";
 import ProductImageUpload from "@/components/admin/product-image-upload";
 
 export const metadata: Metadata = {
-  title: "Nuevo producto | Admin | Lockers Store",
+  title: "Nuevo producto | Admin | LockerStore",
   description: "Crear producto en el panel admin.",
   robots: {
     index: false,
@@ -114,6 +114,12 @@ export default async function AdminNuevoProductoPage({
         </div>
       ) : null}
 
+      {query.error === "invalid_specs" ? (
+        <div className="rounded-2xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+          Las especificaciones no son JSON válido. Revisa la sintaxis.
+        </div>
+      ) : null}
+
       {query.error === "create_failed" ? (
         <div className="rounded-2xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
           No se pudo crear el producto. Revisa la tabla{" "}
@@ -188,6 +194,23 @@ export default async function AdminNuevoProductoPage({
                 rows={5}
                 className="w-full rounded-2xl border border-black/10 bg-white px-4 py-3 text-sm outline-none transition focus:border-black/20"
               />
+            </div>
+
+            <div className="space-y-2 md:col-span-2">
+              <label
+                htmlFor="specs"
+                className="text-sm font-medium text-black/70"
+              >
+                Especificaciones
+              </label>
+              <textarea
+                id="specs"
+                name="specs"
+                rows={10}
+                placeholder={'{\n  "Medidas": { "Alto": "180 cm", "Ancho": "90 cm" },\n  "Notas": ["Detalle 1", "Detalle 2"]\n}'}
+                className="w-full rounded-2xl border border-black/10 bg-white px-4 py-3 font-mono text-sm outline-none transition focus:border-black/20"
+              />
+              <p className="text-xs text-black/45">Formato JSON. Las secciones se muestran en la página del producto.</p>
             </div>
 
             <div className="space-y-2">
