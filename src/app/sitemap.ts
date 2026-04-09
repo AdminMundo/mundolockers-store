@@ -1,7 +1,7 @@
 import type { MetadataRoute } from "next";
 import { createSupabaseServer } from "@/lib/supabase/server";
 
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.lockerstore.cl";
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.lockersstore.cl";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   // Páginas estáticas

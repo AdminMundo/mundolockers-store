@@ -1,10 +1,45 @@
 "use server";
 
 import { createSupabaseServer } from "@/lib/supabase/server";
+import { createFlowPayment } from "@/lib/flow";
 
 export type CreatePedidoResult =
   | { success: true; orderId: string }
   | { success: false; error: string };
+
+export type CreateFlowPaymentResult =
+  | { success: true; redirectUrl: string }
+  | { success: false; error: string };
+
+const SITE_URL =
+  process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.lockersstore.cl";
+
+export async function createFlowPaymentAction(
+  orderId: string,
+  orderNumber: number | null,
+  amount: number,
+  email: string,
+): Promise<CreateFlowPaymentResult> {
+  try {
+    const label = orderNumber
+      ? `#${String(orderNumber).padStart(4, "0")}`
+      : orderId.slice(0, 8).toUpperCase();
+
+    const { url, token } = await createFlowPayment({
+      commerceOrder: orderId,
+      subject: `Pedido LockerStore ${label}`,
+      amount,
+      email,
+      urlConfirmation: `${SITE_URL}/api/flow/webhook`,
+      urlReturn: `${SITE_URL}/api/flow/return`,
+    });
+
+    return { success: true, redirectUrl: `${url}?token=${token}` };
+  } catch (err) {
+    console.error("createFlowPaymentAction error:", err);
+    return { success: false, error: "No se pudo iniciar el pago con Flow. Intenta nuevamente." };
+  }
+}
 
 export type CreatePedidoInput = {
   nombre: string;

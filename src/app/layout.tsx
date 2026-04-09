@@ -8,7 +8,7 @@ const inter = Inter({
   display: "swap",
 });
 
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.lockerstore.cl";
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.lockersstore.cl";
 const OG_IMAGE = "/images/home/Encabezadoprincipal.webp";
 
 export const metadata: Metadata = {

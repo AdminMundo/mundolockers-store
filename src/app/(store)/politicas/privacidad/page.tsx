@@ -23,7 +23,7 @@ export default function PrivacidadPage() {
               <strong>Mundo Lockers SpA</strong>, RUT 76.580.205-9, con domicilio en Comandante
               Chacón #5720, Quinta Normal, Santiago, Chile, es responsable del tratamiento de los
               datos personales recabados a través de{" "}
-              <a href="https://www.lockerstore.cl">lockerstore.cl</a>. Para consultas, escríbenos a{" "}
+              <a href="https://www.lockersstore.cl">lockersstore.cl</a>. Para consultas, escríbenos a{" "}
               <a href="mailto:lockerstore2@gmail.com">lockerstore2@gmail.com</a>.
             </p>
           ),
@@ -139,7 +139,7 @@ export default function PrivacidadPage() {
             <p>
               Podemos actualizar esta política en cualquier momento. La versión vigente siempre
               estará disponible en{" "}
-              <a href="/politicas/privacidad">lockerstore.cl/politicas/privacidad</a>. Los cambios
+              <a href="/politicas/privacidad">lockersstore.cl/politicas/privacidad</a>. Los cambios
               relevantes se comunicarán por correo electrónico a los clientes registrados.
             </p>
           ),

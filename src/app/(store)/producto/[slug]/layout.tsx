@@ -5,7 +5,7 @@ import { getProductBySlug } from "@/lib/product";
 import ProductHeroHeader from "./_components/ProductHeroHeader";
 import { getCategoryAsset } from "@/lib/categoryAssets";
 
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.lockerstore.cl";
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.lockersstore.cl";
 
 type Props = {
   children: React.ReactNode;

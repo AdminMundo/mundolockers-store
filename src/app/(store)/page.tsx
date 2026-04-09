@@ -9,7 +9,7 @@ import SchoolCampaignSection from "@/components/home/school-campaign";
 import WhyUsSection from "@/components/home/why-us";
 import ProcessFaqSection from "@/components/home/process-faq";
 
-const SITE = process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.lockerstore.cl";
+const SITE = process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.lockersstore.cl";
 
 const jsonLd = {
   "@context": "https://schema.org",

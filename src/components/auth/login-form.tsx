@@ -30,7 +30,7 @@ export function LoginForm({ next = "/admin" }: LoginFormProps) {
           autoComplete="email"
           required
           className="w-full rounded-2xl border border-black/10 bg-white px-4 py-3 text-sm outline-none transition focus:border-black/30"
-          placeholder="admin@lockerstore.cl"
+          placeholder="admin@lockersstore.cl"
         />
       </div>
 

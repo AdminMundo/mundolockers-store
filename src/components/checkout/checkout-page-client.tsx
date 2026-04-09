@@ -10,7 +10,7 @@ import { formatClp } from "@/lib/cart/format";
 import { useCart } from "@/lib/cart/use-cart";
 import type { CartLine, CartState } from "@/lib/cart/types";
 import { CartHero } from "@/components/cart/cart-hero";
-import { createPedidoAction } from "@/app/(store)/checkout/actions";
+import { createPedidoAction, createFlowPaymentAction } from "@/app/(store)/checkout/actions";
 
 type Props = {
   initialState: CartState;
@@ -18,6 +18,7 @@ type Props = {
 
 type DocumentType = "boleta" | "factura";
 type ShippingMode = "despacho" | "retiro";
+type PaymentMethod = "flow" | "transferencia";
 
 type CheckoutFormState = {
   fullName: string;
@@ -32,6 +33,7 @@ type CheckoutFormState = {
   addressLine1: string;
   addressLine2: string;
   orderNotes: string;
+  paymentMethod: PaymentMethod;
 };
 
 type CheckoutFormErrors = Partial<Record<keyof CheckoutFormState, string>>;
@@ -49,6 +51,7 @@ const INITIAL_FORM_STATE: CheckoutFormState = {
   addressLine1: "",
   addressLine2: "",
   orderNotes: "",
+  paymentMethod: "flow",
 };
 
 function getPurchaseLineSubtotal(item: CartLine): number {
@@ -285,7 +288,7 @@ export function CheckoutPageClient({ initialState }: Props) {
         region: form.region,
         ciudad: form.commune,
         direccion: [form.addressLine1, form.addressLine2].filter(Boolean).join(", "),
-        tipo_pago: "transferencia",
+        tipo_pago: form.paymentMethod,
         notas: form.orderNotes,
         productosJson,
         subtotal,
@@ -297,6 +300,22 @@ export function CheckoutPageClient({ initialState }: Props) {
       }
 
       clear();
+
+      if (form.paymentMethod === "flow") {
+        const flowResult = await createFlowPaymentAction(
+          result.orderId,
+          null,
+          subtotal,
+          form.email,
+        );
+        if (!flowResult.success) {
+          setSubmitError(flowResult.error);
+          return;
+        }
+        window.location.href = flowResult.redirectUrl;
+        return;
+      }
+
       router.push(`/gracias?pedido=${result.orderId}`);
     });
   };
@@ -530,17 +549,42 @@ export function CheckoutPageClient({ initialState }: Props) {
 
             <section className="rounded-[28px] border border-black/10 bg-white p-5 shadow-sm sm:p-6">
               <h2 className="text-xl font-semibold tracking-tight text-neutral-950">
-                Pago
+                Método de pago
               </h2>
 
-              <div className="mt-5 rounded-2xl border border-neutral-950 bg-neutral-50 p-4">
-                <p className="text-sm font-medium text-neutral-950">
-                  Transferencia bancaria
-                </p>
-                <p className="mt-1 text-sm leading-6 text-neutral-600">
-                  Al confirmar el pedido recibirás los datos de transferencia por correo. Una vez confirmado el pago, procesaremos tu pedido.
-                </p>
+              <div className="mt-5 grid gap-3 sm:grid-cols-2">
+                <RadioCard<PaymentMethod>
+                  name="paymentMethod"
+                  value="flow"
+                  checked={form.paymentMethod === "flow"}
+                  title="Pago en línea (Flow)"
+                  description="Tarjeta de débito, crédito o RedCompra. Pago inmediato y seguro."
+                  onChange={(value) =>
+                    setForm((current) => ({ ...current, paymentMethod: value }))
+                  }
+                />
+                <RadioCard<PaymentMethod>
+                  name="paymentMethod"
+                  value="transferencia"
+                  checked={form.paymentMethod === "transferencia"}
+                  title="Transferencia bancaria"
+                  description="Recibirás los datos bancarios por correo. El pedido se procesa al confirmar el pago."
+                  onChange={(value) =>
+                    setForm((current) => ({ ...current, paymentMethod: value }))
+                  }
+                />
               </div>
+
+              {form.paymentMethod === "flow" && (
+                <p className="mt-3 text-xs text-neutral-500">
+                  Serás redirigido a la plataforma segura de Flow para completar el pago.
+                </p>
+              )}
+              {form.paymentMethod === "transferencia" && (
+                <p className="mt-3 text-xs text-neutral-500">
+                  Scotiabank · CTA CTE 980707059 · Mundo Lockers SpA · RUT 76.580.205-9
+                </p>
+              )}
             </section>
 
             <section className="rounded-[28px] border border-black/10 bg-white p-5 shadow-sm sm:p-6">
@@ -567,7 +611,11 @@ export function CheckoutPageClient({ initialState }: Props) {
                   disabled={isPending}
                   className="inline-flex min-h-12 w-full items-center justify-center rounded-2xl bg-neutral-950 px-5 py-3 text-sm font-medium text-white transition hover:bg-neutral-800 disabled:opacity-60"
                 >
-                  {isPending ? "Creando pedido…" : "Confirmar pedido"}
+                  {isPending
+                    ? "Procesando…"
+                    : form.paymentMethod === "flow"
+                    ? "Pagar con Flow"
+                    : "Confirmar pedido"}
                 </button>
 
                 {submitError ? (
@@ -635,7 +683,11 @@ export function CheckoutPageClient({ initialState }: Props) {
                   disabled={isPending}
                   className="inline-flex min-h-12 w-full items-center justify-center rounded-2xl bg-neutral-950 px-5 py-3 text-sm font-medium text-white transition hover:bg-neutral-800 disabled:opacity-60"
                 >
-                  {isPending ? "Creando pedido…" : "Confirmar pedido"}
+                  {isPending
+                    ? "Procesando…"
+                    : form.paymentMethod === "flow"
+                    ? "Pagar con Flow"
+                    : "Confirmar pedido"}
                 </button>
 
                 <Link

@@ -125,7 +125,7 @@ export default function ProductPurchaseBox({
       `Cantidad: ${quantity}`,
       variantLabel ? `Variante/Color: ${variantLabel}` : null,
       `Precio: ${priceText}`,
-      `Link: ${typeof window !== "undefined" ? window.location.href : `https://www.lockerstore.cl/producto/${product.slug}`}`,
+      `Link: ${typeof window !== "undefined" ? window.location.href : `https://www.lockersstore.cl/producto/${product.slug}`}`,
     ].filter(Boolean);
 
     return `${base}?text=${encodeURIComponent(lines.join("\n"))}`;

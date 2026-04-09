@@ -214,7 +214,7 @@ export default function Footer() {
               </ul>
 
               <div className="mt-5 text-xs text-zinc-500">
-                Dominio: <span className="text-zinc-700">lockerstore.cl</span>
+                Dominio: <span className="text-zinc-700">lockersstore.cl</span>
               </div>
             </div>
           </div>

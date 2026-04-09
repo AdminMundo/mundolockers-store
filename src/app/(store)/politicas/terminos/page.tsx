@@ -20,7 +20,7 @@ export default function TerminosPage() {
           title: "Identificación del vendedor",
           content: (
             <p>
-              El sitio web <a href="https://www.lockerstore.cl">lockerstore.cl</a> es operado por{" "}
+              El sitio web <a href="https://www.lockersstore.cl">lockersstore.cl</a> es operado por{" "}
               <strong>Mundo Lockers SpA</strong>, RUT 76.580.205-9, domiciliada en Comandante
               Chacón #5720, Quinta Normal, Santiago, Chile. Contacto:{" "}
               <a href="mailto:lockerstore2@gmail.com">lockerstore2@gmail.com</a> /{" "}
@@ -32,7 +32,7 @@ export default function TerminosPage() {
           title: "Aceptación de los términos",
           content: (
             <p>
-              Al navegar, cotizar o realizar una compra en lockerstore.cl aceptas estos términos en
+              Al navegar, cotizar o realizar una compra en lockersstore.cl aceptas estos términos en
               su totalidad. Si no estás de acuerdo con alguna parte, te pedimos que no utilices el
               sitio. Nos reservamos el derecho de modificarlos en cualquier momento; la versión
               actualizada prevalecerá desde su publicación.

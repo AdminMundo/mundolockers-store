@@ -85,7 +85,7 @@ export default async function PagoFallidoPage({ searchParams }: PagoFallidoPageP
           </p>
           <div className="mt-4 flex flex-wrap gap-3">
             <a
-              href={`mailto:${process.env.QUOTE_NOTIFICATION_EMAIL ?? "contacto@lockerstore.cl"}`}
+              href={`mailto:${process.env.QUOTE_NOTIFICATION_EMAIL ?? "contacto@lockersstore.cl"}`}
               className="inline-flex items-center rounded-xl border border-black/10 bg-neutral-50 px-4 py-2.5 text-sm font-medium text-neutral-800 transition hover:bg-neutral-100"
             >
               Enviar email
