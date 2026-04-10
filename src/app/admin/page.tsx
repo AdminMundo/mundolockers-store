@@ -25,6 +25,18 @@ const ESTADO_LABEL: Record<string, string> = {
   cerrada: "Cerrada",
 };
 
+const PAGO_DOT: Record<string, string> = {
+  pendiente: "bg-amber-400",
+  pagado: "bg-green-500",
+  rechazado: "bg-red-400",
+};
+
+const PAGO_LABEL: Record<string, string> = {
+  pendiente: "Pendiente",
+  pagado: "Pagado",
+  rechazado: "Rechazado",
+};
+
 function formatDate(iso: string) {
   return new Date(iso).toLocaleDateString("es-CL", {
     day: "2-digit",
@@ -38,7 +50,7 @@ export default async function AdminPage() {
   const user = await requireAdmin();
   const supabase = createSupabaseServer();
 
-  const [productsRes, cotizacionesRes] = await Promise.all([
+  const [productsRes, cotizacionesRes, pedidosRes] = await Promise.all([
     supabase
       .from("catalog_products")
       .select("product_id,is_active,is_featured,has_in_stock,price_from_clp,image_url"),
@@ -47,10 +59,16 @@ export default async function AdminPage() {
       .select("id,nombre,empresa,correo,estado,created_at")
       .order("created_at", { ascending: false })
       .limit(50),
+    supabase
+      .from("pedidos")
+      .select("id,numero,nombre,correo,total,tipo_pago,estado_pago,created_at")
+      .order("created_at", { ascending: false })
+      .limit(50),
   ]);
 
   const products = productsRes.data ?? [];
   const cotizaciones = cotizacionesRes.data ?? [];
+  const pedidos = pedidosRes.data ?? [];
 
   // Stats de productos
   const totalProductos = products.length;
@@ -59,7 +77,6 @@ export default async function AdminPage() {
     (p) => !p.price_from_clp || p.price_from_clp === 0,
   ).length;
   const sinImagen = products.filter((p) => !p.image_url).length;
-  const conStock = products.filter((p) => p.has_in_stock).length;
 
   // Stats de cotizaciones
   const pendientes = cotizaciones.filter((c) => c.estado === "pendiente").length;
@@ -67,6 +84,15 @@ export default async function AdminPage() {
   const respondidas = cotizaciones.filter((c) => c.estado === "respondida").length;
   const cerradas = cotizaciones.filter((c) => c.estado === "cerrada").length;
   const recientes = cotizaciones.slice(0, 4);
+
+  // Stats de pedidos
+  const pedidosPendientes = pedidos.filter((p) => p.estado_pago === "pendiente").length;
+  const pedidosPagados = pedidos.filter((p) => p.estado_pago === "pagado").length;
+  const pedidosRechazados = pedidos.filter((p) => p.estado_pago === "rechazado").length;
+  const ventaTotal = pedidos
+    .filter((p) => p.estado_pago === "pagado")
+    .reduce((sum, p) => sum + (p.total ?? 0), 0);
+  const pedidosRecientes = pedidos.slice(0, 5);
 
   const kpis = [
     {
@@ -86,10 +112,10 @@ export default async function AdminPage() {
       accent: null,
     },
     {
-      label: "Con stock",
-      value: conStock,
-      sub: `${totalProductos - conStock} a pedido`,
-      color: "text-green-600",
+      label: "Pedidos pendientes de pago",
+      value: pedidosPendientes,
+      sub: `${pedidosPagados} pagado${pedidosPagados !== 1 ? "s" : ""}`,
+      color: pedidosPendientes > 0 ? "text-amber-500" : "text-green-600",
       bg: "bg-white",
       accent: null,
     },
@@ -305,6 +331,98 @@ export default async function AdminPage() {
             >
               Ir al catálogo →
             </Link>
+          </div>
+        </div>
+      </div>
+
+      {/* Pedidos recientes + resumen */}
+      <div className="grid gap-5 lg:grid-cols-[1fr_340px]">
+        {/* Pedidos recientes */}
+        <div className="rounded-[32px] border border-black/8 bg-white p-6 shadow-sm">
+          <div className="flex items-center justify-between gap-4">
+            <div>
+              <p className="text-[11px] font-semibold uppercase tracking-widest text-black/40">
+                Últimos pedidos
+              </p>
+              <h2 className="mt-1 text-xl font-semibold tracking-tight text-black">
+                Pedidos recientes
+              </h2>
+            </div>
+            <Link
+              href="/admin/pedidos"
+              className="rounded-xl border border-black/10 px-3 py-1.5 text-xs font-medium text-black/60 transition hover:border-black/20 hover:text-black"
+            >
+              Ver todos →
+            </Link>
+          </div>
+
+          {pedidosRecientes.length === 0 ? (
+            <div className="mt-6 rounded-2xl border border-dashed border-black/10 p-6 text-center text-sm text-black/35">
+              Aún no hay pedidos recibidos.
+            </div>
+          ) : (
+            <ul className="mt-5 divide-y divide-black/5">
+              {pedidosRecientes.map((p) => {
+                const label = p.numero
+                  ? `#${String(p.numero).padStart(4, "0")}`
+                  : p.id.slice(0, 8).toUpperCase();
+                return (
+                  <li key={p.id} className="flex items-center justify-between gap-4 py-3.5">
+                    <div className="min-w-0">
+                      <div className="flex items-center gap-2">
+                        <span className={["h-2 w-2 shrink-0 rounded-full", PAGO_DOT[p.estado_pago] ?? "bg-zinc-300"].join(" ")} />
+                        <span className="text-sm font-medium text-black">{label}</span>
+                        <span className="hidden truncate text-xs text-black/40 sm:block">· {p.nombre}</span>
+                      </div>
+                      <p className="mt-0.5 pl-4 text-xs text-black/40">
+                        {p.correo} · {formatDate(p.created_at)} · {p.tipo_pago}
+                      </p>
+                    </div>
+                    <div className="flex shrink-0 items-center gap-2">
+                      <span className="text-sm font-semibold tabular-nums text-black">
+                        ${Number(p.total ?? 0).toLocaleString("es-CL")}
+                      </span>
+                      <span className="rounded-full border border-black/8 px-2.5 py-0.5 text-[11px] font-medium text-black/60">
+                        {PAGO_LABEL[p.estado_pago] ?? p.estado_pago}
+                      </span>
+                    </div>
+                  </li>
+                );
+              })}
+            </ul>
+          )}
+        </div>
+
+        {/* Resumen pedidos */}
+        <div className="space-y-5">
+          <div className="rounded-[32px] border border-black/8 bg-white p-6 shadow-sm">
+            <p className="text-[11px] font-semibold uppercase tracking-widest text-black/40">
+              Estado general
+            </p>
+            <h2 className="mt-1 text-xl font-semibold tracking-tight text-black">
+              Pedidos
+            </h2>
+            <div className="mt-4 space-y-2.5">
+              {[
+                { label: "Pendientes de pago", value: pedidosPendientes, dot: "bg-amber-400" },
+                { label: "Pagados", value: pedidosPagados, dot: "bg-green-500" },
+                { label: "Rechazados", value: pedidosRechazados, dot: "bg-red-400" },
+              ].map((row) => (
+                <div key={row.label} className="flex items-center justify-between gap-3">
+                  <div className="flex items-center gap-2">
+                    <span className={["h-2 w-2 rounded-full", row.dot].join(" ")} />
+                    <span className="text-sm text-black/60">{row.label}</span>
+                  </div>
+                  <span className="text-sm font-semibold tabular-nums text-black">{row.value}</span>
+                </div>
+              ))}
+            </div>
+            <div className="mt-5 border-t border-black/8 pt-4">
+              <p className="text-[11px] font-semibold uppercase tracking-widest text-black/40">Ventas confirmadas</p>
+              <p className="mt-1 text-2xl font-semibold tabular-nums tracking-tight text-green-600">
+                ${ventaTotal.toLocaleString("es-CL")}
+              </p>
+            </div>
           </div>
         </div>
       </div>
