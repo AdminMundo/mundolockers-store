@@ -53,12 +53,13 @@ export default async function AdminProductoDetallePage({
 
   const supabase = createSupabaseServer();
 
+  // Buscar por SKU primero (más estable), luego por slug como fallback
   const { data, error } = await supabase
     .from("products")
     .select(
       "id, sku, slug, name, description, specs, category_id, price_clp, has_in_stock, is_active, is_featured, image_url, hover_image_url, gallery_urls",
     )
-    .eq("slug", slug)
+    .or(`sku.eq.${slug},slug.eq.${slug}`)
     .maybeSingle();
 
   if (error || !data) {
@@ -187,6 +188,7 @@ export default async function AdminProductoDetallePage({
           <form action={updateProductAction} className="mt-6 space-y-5">
             <input type="hidden" name="product_id" value={data.id} />
             <input type="hidden" name="original_slug" value={data.slug} />
+            <input type="hidden" name="original_sku" value={data.sku ?? ""} />
 
             <div className="grid gap-5 md:grid-cols-2">
               <div className="space-y-2 md:col-span-2">

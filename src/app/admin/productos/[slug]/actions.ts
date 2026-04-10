@@ -6,6 +6,8 @@ import { createSupabaseServer } from "@/lib/supabase/server";
 export async function updateProductAction(formData: FormData) {
   const productId = String(formData.get("product_id") ?? "").trim();
   const originalSlug = String(formData.get("original_slug") ?? "").trim();
+  const originalSku = String(formData.get("original_sku") ?? "").trim();
+  const originalKey = originalSku || originalSlug;
 
   const name = String(formData.get("name") ?? "").trim();
   const slug = String(formData.get("slug") ?? "").trim();
@@ -21,7 +23,7 @@ export async function updateProductAction(formData: FormData) {
     try {
       specs = JSON.parse(specsRaw);
     } catch {
-      redirect(`/admin/productos/${originalSlug}?error=invalid_specs`);
+      redirect(`/admin/productos/${originalKey}?error=invalid_specs`);
     }
   }
 
@@ -48,11 +50,11 @@ export async function updateProductAction(formData: FormData) {
   const hasInStock = formData.get("has_in_stock") === "on";
 
   if (!productId || !name || !slug) {
-    redirect(`/admin/productos/${originalSlug}?error=missing_fields`);
+    redirect(`/admin/productos/${originalKey}?error=missing_fields`);
   }
 
   if (priceRaw && Number.isNaN(price_clp)) {
-    redirect(`/admin/productos/${originalSlug}?error=invalid_price`);
+    redirect(`/admin/productos/${originalKey}?error=invalid_price`);
   }
 
   const supabase = createSupabaseServer();
@@ -65,7 +67,7 @@ export async function updateProductAction(formData: FormData) {
     .maybeSingle();
 
   if (slugExists) {
-    redirect(`/admin/productos/${originalSlug}?error=slug_exists`);
+    redirect(`/admin/productos/${originalKey}?error=slug_exists`);
   }
 
   if (sku) {
@@ -77,7 +79,7 @@ export async function updateProductAction(formData: FormData) {
       .maybeSingle();
 
     if (skuExists) {
-      redirect(`/admin/productos/${originalSlug}?error=sku_exists`);
+      redirect(`/admin/productos/${originalKey}?error=sku_exists`);
     }
   }
 
@@ -101,16 +103,16 @@ export async function updateProductAction(formData: FormData) {
     .eq("id", productId);
 
   if (error) {
-    redirect(`/admin/productos/${originalSlug}?error=save_failed`);
+    redirect(`/admin/productos/${originalKey}?error=save_failed`);
   }
 
   revalidatePath("/admin/productos");
-  revalidatePath(`/admin/productos/${originalSlug}`);
-  revalidatePath(`/admin/productos/${slug}`);
+  revalidatePath(`/admin/productos/${originalKey}`);
+  revalidatePath(`/admin/productos/${sku ?? slug}`);
   revalidatePath("/tienda");
   revalidatePath(`/producto/${slug}`);
 
-  redirect(`/admin/productos/${slug}?saved=1`);
+  redirect(`/admin/productos/${sku ?? slug}?saved=1`);
 }
 export async function createProductAction(formData: FormData) {
   const name = String(formData.get("name") ?? "").trim();

@@ -425,7 +425,7 @@ export default async function AdminProductosPage({
                     <td className="px-4 py-3">
                       <div className="flex items-center gap-2">
                         <Link
-                          href={`/admin/productos/${product.slug}`}
+                          href={`/admin/productos/${product.sku ?? product.slug}`}
                           className="inline-flex items-center justify-center whitespace-nowrap rounded-xl border border-black/10 px-3 py-1.5 text-sm font-medium text-black transition hover:border-black/20 hover:bg-black/2"
                         >
                           Editar
