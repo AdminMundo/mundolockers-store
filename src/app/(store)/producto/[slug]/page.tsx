@@ -1,4 +1,5 @@
 import { notFound } from "next/navigation";
+import Image from "next/image";
 import { getProductBySlug } from "@/lib/product";
 import ProductGallery from "./_components/ProductGallery";
 import ProductPanel from "./_components/ProductPanel";
@@ -19,7 +20,35 @@ export default async function ProductPage({ params }: PageProps) {
 
   return (
     <main className="bg-[#F6F6F7]">
-      <div className="mx-auto max-w-6xl px-4 pt-28 pb-10">
+      {/* Banner tienda */}
+      <div className="relative h-48 w-full overflow-hidden md:h-56">
+        <Image
+          src="/images/home/Encabezadoprincipal.webp"
+          alt="LockerStore"
+          fill
+          priority
+          className="object-cover object-center"
+          sizes="100vw"
+        />
+        <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(5,10,20,0.75)_0%,rgba(7,15,30,0.55)_50%,rgba(10,20,35,0.30)_100%)]" />
+        <div className="absolute inset-0 flex flex-col justify-center px-6 md:px-12">
+          <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-white/70">
+            {product.category_name ?? "Producto"}
+          </p>
+          <h1 className="mt-2 text-2xl font-semibold tracking-tight text-white md:text-3xl">
+            {product.name}
+          </h1>
+          <nav className="mt-3 flex items-center gap-1.5 text-xs text-white/60">
+            <span>Tienda</span>
+            <span>/</span>
+            <span>{product.category_name ?? "Productos"}</span>
+            <span>/</span>
+            <span className="text-white/90">{product.name}</span>
+          </nav>
+        </div>
+      </div>
+
+      <div className="mx-auto max-w-6xl px-4 pt-8 pb-10">
         <div className="grid gap-8 lg:grid-cols-[1.15fr_0.85fr] items-start">
           {/* LEFT column */}
           <div className="space-y-8">
