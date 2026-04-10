@@ -53,14 +53,22 @@ export default async function AdminProductoDetallePage({
 
   const supabase = createSupabaseServer();
 
+  const SELECT = "id, sku, slug, name, description, specs, category_id, price_clp, has_in_stock, is_active, is_featured, image_url, hover_image_url, gallery_urls";
+
   // Buscar por SKU primero (más estable), luego por slug como fallback
-  const { data, error } = await supabase
+  let { data, error } = await supabase
     .from("products")
-    .select(
-      "id, sku, slug, name, description, specs, category_id, price_clp, has_in_stock, is_active, is_featured, image_url, hover_image_url, gallery_urls",
-    )
-    .or(`sku.eq.${slug},slug.eq.${slug}`)
+    .select(SELECT)
+    .eq("sku", slug)
     .maybeSingle();
+
+  if (!data && !error) {
+    ({ data, error } = await supabase
+      .from("products")
+      .select(SELECT)
+      .eq("slug", slug)
+      .maybeSingle());
+  }
 
   if (error || !data) {
     notFound();
