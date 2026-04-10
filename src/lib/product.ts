@@ -89,7 +89,7 @@ export async function getProductBySlug(slug: string): Promise<ProductDetail | nu
   if (!p) return null;
 
   // Variantes + imagen de la tabla products — en paralelo
-  const [variantsRes, imageRes] = await Promise.all([
+  const [variantsRes, productRes] = await Promise.all([
     supabase
       .from("product_variants")
       .select("id,product_id,name,color,door_color,doors,bodies,price_clp,stock_status,image_urls,sort_order,is_active,variant_sku")
@@ -99,14 +99,17 @@ export async function getProductBySlug(slug: string): Promise<ProductDetail | nu
       .returns<ProductVariantRow[]>(),
     supabase
       .from("products")
-      .select("image_url")
+      .select("image_url,price_clp")
       .eq("id", p.id)
-      .maybeSingle<{ image_url: string | null }>(),
+      .maybeSingle<{ image_url: string | null; price_clp: number | null }>(),
   ]);
 
   if (variantsRes.error) throw new Error(variantsRes.error.message);
   const variants = variantsRes.data;
-  const image_url = imageRes.data?.image_url ?? null;
+  const image_url = productRes.data?.image_url ?? null;
+
+  // Precio: preferimos el de la tabla products directamente (evita null en vistas)
+  const resolvedPriceClp = productRes.data?.price_clp ?? p.price_clp ?? null;
 
   return {
     id: p.id,
@@ -122,7 +125,7 @@ export async function getProductBySlug(slug: string): Promise<ProductDetail | nu
     category_slug: p.category_slug ?? null,
     category_name: p.category_name ?? null,
 
-    price_from_clp: safeNumber(p.price_clp),
+    price_from_clp: safeNumber(resolvedPriceClp),
     image_url: image_url ?? resolveProductImageUrl(p.slug),
 
     variants: (variants ?? []).map((x) => ({
