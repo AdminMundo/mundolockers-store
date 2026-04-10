@@ -299,8 +299,6 @@ export function CheckoutPageClient({ initialState }: Props) {
         return;
       }
 
-      clear();
-
       if (form.paymentMethod === "flow") {
         const flowResult = await createFlowPaymentAction(
           result.orderId,
@@ -312,10 +310,12 @@ export function CheckoutPageClient({ initialState }: Props) {
           setSubmitError(flowResult.error);
           return;
         }
+        clear();
         window.location.href = flowResult.redirectUrl;
         return;
       }
 
+      clear();
       router.push(`/gracias?pedido=${result.orderId}`);
     });
   };
