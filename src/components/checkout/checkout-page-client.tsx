@@ -244,8 +244,10 @@ export function CheckoutPageClient({ initialState }: Props) {
   const [submitError, setSubmitError] = useState<string>("");
 
   const subtotal = summary.purchaseSubtotal;
+  const iva = Math.round(subtotal * 0.19);
+  const total = subtotal + iva;
   const shippingLabel = "Se confirma según comuna y volumen";
-  const totalLabel = formatClp(subtotal);
+  const totalLabel = formatClp(total);
 
   const purchaseCountLabel = useMemo(() => {
     return `${summary.purchaseQuantity} producto(s)`;
@@ -292,6 +294,7 @@ export function CheckoutPageClient({ initialState }: Props) {
         notas: form.orderNotes,
         productosJson,
         subtotal,
+        total,
       });
 
       if (!result.success) {
@@ -303,7 +306,7 @@ export function CheckoutPageClient({ initialState }: Props) {
         const flowResult = await createFlowPaymentAction(
           result.orderId,
           null,
-          subtotal,
+          total,
           form.email,
         );
         if (!flowResult.success) {
@@ -651,9 +654,16 @@ export function CheckoutPageClient({ initialState }: Props) {
 
               <div className="mt-5 space-y-3 text-sm">
                 <div className="flex items-center justify-between gap-3">
-                  <span className="text-neutral-600">Subtotal</span>
+                  <span className="text-neutral-600">Neto</span>
                   <span className="font-medium text-neutral-950">
                     {formatClp(subtotal)}
+                  </span>
+                </div>
+
+                <div className="flex items-center justify-between gap-3">
+                  <span className="text-neutral-600">IVA (19%)</span>
+                  <span className="font-medium text-neutral-950">
+                    {formatClp(iva)}
                   </span>
                 </div>
 

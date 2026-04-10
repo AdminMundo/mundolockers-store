@@ -56,6 +56,7 @@ export type CreatePedidoInput = {
   notas: string;
   productosJson: string;
   subtotal: number;
+  total: number;
 };
 
 export async function createPedidoAction(
@@ -93,7 +94,7 @@ export async function createPedidoAction(
         productos,
         subtotal: input.subtotal,
         costo_despacho: 0,
-        total: input.subtotal,
+        total: input.total,
         tipo_pago: input.tipo_pago,
         estado: "recibido",
         estado_pago: "pendiente",
