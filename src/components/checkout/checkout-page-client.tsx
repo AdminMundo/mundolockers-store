@@ -68,8 +68,8 @@ function validateCheckoutForm(form: CheckoutFormState): CheckoutFormErrors {
 
   if (!form.email.trim()) {
     errors.email = "Ingresa un correo electrónico.";
-  } else if (!form.email.includes("@")) {
-    errors.email = "Ingresa un correo válido.";
+  } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(form.email.trim())) {
+    errors.email = "Ingresa un correo válido (ej: nombre@empresa.cl).";
   }
 
   if (!form.phone.trim()) {
