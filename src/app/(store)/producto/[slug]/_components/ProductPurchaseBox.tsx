@@ -238,10 +238,13 @@ export default function ProductPurchaseBox({
         </div>
 
         <div className="text-right">
-          <div className="text-sm text-zinc-500">Precio</div>
+          <div className="text-sm text-zinc-500">Precio neto</div>
           <div className="text-lg font-semibold text-zinc-900">
             {displayPrice !== null ? formatCLP(displayPrice) : "Consultar"}
           </div>
+          {displayPrice !== null && (
+            <div className="text-xs text-zinc-400">+ IVA (19%)</div>
+          )}
           {selected?.stock_status ? (
             <div className="mt-1 text-xs text-zinc-500">
               {selected.stock_status}

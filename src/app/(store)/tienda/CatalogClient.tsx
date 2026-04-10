@@ -262,7 +262,7 @@ export default function CatalogClient({
                     </div>
                     <div className="mt-1 text-sm text-zinc-700">
                       {canPurchase
-                        ? `Precio $${Number(p.price_from_clp).toLocaleString("es-CL")}`
+                        ? `$${Number(p.price_from_clp).toLocaleString("es-CL")} + IVA`
                         : "Consultar precio"}
                     </div>
                   </div>
