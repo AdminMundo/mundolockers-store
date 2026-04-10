@@ -151,7 +151,7 @@ export default async function ProductLayout({ children, params }: Props) {
             : []),
           { label: product.name, href: `/producto/${product.slug}` },
         ]}
-        backgroundImage="/images/tienda/shopencabezado.svg"
+        backgroundImage="/images/home/Encabezadoprincipal.webp"
         topImage={catAsset ?? {
           src: product.image_url ?? "/images/categoria/Estanterias/Estanteriaespecificacion.svg",
           alt: product.name,
