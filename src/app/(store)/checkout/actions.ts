@@ -116,31 +116,58 @@ export async function createPedidoAction(
           ? `#${String(data.numero).padStart(4, "0")}`
           : data.id.slice(0, 8).toUpperCase();
 
-        await fetch("https://api.resend.com/emails", {
-          method: "POST",
-          headers: {
-            Authorization: `Bearer ${resendKey}`,
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            from: "LockerStore <onboarding@resend.dev>",
-            to: [notifyEmail],
-            reply_to: input.correo,
-            subject: `Nuevo pedido ${numeroLabel} — ${input.nombre}`,
-            html: `
-              <h2>Nuevo pedido por transferencia ${numeroLabel}</h2>
-              <p><strong>Cliente:</strong> ${input.nombre}</p>
-              <p><strong>Correo:</strong> ${input.correo}</p>
-              <p><strong>Teléfono:</strong> ${input.telefono}</p>
-              ${input.empresa ? `<p><strong>Empresa:</strong> ${input.empresa}</p>` : ""}
-              <p><strong>Entrega:</strong> ${input.tipo_entrega === "despacho" ? `Despacho — ${input.ciudad}, ${input.region}` : "Retiro en tienda"}</p>
-              <p><strong>Total:</strong> $${input.subtotal.toLocaleString("es-CL")}</p>
-              ${input.notas ? `<p><strong>Notas:</strong> ${input.notas}</p>` : ""}
-              <hr/>
-              <p>Ver pedido en admin: <a href="${process.env.NEXT_PUBLIC_SITE_URL ?? ""}/admin/pedidos">Panel de pedidos</a></p>
-            `,
-          }),
-        });
+        const sendEmail = (to: string, subject: string, html: string) =>
+          fetch("https://api.resend.com/emails", {
+            method: "POST",
+            headers: {
+              Authorization: `Bearer ${resendKey}`,
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              from: "LockerStore <pedidos@lockersstore.cl>",
+              to: [to],
+              subject,
+              html,
+            }),
+          });
+
+        const entrega =
+          input.tipo_entrega === "despacho"
+            ? `Despacho — ${input.ciudad}, ${input.region}`
+            : "Retiro en tienda";
+
+        // Email al dueño
+        await sendEmail(
+          notifyEmail,
+          `Nuevo pedido ${numeroLabel} — ${input.nombre}`,
+          `
+            <h2>Nuevo pedido por transferencia ${numeroLabel}</h2>
+            <p><strong>Cliente:</strong> ${input.nombre}</p>
+            <p><strong>Correo:</strong> ${input.correo}</p>
+            <p><strong>Teléfono:</strong> ${input.telefono}</p>
+            ${input.empresa ? `<p><strong>Empresa:</strong> ${input.empresa}</p>` : ""}
+            <p><strong>Entrega:</strong> ${entrega}</p>
+            <p><strong>Total:</strong> $${input.subtotal.toLocaleString("es-CL")}</p>
+            ${input.notas ? `<p><strong>Notas:</strong> ${input.notas}</p>` : ""}
+            <hr/>
+            <p>Ver pedido en admin: <a href="${process.env.NEXT_PUBLIC_SITE_URL ?? ""}/admin/pedidos">Panel de pedidos</a></p>
+          `,
+        );
+
+        // Email al cliente
+        await sendEmail(
+          input.correo,
+          `Tu pedido ${numeroLabel} fue recibido — LockerStore`,
+          `
+            <h2>Recibimos tu pedido ${numeroLabel}</h2>
+            <p>Hola ${input.nombre},</p>
+            <p>Tu pedido fue recibido correctamente. Nos contactaremos contigo para coordinar el pago por transferencia.</p>
+            <p><strong>Total:</strong> $${input.subtotal.toLocaleString("es-CL")}</p>
+            <p><strong>Entrega:</strong> ${entrega}</p>
+            <hr/>
+            <p>Si tienes dudas escríbenos a <a href="mailto:pedidos@lockersstore.cl">pedidos@lockersstore.cl</a></p>
+          `,
+        );
       }
     } catch {}
 

@@ -35,6 +35,76 @@ function verifyFlowSignature(
   }
 }
 
+type PedidoResumen = {
+  id: string;
+  numero: number | null;
+  nombre: string;
+  correo: string;
+  total: number;
+  tipo_entrega: string;
+  ciudad: string | null;
+  region: string | null;
+};
+
+async function sendPaymentConfirmationEmails(pedido: PedidoResumen) {
+  const resendKey = process.env.RESEND_API_KEY;
+  const notifyEmail = process.env.QUOTE_NOTIFICATION_EMAIL;
+  if (!resendKey) return;
+
+  const label = pedido.numero
+    ? `#${String(pedido.numero).padStart(4, "0")}`
+    : pedido.id.slice(0, 8).toUpperCase();
+
+  const entrega =
+    pedido.tipo_entrega === "despacho"
+      ? `Despacho a ${pedido.ciudad ?? ""}, ${pedido.region ?? ""}`
+      : "Retiro en tienda";
+
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.lockersstore.cl";
+
+  const sendEmail = (to: string, subject: string, html: string) =>
+    fetch("https://api.resend.com/emails", {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${resendKey}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ from: "LockerStore <pedidos@lockersstore.cl>", to: [to], subject, html }),
+    });
+
+  // Email al cliente
+  await sendEmail(
+    pedido.correo,
+    `Tu pedido ${label} fue confirmado — LockerStore`,
+    `
+      <h2>¡Pago recibido! Tu pedido ${label} está confirmado</h2>
+      <p>Hola ${pedido.nombre},</p>
+      <p>Recibimos tu pago correctamente. Pronto nos pondremos en contacto contigo.</p>
+      <p><strong>Total pagado:</strong> $${Number(pedido.total).toLocaleString("es-CL")}</p>
+      <p><strong>Entrega:</strong> ${entrega}</p>
+      <hr/>
+      <p>Si tienes dudas escríbenos a <a href="mailto:pedidos@lockersstore.cl">pedidos@lockersstore.cl</a></p>
+    `,
+  );
+
+  // Email al dueño
+  if (notifyEmail) {
+    await sendEmail(
+      notifyEmail,
+      `Pago confirmado pedido ${label} — ${pedido.nombre}`,
+      `
+        <h2>Pago confirmado — pedido ${label}</h2>
+        <p><strong>Cliente:</strong> ${pedido.nombre}</p>
+        <p><strong>Correo:</strong> ${pedido.correo}</p>
+        <p><strong>Total:</strong> $${Number(pedido.total).toLocaleString("es-CL")}</p>
+        <p><strong>Entrega:</strong> ${entrega}</p>
+        <hr/>
+        <p><a href="${siteUrl}/admin/pedidos">Ver pedido en admin →</a></p>
+      `,
+    );
+  }
+}
+
 /**
  * Webhook que Flow llama (POST) cuando un pago cambia de estado.
  * Flow envía los parámetros en form-urlencoded, incluyendo 'token' y 's' (firma).
@@ -77,13 +147,21 @@ export async function POST(req: NextRequest) {
     const supabase = createSupabaseServer();
 
     if (payment.status === 2) {
-      // Pagado
-      const { error } = await supabase
+      // Pagado — actualizar y obtener datos del pedido para el email
+      const { data: pedido, error } = await supabase
         .from("pedidos")
         .update({ estado_pago: "pagado" })
-        .eq("id", payment.commerceOrder);
+        .eq("id", payment.commerceOrder)
+        .select("id, numero, nombre, correo, total, tipo_entrega, ciudad, region")
+        .single();
 
-      if (error) console.error("[flow/webhook] error actualizando pedido:", error);
+      if (error) {
+        console.error("[flow/webhook] error actualizando pedido:", error);
+      } else if (pedido) {
+        await sendPaymentConfirmationEmails(pedido).catch((err) =>
+          console.error("[flow/webhook] error enviando emails:", err),
+        );
+      }
     } else if (payment.status === 3 || payment.status === 4) {
       // Rechazado o anulado
       await supabase

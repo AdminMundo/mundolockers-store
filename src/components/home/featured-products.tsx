@@ -53,7 +53,7 @@ const FEATURED: FeaturedProduct[] = [
     title: "Locker Metálico 5 cuerpos, 20 puertas",
     slug: "kardex",
     href: "/tienda?cat=lockers-metalicos",
-    image: "/images/topProductos/Locker5cuerposcuadruple.svg",
+    image: "/images/products/locker-metalico-20-puertas-5-cuerpos-cuadruples.webp",
   },
   {
     title: "Banca Metálica",

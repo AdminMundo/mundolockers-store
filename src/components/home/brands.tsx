@@ -16,7 +16,7 @@ const BRANDS: Brand[] = [
   { name: "PDI", logo: "/brand/PDI.webp" },
   { name: "Carabineros", logo: "/brand/Carabineros.webp" },
   { name: "Cencosud", logo: "/brand/Cencosud.webp" },
-  { name: "Colegios", logo: "/brand/british.webp" },
+  { name: "Colegios", logo: "/brand/British.webp" },
   { name: "Armada", logo: "/brand/Armada.webp" },
   { name: "Unimarc", logo: "/brand/Unimarc.webp" },
   { name: "Construmart", logo: "/brand/Construmart.svg" },
