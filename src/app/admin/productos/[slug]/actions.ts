@@ -3,6 +3,22 @@
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { createSupabaseServer } from "@/lib/supabase/server";
+
+/** Convierte cualquier texto a slug limpio: minúsculas, sin acentos, solo guiones */
+function sanitizeSlug(value: string): string {
+  return value
+    .trim()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "") // quita acentos
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")    // cualquier char no válido → guión
+    .replace(/^-+|-+$/g, "");        // quita guiones al inicio/fin
+}
+
+/** Elimina cualquier espacio del SKU */
+function sanitizeSku(value: string): string {
+  return value.replace(/\s+/g, "").toUpperCase();
+}
 export async function updateProductAction(formData: FormData) {
   const productId = String(formData.get("product_id") ?? "").trim();
   const originalSlug = String(formData.get("original_slug") ?? "").trim();
@@ -10,8 +26,8 @@ export async function updateProductAction(formData: FormData) {
   const originalKey = originalSku || originalSlug;
 
   const name = String(formData.get("name") ?? "").trim();
-  const slug = String(formData.get("slug") ?? "").trim();
-  const skuRaw = String(formData.get("sku") ?? "").trim();
+  const slug = sanitizeSlug(String(formData.get("slug") ?? ""));
+  const skuRaw = sanitizeSku(String(formData.get("sku") ?? ""));
   const sku = skuRaw.length > 0 ? skuRaw : null;
 
   const descriptionRaw = String(formData.get("description") ?? "").trim();
@@ -116,9 +132,9 @@ export async function updateProductAction(formData: FormData) {
 }
 export async function createProductAction(formData: FormData) {
   const name = String(formData.get("name") ?? "").trim();
-  const slug = String(formData.get("slug") ?? "").trim();
+  const slug = sanitizeSlug(String(formData.get("slug") ?? ""));
 
-  const skuRaw = String(formData.get("sku") ?? "").trim();
+  const skuRaw = sanitizeSku(String(formData.get("sku") ?? ""));
   const sku = skuRaw.length > 0 ? skuRaw : null;
 
   const descriptionRaw = String(formData.get("description") ?? "").trim();
