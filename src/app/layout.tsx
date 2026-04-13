@@ -39,6 +39,9 @@ export const metadata: Metadata = {
       "Compra lockers metálicos y plásticos. Modelos para industria, colegios y minería. Despacho a todo Chile.",
     images: [OG_IMAGE],
   },
+  verification: {
+    google: "LURg7cHufJYiOLZB-lFhuaxpgoENeXhKuG66nUuvmfY",
+  },
   robots: {
     index: true,
     follow: true,
