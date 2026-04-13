@@ -164,13 +164,7 @@ export default function Footer() {
             <div>
               <h3 className="text-sm font-semibold tracking-tight">Contacto</h3>
 
-              <ul className="mt-4 space-y-4 text-sm text-zinc-700">
-                <li className="flex gap-3">
-                  <MapPin className="mt-0.5 h-4 w-4 text-zinc-500" />
-                  <span>
-                    Comandante Chacón #5720, Quinta Normal – Santiago.
-                  </span>
-                </li>
+
 
                 <li className="flex gap-3">
                   <Mail className="mt-0.5 h-4 w-4 text-zinc-500" />
@@ -182,23 +176,6 @@ export default function Footer() {
                   </a>
                 </li>
 
-                <li className="flex gap-3">
-                  <Phone className="mt-0.5 h-4 w-4 text-zinc-500" />
-                  <div className="space-y-1">
-                    <a
-                      className="block hover:text-black"
-                      href="tel:+56224354519"
-                    >
-                      +56 2 243 54 519
-                    </a>
-                    <a
-                      className="block hover:text-black"
-                      href="tel:+56224354518"
-                    >
-                      +56 2 243 54 518
-                    </a>
-                  </div>
-                </li>
 
                 <li className="flex gap-3">
                   <MessageCircle className="mt-0.5 h-4 w-4 text-zinc-500" />
@@ -208,10 +185,10 @@ export default function Footer() {
                     target="_blank"
                     rel="noopener noreferrer"
                   >
-                    +56 9 3388 2434
+                    +56 9 94131814
                   </a>
                 </li>
-              </ul>
+              
 
               <div className="mt-5 text-xs text-zinc-500">
                 Dominio: <span className="text-zinc-700">lockersstore.cl</span>
