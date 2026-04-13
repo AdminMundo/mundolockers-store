@@ -225,7 +225,7 @@ export default function CategoriesSection() {
           <Button
             asChild
             variant="outline"
-            className="mt-3 h-9 rounded-xl border-black/10 bg-neutral-200 px-5 md:px-6 text-base md:text-lg text-black hover:bg-black hover:text-white"
+            className="mt-3 h-9 rounded-xl border-black/10 bg-white/40 text-zinc-900 transition-colors duration-200 hover:bg-black hover:text-white hover:border-black/20"
           >
             <Link href="/tienda">Ver todo</Link>
           </Button>

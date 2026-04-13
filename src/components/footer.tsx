@@ -164,8 +164,7 @@ export default function Footer() {
             <div>
               <h3 className="text-sm font-semibold tracking-tight">Contacto</h3>
 
-
-
+              <ul className="mt-4 space-y-4 text-sm text-zinc-700">
                 <li className="flex gap-3">
                   <Mail className="mt-0.5 h-4 w-4 text-zinc-500" />
                   <a
@@ -175,7 +174,6 @@ export default function Footer() {
                     lockerstore2@gmail.com
                   </a>
                 </li>
-
 
                 <li className="flex gap-3">
                   <MessageCircle className="mt-0.5 h-4 w-4 text-zinc-500" />
@@ -188,7 +186,8 @@ export default function Footer() {
                     +56 9 94131814
                   </a>
                 </li>
-              
+              </ul>
+
 
               <div className="mt-5 text-xs text-zinc-500">
                 Dominio: <span className="text-zinc-700">lockersstore.cl</span>
