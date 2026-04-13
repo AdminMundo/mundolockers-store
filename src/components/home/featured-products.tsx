@@ -86,9 +86,9 @@ function ProductCard({ p }: { p: FeaturedProduct }) {
           "min-h-[520px] pb-[150px] h-full",
           "border border-black/10",
           "bg-zinc-200/70 backdrop-blur-xl",
-          "shadow-[0_18px_45px_rgba(0,0,0,0.16)]",
+          "shadow-[0_18px_45px_rgba(0,0,0,0.12),0_0_40px_rgba(253,201,13,0.10)]",
           "transition-all duration-300",
-          "hover:-translate-y-0.5 hover:shadow-[0_30px_75px_rgba(0,0,0,0.20)]",
+          "hover:-translate-y-0.5 hover:shadow-[0_30px_75px_rgba(0,0,0,0.18),0_0_60px_rgba(253,201,13,0.18)]",
         ].join(" ")}
       >
         <div className="p-5">
@@ -100,7 +100,7 @@ function ProductCard({ p }: { p: FeaturedProduct }) {
 
           {/* Producto flotante */}
           <div className="mt-4 relative h-[200px] w-full">
-            <div className="pointer-events-none absolute inset-x-6 top-16 h-44 rounded-full blur-2xl bg-black/10" />
+            <div className="pointer-events-none absolute inset-x-6 top-16 h-44 rounded-full blur-2xl bg-[#FDC90D]/20" />
             <Image
               src={p.image}
               alt={p.title}
