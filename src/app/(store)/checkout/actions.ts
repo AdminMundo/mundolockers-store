@@ -137,38 +137,44 @@ export async function createPedidoAction(
             ? `Despacho — ${input.ciudad}, ${input.region}`
             : "Retiro en tienda";
 
-        // Email al dueño
+        const esTransferencia = input.tipo_pago === "transferencia";
+        const metodoPago = esTransferencia ? "transferencia bancaria" : "tarjeta / Flow";
+
+        // Email al dueño (siempre)
         await sendEmail(
           notifyEmail,
           `Nuevo pedido ${numeroLabel} — ${input.nombre}`,
           `
-            <h2>Nuevo pedido por transferencia ${numeroLabel}</h2>
+            <h2>Nuevo pedido ${numeroLabel}</h2>
             <p><strong>Cliente:</strong> ${input.nombre}</p>
             <p><strong>Correo:</strong> ${input.correo}</p>
             <p><strong>Teléfono:</strong> ${input.telefono}</p>
             ${input.empresa ? `<p><strong>Empresa:</strong> ${input.empresa}</p>` : ""}
+            <p><strong>Método de pago:</strong> ${metodoPago}</p>
             <p><strong>Entrega:</strong> ${entrega}</p>
             <p><strong>Total:</strong> $${input.subtotal.toLocaleString("es-CL")}</p>
             ${input.notas ? `<p><strong>Notas:</strong> ${input.notas}</p>` : ""}
             <hr/>
-            <p>Ver pedido en admin: <a href="${process.env.NEXT_PUBLIC_SITE_URL ?? ""}/admin/pedidos">Panel de pedidos</a></p>
+            <p>Ver pedido en admin: <a href="${process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.lockersstore.cl"}/admin/pedidos">Panel de pedidos</a></p>
           `,
         );
 
-        // Email al cliente
-        await sendEmail(
-          input.correo,
-          `Tu pedido ${numeroLabel} fue recibido — LockerStore`,
-          `
-            <h2>Recibimos tu pedido ${numeroLabel}</h2>
-            <p>Hola ${input.nombre},</p>
-            <p>Tu pedido fue recibido correctamente. Nos contactaremos contigo para coordinar el pago por transferencia.</p>
-            <p><strong>Total:</strong> $${input.subtotal.toLocaleString("es-CL")}</p>
-            <p><strong>Entrega:</strong> ${entrega}</p>
-            <hr/>
-            <p>Si tienes dudas escríbenos a <a href="mailto:pedidos@lockersstore.cl">pedidos@lockersstore.cl</a></p>
-          `,
-        );
+        // Email al cliente solo si es transferencia (Flow confirma por webhook)
+        if (esTransferencia) {
+          await sendEmail(
+            input.correo,
+            `Tu pedido ${numeroLabel} fue recibido — LockerStore`,
+            `
+              <h2>Recibimos tu pedido ${numeroLabel}</h2>
+              <p>Hola ${input.nombre},</p>
+              <p>Tu pedido fue recibido correctamente. Nos contactaremos contigo para coordinar el pago por transferencia bancaria.</p>
+              <p><strong>Total:</strong> $${input.subtotal.toLocaleString("es-CL")}</p>
+              <p><strong>Entrega:</strong> ${entrega}</p>
+              <hr/>
+              <p>Si tienes dudas escríbenos a <a href="mailto:pedidos@lockersstore.cl">pedidos@lockersstore.cl</a></p>
+            `,
+          );
+        }
       }
     } catch {}
 

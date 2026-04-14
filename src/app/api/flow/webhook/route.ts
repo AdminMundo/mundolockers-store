@@ -128,10 +128,29 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "body inválido" }, { status: 400 });
   }
 
+  // Log de parámetros recibidos (sin exponer 's' completo)
+  console.log("[flow/webhook] params recibidos:", {
+    keys: Object.keys(params),
+    token: params["token"] ?? "(sin token)",
+    hasSignature: !!params["s"],
+    signaturePrefix: params["s"]?.slice(0, 8) ?? "(sin s)",
+  });
+
   // Verificar firma antes de hacer cualquier otra cosa
   if (!verifyFlowSignature(params, secretKey)) {
-    console.error("[flow/webhook] firma HMAC inválida — posible request fraudulento", {
+    // Calculamos firma esperada para comparar prefijos en logs
+    const toSign = Object.keys(params)
+      .filter((k) => k !== "s")
+      .sort()
+      .map((k) => `${k}${params[k]}`)
+      .join("");
+    const { createHmac: hmac } = await import("crypto");
+    const expected = hmac("sha256", secretKey).update(toSign).digest("hex");
+    console.error("[flow/webhook] firma inválida", {
       ip: req.headers.get("x-forwarded-for") ?? "desconocida",
+      receivedPrefix: params["s"]?.slice(0, 8),
+      expectedPrefix: expected.slice(0, 8),
+      paramsToSign: toSign.slice(0, 60),
     });
     return NextResponse.json({ error: "firma inválida" }, { status: 401 });
   }
