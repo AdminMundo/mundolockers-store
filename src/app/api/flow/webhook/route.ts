@@ -1,39 +1,6 @@
-import { createHmac, timingSafeEqual } from "crypto";
 import { NextRequest, NextResponse } from "next/server";
 import { getFlowPaymentStatus } from "@/lib/flow";
 import { createSupabaseServer } from "@/lib/supabase/server";
-
-/**
- * Verifica la firma HMAC-SHA256 que Flow incluye en cada webhook.
- * Flow firma todos los parámetros (ordenados alfabéticamente, sin 's')
- * concatenados como "key1value1key2value2..." usando el secretKey.
- */
-function verifyFlowSignature(
-  params: Record<string, string>,
-  secretKey: string,
-): boolean {
-  const receivedSig = params["s"];
-  if (!receivedSig) return false;
-
-  // Construimos la cadena a firmar: todos los params excepto 's', ordenados
-  const toSign = Object.keys(params)
-    .filter((k) => k !== "s")
-    .sort()
-    .map((k) => `${k}${params[k]}`)
-    .join("");
-
-  const expected = createHmac("sha256", secretKey)
-    .update(toSign)
-    .digest("hex");
-
-  // timingSafeEqual previene timing attacks al comparar strings
-  try {
-    return timingSafeEqual(Buffer.from(receivedSig), Buffer.from(expected));
-  } catch {
-    // Buffers de distinto largo lanzan — significa firma inválida
-    return false;
-  }
-}
 
 type PedidoResumen = {
   id: string;
@@ -110,12 +77,6 @@ async function sendPaymentConfirmationEmails(pedido: PedidoResumen) {
  * Flow envía los parámetros en form-urlencoded, incluyendo 'token' y 's' (firma).
  */
 export async function POST(req: NextRequest) {
-  const secretKey = process.env.FLOW_SECRET_KEY;
-  if (!secretKey) {
-    console.error("[flow/webhook] FLOW_SECRET_KEY no configurado");
-    return NextResponse.json({ error: "configuración incompleta" }, { status: 500 });
-  }
-
   // Parsear body (Flow usa application/x-www-form-urlencoded)
   let params: Record<string, string> = {};
   try {
@@ -128,32 +89,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "body inválido" }, { status: 400 });
   }
 
-  // Log de parámetros recibidos (sin exponer 's' completo)
-  console.log("[flow/webhook] params recibidos:", {
-    keys: Object.keys(params),
-    token: params["token"] ?? "(sin token)",
-    hasSignature: !!params["s"],
-    signaturePrefix: params["s"]?.slice(0, 8) ?? "(sin s)",
-  });
-
-  // Verificar firma antes de hacer cualquier otra cosa
-  if (!verifyFlowSignature(params, secretKey)) {
-    // Calculamos firma esperada para comparar prefijos en logs
-    const toSign = Object.keys(params)
-      .filter((k) => k !== "s")
-      .sort()
-      .map((k) => `${k}${params[k]}`)
-      .join("");
-    const { createHmac: hmac } = await import("crypto");
-    const expected = hmac("sha256", secretKey).update(toSign).digest("hex");
-    console.error("[flow/webhook] firma inválida", {
-      ip: req.headers.get("x-forwarded-for") ?? "desconocida",
-      receivedPrefix: params["s"]?.slice(0, 8),
-      expectedPrefix: expected.slice(0, 8),
-      paramsToSign: toSign.slice(0, 60),
-    });
-    return NextResponse.json({ error: "firma inválida" }, { status: 401 });
-  }
+  console.log("[flow/webhook] recibido, keys:", Object.keys(params));
 
   const token = params["token"] ?? null;
   if (!token) {
