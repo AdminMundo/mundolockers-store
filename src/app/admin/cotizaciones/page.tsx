@@ -13,6 +13,7 @@ type Cotizacion = {
   id: string;
   nombre: string;
   empresa: string | null;
+  rut: string | null;
   correo: string;
   telefono: string | null;
   tipo_proyecto: string | null;
