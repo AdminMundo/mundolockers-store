@@ -17,61 +17,61 @@ export default function DespachoPage() {
       updatedAt="Enero 2025"
       sections={[
         {
-          title: "Cobertura de despacho",
+          title: "Productos de fabricación nacional",
           content: (
             <p>
-              Despachamos a <strong>todo Chile continental</strong>, desde Arica hasta Punta
-              Arenas. Los envíos a regiones extremas (Aysén, Magallanes, Atacama norte) pueden
-              tener plazos adicionales. Para proyectos en zonas de difícil acceso o islas,
-              consúltanos previamente.
+              Nuestros lockers son <strong>fabricados en Chile</strong> con acero de alta calidad,
+              lo que nos permite controlar cada etapa del proceso productivo y garantizar
+              estándares superiores en resistencia, acabado y durabilidad. Al comprar con
+              nosotros apoyas la industria local y recibes un producto hecho a medida para las
+              condiciones del mercado chileno.
             </p>
           ),
         },
         {
-          title: "Plazos de entrega estimados",
+          title: "Tiempos de entrega coordinados",
           content: (
             <>
               <p>
-                Los plazos se cuentan desde la <strong>verificación del pago</strong>:
+                Cada pedido es <strong>único</strong>. Los tiempos de entrega dependen del
+                modelo, la cantidad solicitada y tu ubicación, por lo que no manejamos plazos
+                genéricos. Lo que sí garantizamos es que{" "}
+                <strong>un ejecutivo te contactará dentro de las 24 horas</strong> siguientes a
+                confirmar tu pedido para coordinar contigo la fecha de entrega más conveniente.
               </p>
-              <ul>
-                <li>
-                  <strong>Región Metropolitana:</strong> 3 a 5 días hábiles.
-                </li>
-                <li>
-                  <strong>Regiones V, VI, VII (cercanas a RM):</strong> 5 a 7 días hábiles.
-                </li>
-                <li>
-                  <strong>Resto de regiones:</strong> 7 a 12 días hábiles.
-                </li>
-                <li>
-                  <strong>Zonas extremas (Aysén, Magallanes):</strong> 12 a 18 días hábiles.
-                </li>
-              </ul>
               <p className="mt-2">
-                Estos plazos son estimados y pueden verse afectados por alta demanda, feriados o
-                situaciones de fuerza mayor.
+                Si necesitas un plazo específico (apertura de instalaciones, inicio de clases,
+                proyectos de obra), <strong>indícalo al cotizar</strong> y haremos todo lo
+                posible por cumplirlo.
               </p>
             </>
+          ),
+        },
+        {
+          title: "Cobertura de despacho",
+          content: (
+            <p>
+              Despachamos a <strong>todo Chile continental</strong>, desde Arica hasta Punta
+              Arenas. Para regiones extremas (Aysén, Magallanes) o zonas de difícil acceso,
+              coordinamos el envío con empresas de carga especializada. Consúltanos previamente
+              para proyectos fuera de las ciudades principales.
+            </p>
           ),
         },
         {
           title: "Costo de despacho",
           content: (
             <p>
-              El costo de despacho se calcula según el volumen, peso y destino del pedido. Se
-              informa al momento de confirmar la cotización. Para pedidos de gran volumen
-              (proyectos institucionales, licitaciones), ofrecemos{" "}
-              <strong>despacho a costo especial o incluido</strong> según acuerdo. Consúltanos
-              por{" "}
-              <a
-                href="https://wa.me/56933882434"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
+              El costo se calcula según el volumen, peso y destino del pedido, y se informa al
+              confirmar la cotización. Para pedidos de gran volumen — proyectos institucionales,
+              colegios, industrias — ofrecemos{" "}
+              <strong>despacho a costo especial o incluido</strong> según acuerdo. Escríbenos por{" "}
+              <a href="https://wa.me/56994131814" target="_blank" rel="noopener noreferrer">
                 WhatsApp
               </a>{" "}
-              o correo para grandes pedidos.
+              o a{" "}
+              <a href="mailto:lockersstore@mundolockers.cl">lockersstore@mundolockers.cl</a> para
+              coordinar.
             </p>
           ),
         },
@@ -79,32 +79,12 @@ export default function DespachoPage() {
           title: "Retiro en bodega",
           content: (
             <p>
-              También puedes retirar tu pedido directamente en nuestra bodega ubicada en{" "}
-              <strong>Comandante Chacón #5720, Quinta Normal, Santiago</strong>, sin costo de
-              despacho. El retiro debe coordinarse previamente llamando al{" "}
-              <a href="tel:+56224354519">+56 2 243 54 519</a> o escribiéndonos. Horario de
-              atención: <strong>lunes a viernes de 9:00 a 17:00 hrs</strong>.
+              Si prefieres retirar tu pedido personalmente, puedes hacerlo en nuestra bodega en{" "}
+              <strong>Quinta Normal, Santiago</strong>, sin costo de despacho. El retiro debe
+              coordinarse previamente con nuestro equipo comercial escribiéndonos por WhatsApp o
+              correo. Te indicaremos la dirección exacta y el horario disponible al momento de
+              coordinar.
             </p>
-          ),
-        },
-        {
-          title: "Empresas de transporte",
-          content: (
-            <>
-              <p>
-                Trabajamos con empresas de transporte de carga especializadas en artículos de
-                gran volumen:
-              </p>
-              <ul>
-                <li>Starken</li>
-                <li>Chilexpress Carga</li>
-                <li>Transportes propios (Región Metropolitana)</li>
-              </ul>
-              <p className="mt-2">
-                Una vez despachado el pedido, te enviaremos el número de seguimiento para que
-                puedas rastrear tu envío.
-              </p>
-            </>
           ),
         },
         {
@@ -117,8 +97,8 @@ export default function DespachoPage() {
                 transportista.
               </li>
               <li>
-                Informa cualquier daño dentro de las <strong>48 horas</strong> de recepción,
-                adjuntando fotografías, para gestionar la garantía.
+                Informa cualquier daño dentro de las <strong>48 horas</strong> de recepción
+                adjuntando fotografías para gestionar la garantía.
               </li>
               <li>
                 Para despachos en piso, el transportista dejará el producto en el acceso al
@@ -143,8 +123,8 @@ export default function DespachoPage() {
                 <li>Entrega de llaves y revisión de funcionamiento.</li>
               </ul>
               <p className="mt-2">
-                Para cotizar instalación, indícalo al momento de cotizar o escríbenos. El costo
-                varía según la cantidad de módulos y la ubicación.
+                Indícalo al cotizar o escríbenos. El costo varía según la cantidad de módulos y
+                la ubicación.
               </p>
             </>
           ),
@@ -153,12 +133,15 @@ export default function DespachoPage() {
           title: "Proyectos y licitaciones",
           content: (
             <p>
-              Para proyectos institucionales, colegios, industrias y licitaciones públicas,
+              Para proyectos institucionales, colegios, industrias y licitaciones públicas
               ofrecemos condiciones especiales de despacho, instalación y facturación. Contáctanos
               a{" "}
-              <a href="mailto:lockerstore2@gmail.com">lockerstore2@gmail.com</a> o al{" "}
-              <a href="tel:+56224354519">+56 2 243 54 519</a> para coordinar una visita técnica
-              sin costo.
+              <a href="mailto:lockersstore@mundolockers.cl">lockersstore@mundolockers.cl</a> o
+              por{" "}
+              <a href="https://wa.me/56994131814" target="_blank" rel="noopener noreferrer">
+                WhatsApp
+              </a>{" "}
+              para coordinar una visita técnica sin costo.
             </p>
           ),
         },

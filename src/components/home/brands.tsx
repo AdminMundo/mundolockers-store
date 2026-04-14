@@ -14,7 +14,7 @@ const BRANDS: Brand[] = [
   { name: "Atacama Mineral", logo: "/brand/Atacama.webp" },
   { name: "Walmart", logo: "/brand/Walmart-logo-1.png" },
   { name: "PDI", logo: "/brand/PDI.webp" },
-  { name: "Carabineros", logo: "/brand/Carabineros.webp" },
+
   { name: "Cencosud", logo: "/brand/Cencosud.webp" },
   { name: "Colegios", logo: "/brand/British.webp" },
   { name: "Armada", logo: "/brand/Armada.webp" },
