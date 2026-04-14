@@ -34,3 +34,9 @@ export async function updateEstadoPagoAction(id: string, estado_pago: EstadoPago
     .eq("id", id);
   revalidatePath("/admin/pedidos");
 }
+
+export async function deletePedidoAction(id: string) {
+  const supabase = createSupabaseServer();
+  await supabase.from("pedidos").delete().eq("id", id);
+  revalidatePath("/admin/pedidos");
+}

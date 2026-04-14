@@ -23,3 +23,9 @@ export async function updateEstadoAction(
   revalidatePath("/admin/cotizaciones");
   return { error: null };
 }
+
+export async function deleteCotizacionAction(id: string) {
+  const supabase = createSupabaseServer();
+  await supabase.from("cotizaciones").delete().eq("id", id);
+  revalidatePath("/admin/cotizaciones");
+}

@@ -11,11 +11,14 @@ export const metadata: Metadata = {
 
 export const dynamic = "force-dynamic";
 
+const PAGE_SIZE = 10;
+
 type AdminPedidosPageProps = {
   searchParams: Promise<{
     estado?: string;
     pago?: string;
     q?: string;
+    page?: string;
   }>;
 };
 
@@ -36,6 +39,9 @@ export default async function AdminPedidosPage({
   const estado = (params.estado ?? "").trim();
   const pago = (params.pago ?? "").trim();
   const q = (params.q ?? "").trim();
+  const page = Math.max(1, parseInt(params.page ?? "1", 10));
+  const from = (page - 1) * PAGE_SIZE;
+  const to = from + PAGE_SIZE - 1;
 
   const supabase = createSupabaseServer();
 
@@ -43,15 +49,29 @@ export default async function AdminPedidosPage({
     .from("pedidos")
     .select(
       "id, numero, nombre, correo, telefono, rut, empresa, tipo_entrega, direccion, ciudad, region, productos, subtotal, descuento, costo_despacho, total, tipo_pago, estado_pago, estado, notas, created_at",
+      { count: "exact" },
     )
-    .order("created_at", { ascending: false });
+    .order("created_at", { ascending: false })
+    .range(from, to);
 
   if (estado) query = query.eq("estado", estado);
   if (pago) query = query.eq("estado_pago", pago);
   if (q) query = query.ilike("nombre", `%${q}%`);
 
-  const { data, error } = await query;
+  const { data, error, count } = await query;
   const pedidos = (data ?? []) as Pedido[];
+  const totalFiltered = count ?? 0;
+  const totalPages = Math.ceil(totalFiltered / PAGE_SIZE);
+
+  function pageUrl(p: number) {
+    const sp = new URLSearchParams();
+    if (q) sp.set("q", q);
+    if (estado) sp.set("estado", estado);
+    if (pago) sp.set("pago", pago);
+    if (p > 1) sp.set("page", String(p));
+    const qs = sp.toString();
+    return `/admin/pedidos${qs ? `?${qs}` : ""}`;
+  }
 
   // KPIs
   const { data: allData } = await supabase
@@ -212,9 +232,9 @@ export default async function AdminPedidosPage({
       <section className="space-y-4">
         <div className="flex items-center justify-between px-1">
           <p className="text-sm text-black/45">
-            {pedidos.length === 0
+            {totalFiltered === 0
               ? "Sin pedidos"
-              : `${pedidos.length} pedido${pedidos.length !== 1 ? "s" : ""}`}
+              : `${from + 1}–${Math.min(to + 1, totalFiltered)} de ${totalFiltered}`}
             {estado ? ` · ${ESTADO_LABELS[estado] ?? estado}` : ""}
           </p>
         </div>
@@ -239,6 +259,28 @@ export default async function AdminPedidosPage({
             {pedidos.map((pedido) => (
               <PedidoCard key={pedido.id} p={pedido} />
             ))}
+          </div>
+        )}
+
+        {/* Paginación */}
+        {totalPages > 1 && (
+          <div className="flex items-center justify-center gap-2 pt-2">
+            {page > 1 && (
+              <a href={pageUrl(page - 1)} className="inline-flex h-9 items-center rounded-xl border border-black/10 px-4 text-sm font-medium text-black/70 hover:bg-black/4">
+                ← Anterior
+              </a>
+            )}
+            {Array.from({ length: totalPages }, (_, i) => i + 1).map((p) => (
+              <a key={p} href={pageUrl(p)}
+                className={["inline-flex h-9 w-9 items-center justify-center rounded-xl border text-sm font-medium transition",
+                  p === page ? "border-black bg-black text-white" : "border-black/10 text-black/70 hover:bg-black/4"].join(" ")}
+              >{p}</a>
+            ))}
+            {page < totalPages && (
+              <a href={pageUrl(page + 1)} className="inline-flex h-9 items-center rounded-xl border border-black/10 px-4 text-sm font-medium text-black/70 hover:bg-black/4">
+                Siguiente →
+              </a>
+            )}
           </div>
         )}
       </section>

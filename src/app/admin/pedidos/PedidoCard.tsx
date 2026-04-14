@@ -4,9 +4,11 @@ import { useTransition } from "react";
 import {
   updateEstadoPedidoAction,
   updateEstadoPagoAction,
+  deletePedidoAction,
   type EstadoPedido,
   type EstadoPago,
 } from "@/app/admin/pedidos/actions";
+import { Trash2 } from "lucide-react";
 
 type OrderProduct = {
   name?: string;
@@ -118,6 +120,13 @@ export function PedidoCard({ p }: { p: Pedido }) {
     });
   }
 
+  function handleDelete() {
+    if (!window.confirm(`¿Eliminar el pedido ${numeroLabel}? Esta acción no se puede deshacer.`)) return;
+    startTransition(async () => {
+      await deletePedidoAction(p.id);
+    });
+  }
+
   const productos = Array.isArray(p.productos)
     ? (p.productos as OrderProduct[])
     : [];
@@ -157,13 +166,24 @@ export function PedidoCard({ p }: { p: Pedido }) {
           <p className="mt-1 text-xs text-black/40">{formatDate(p.created_at)}</p>
         </div>
 
-        {/* Total */}
-        {p.total != null && (
-          <div className="text-right">
-            <p className="text-[10px] font-semibold uppercase tracking-widest text-black/35">Total</p>
-            <p className="text-lg font-semibold text-black">{formatPrice(p.total)}</p>
-          </div>
-        )}
+        {/* Total + eliminar */}
+        <div className="flex items-start gap-3">
+          {p.total != null && (
+            <div className="text-right">
+              <p className="text-[10px] font-semibold uppercase tracking-widest text-black/35">Total</p>
+              <p className="text-lg font-semibold text-black">{formatPrice(p.total)}</p>
+            </div>
+          )}
+          <button
+            type="button"
+            onClick={handleDelete}
+            disabled={isPending}
+            title="Eliminar pedido"
+            className="flex h-8 w-8 items-center justify-center rounded-xl border border-red-100 bg-red-50 text-red-400 transition hover:bg-red-100 hover:text-red-600 disabled:opacity-50"
+          >
+            <Trash2 className="h-4 w-4" />
+          </button>
+        </div>
       </div>
 
       {/* Contacto */}

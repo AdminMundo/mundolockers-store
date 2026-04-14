@@ -3,8 +3,10 @@
 import { useTransition } from "react";
 import {
   updateEstadoAction,
+  deleteCotizacionAction,
   type EstadoCotizacion,
 } from "@/app/admin/cotizaciones/actions";
+import { Trash2 } from "lucide-react";
 
 type QuoteProduct = {
   name?: string;
@@ -69,6 +71,13 @@ export function CotizacionCard({ c }: { c: Cotizacion }) {
     });
   }
 
+  function handleDelete() {
+    if (!window.confirm(`¿Eliminar la cotización de ${c.nombre}? Esta acción no se puede deshacer.`)) return;
+    startTransition(async () => {
+      await deleteCotizacionAction(c.id);
+    });
+  }
+
   const productos = Array.isArray(c.productos)
     ? (c.productos as QuoteProduct[])
     : [];
@@ -95,8 +104,19 @@ export function CotizacionCard({ c }: { c: Cotizacion }) {
           <p className="mt-1 text-xs text-black/40">{formatDate(c.created_at)}</p>
         </div>
 
-        {/* Contacto */}
-        <div className="flex flex-wrap gap-2">
+        <button
+          type="button"
+          onClick={handleDelete}
+          disabled={isPending}
+          title="Eliminar cotización"
+          className="flex h-8 w-8 items-center justify-center rounded-xl border border-red-100 bg-red-50 text-red-400 transition hover:bg-red-100 hover:text-red-600 disabled:opacity-50"
+        >
+          <Trash2 className="h-4 w-4" />
+        </button>
+      </div>
+
+      {/* Contacto */}
+      <div className="mt-3 flex flex-wrap gap-2">
           <a
             href={`mailto:${c.correo}`}
             className="inline-flex items-center rounded-xl border border-black/10 bg-white px-3 py-1.5 text-xs font-medium text-black transition hover:bg-black/4"
@@ -116,7 +136,6 @@ export function CotizacionCard({ c }: { c: Cotizacion }) {
               RUT: {c.rut}
             </span>
           )}
-        </div>
       </div>
 
       {/* Cambiar estado */}
