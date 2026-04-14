@@ -133,6 +133,16 @@ export default function Footer() {
               <h3 className="text-sm font-semibold tracking-tight">Ayuda</h3>
               <ul className="mt-4 space-y-3 text-sm text-zinc-700">
                 <li>
+                  <Link className="hover:text-black" href="/nosotros">
+                    Quiénes somos
+                  </Link>
+                </li>
+                <li>
+                  <Link className="hover:text-black" href="/contacto">
+                    Contacto
+                  </Link>
+                </li>
+                <li>
                   <Link className="hover:text-black" href="/despacho">
                     Despacho e instalación
                   </Link>
