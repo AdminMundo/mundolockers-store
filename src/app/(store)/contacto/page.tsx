@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 
 const WHATSAPP = "56994131814";
 const WHATSAPP_TEXT = encodeURIComponent("Hola LockerStore, necesito cotizar. ¿Me ayudas?");
-const EMAIL = "lockersstore@mundolockers.cl";
+const EMAIL = "lockerstore2@gmail.com";
 
 const CHANNELS = [
   {
@@ -99,8 +99,8 @@ export default function ContactoPage() {
               <div>
                 <h2 className="text-sm font-semibold text-zinc-900">Horario de atención</h2>
                 <ul className="mt-2 space-y-1 text-sm text-zinc-600">
-                  <li><span className="font-medium text-zinc-800">Lunes a Viernes:</span> 9:00 – 18:00</li>
-                  <li><span className="font-medium text-zinc-800">Sábado:</span> 9:00 – 13:00</li>
+                  <li><span className="font-medium text-zinc-800">Lunes a Viernes:</span> 8:30 – 17:30</li>
+                  <li><span className="font-medium text-zinc-800">Sábado:</span> 8:30 – 13:00</li>
                   <li><span className="font-medium text-zinc-800">Domingo:</span> Cerrado</li>
                 </ul>
                 <p className="mt-2 text-xs text-zinc-400">

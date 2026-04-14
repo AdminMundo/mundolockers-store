@@ -9,7 +9,7 @@ function waLink() {
     "Hola! Quiero cotizar lockers escolares para resguardo de celulares. ¿Me ayudas con modelos, capacidad y despacho?",
   );
  
-  return `https://wa.me/56933882434?text=${msg}`;
+  return `https://wa.me/56994131814?text=${msg}`;
 }
 
 export default function SchoolCampaignSection() {

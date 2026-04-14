@@ -70,7 +70,7 @@ export default function DespachoPage() {
                 WhatsApp
               </a>{" "}
               o a{" "}
-              <a href="mailto:lockersstore@mundolockers.cl">lockersstore@mundolockers.cl</a> para
+              <a href="mailto:lockerstore2@gmail.com">lockerstore2@gmail.com</a> para
               coordinar.
             </p>
           ),
@@ -136,7 +136,7 @@ export default function DespachoPage() {
               Para proyectos institucionales, colegios, industrias y licitaciones públicas
               ofrecemos condiciones especiales de despacho, instalación y facturación. Contáctanos
               a{" "}
-              <a href="mailto:lockersstore@mundolockers.cl">lockersstore@mundolockers.cl</a> o
+              <a href="mailto:lockerstore2@gmail.com">lockerstore2@gmail.com</a> o
               por{" "}
               <a href="https://wa.me/56994131814" target="_blank" rel="noopener noreferrer">
                 WhatsApp

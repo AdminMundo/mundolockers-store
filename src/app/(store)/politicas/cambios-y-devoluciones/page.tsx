@@ -57,11 +57,11 @@ export default function CambiosYDevolucionesPage() {
                   Escríbenos a{" "}
                   <a href="mailto:lockerstore2@gmail.com">lockerstore2@gmail.com</a> o vía{" "}
                   <a
-                    href="https://wa.me/56933882434"
+                    href="https://wa.me/56994131814"
                     target="_blank"
                     rel="noopener noreferrer"
                   >
-                    WhatsApp +56 9 3388 2434
+                    WhatsApp +56 9 9413 1814
                   </a>{" "}
                   indicando tu número de pedido, motivo y fotos del producto.
                 </li>

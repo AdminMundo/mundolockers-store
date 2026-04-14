@@ -109,7 +109,7 @@ export default function ProcessFaqSection() {
                         hover:bg-[#97958f] hover:text-black"
             >
               <a
-                href="https://wa.me/56933882434"
+                href="https://wa.me/56994131814"
                 target="_blank"
                 rel="noreferrer"
               >
@@ -234,7 +234,7 @@ export default function ProcessFaqSection() {
                 className="h-11 flex-1 rounded-xl bg-black text-white hover:bg-[#FDC90D] hover:text-black transition-colors"
               >
                 <a
-                  href="https://wa.me/56933882434"
+                  href="https://wa.me/56994131814"
                   target="_blank"
                   rel="noreferrer"
                 >

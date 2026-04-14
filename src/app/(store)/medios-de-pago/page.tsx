@@ -48,7 +48,7 @@ export default function MediosDePagoPage() {
               <p className="mt-2">
                 Una vez realizada la transferencia, envíanos el comprobante por correo o{" "}
                 <a
-                  href="https://wa.me/56933882434"
+                  href="https://wa.me/56994131814"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
@@ -155,11 +155,11 @@ export default function MediosDePagoPage() {
               <a href="mailto:lockerstore2@gmail.com">lockerstore2@gmail.com</a> o contacta a
               nuestro equipo por{" "}
               <a
-                href="https://wa.me/56933882434"
+                href="https://wa.me/56994131814"
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                WhatsApp +56 9 3388 2434
+                WhatsApp +56 9 9413 1814
               </a>{" "}
               indicando tu nombre y número de pedido. Te responderemos a la brevedad.
             </p>

@@ -111,7 +111,7 @@ export default function ProductPurchaseBox({
     displayPrice !== null && (activeVariants.length === 0 || selected !== null);
 
   const whatsappHref = useMemo(() => {
-    const base = "https://wa.me/56933882434";
+    const base = "https://wa.me/56994131814";
     const variantLabel = selected ? getVariantLabel(selected) : null;
     const sku = selected?.variant_sku ?? product.sku ?? product.slug;
     const priceText =

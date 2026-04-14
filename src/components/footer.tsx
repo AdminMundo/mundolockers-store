@@ -3,7 +3,7 @@ import Image from "next/image";
 import { ArrowRight, Phone, Mail, MapPin, MessageCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
-const WHATSAPP_NUMBER = "56933882434";
+const WHATSAPP_NUMBER = "56994131814";
 const WHATSAPP_TEXT = encodeURIComponent(
   "Hola LockerStore, necesito cotizar. ¿Me ayudas?",
 );

@@ -56,8 +56,8 @@ export function PolicyPage({ badge, title, subtitle, updatedAt, sections }: Prop
                 lockerstore2@gmail.com
               </a>{" "}
               o{" "}
-              <a href="https://wa.me/56933882434" target="_blank" rel="noopener noreferrer" className="font-medium text-zinc-800 underline underline-offset-2">
-                WhatsApp +56 9 3388 2434
+              <a href="https://wa.me/56994131814" target="_blank" rel="noopener noreferrer" className="font-medium text-zinc-800 underline underline-offset-2">
+                WhatsApp +56 9 9413 1814
               </a>
             </p>
             <div className="mt-4 flex flex-wrap gap-3">
