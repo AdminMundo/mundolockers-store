@@ -36,7 +36,7 @@ function ActionLink({
     return (
       <Link
         href={href}
-        className={`${baseClassName} border border-black/10 bg-white text-neutral-900 duration-200 hover:border-[#F5B301] hover:bg-white hover:shadow-[0_0_0_3px_rgba(245,179,1,0.15)]`}
+        className={`${baseClassName} border border-black/10 bg-white text-neutral-900 duration-200 hover:border-[#E18147] hover:bg-white hover:shadow-[0_0_0_3px_rgba(225,129,71,0.15)]`}
       >
         {children}
       </Link>
@@ -46,7 +46,7 @@ function ActionLink({
   return (
     <Link
       href={href}
-      className={`${baseClassName} bg-neutral-950 text-white duration-200 hover:bg-[#FDC90D] hover:text-neutral-950 hover:shadow-[0_0_0_3px_rgba(245,179,1,0.15)]`}
+      className={`${baseClassName} bg-neutral-950 text-white duration-200 hover:bg-[#E18147] hover:text-white hover:shadow-[0_0_0_3px_rgba(225,129,71,0.15)]`}
     >
       {children}
     </Link>
@@ -108,7 +108,7 @@ export function CartSummaryCard({ summary }: Props) {
       </div>
 
       {summary.mixedFlow ? (
-        <div className="mt-5 rounded-2xl bg-amber-50 px-4 py-3 text-sm leading-6 text-amber-800">
+        <div className="mt-5 rounded-2xl bg-[#E18147]/10 px-4 py-3 text-sm leading-6 text-[#7c3d12]">
           Tu carrito tiene productos de compra directa y productos para
           cotizar. Cada flujo continúa por separado.
         </div>

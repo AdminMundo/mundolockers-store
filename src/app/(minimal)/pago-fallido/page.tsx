@@ -57,21 +57,21 @@ export default async function PagoFallidoPage({ searchParams }: PagoFallidoPageP
         <div className="mt-10 flex flex-col gap-3">
           <Link
             href="/checkout"
-            className="inline-flex min-h-12 w-full items-center justify-center rounded-2xl bg-neutral-950 px-5 py-3 text-sm font-medium text-white transition hover:bg-neutral-800"
+            className="inline-flex min-h-12 w-full items-center justify-center rounded-2xl bg-black px-5 py-3 text-sm font-medium text-white transition-colors duration-200 hover:bg-[#E18147] hover:text-white"
           >
             Volver al checkout
           </Link>
 
           <Link
             href="/carrito"
-            className="inline-flex min-h-12 w-full items-center justify-center rounded-2xl border border-black/10 bg-white px-5 py-3 text-sm font-medium text-neutral-900 transition hover:bg-neutral-50"
+            className="inline-flex min-h-12 w-full items-center justify-center rounded-2xl border border-[#E18147]/40 bg-white px-5 py-3 text-sm font-medium text-zinc-900 transition-colors duration-200 hover:border-[#E18147] hover:shadow-[0_0_0_3px_rgba(225,129,71,0.15)]"
           >
             Ver mi carrito
           </Link>
 
           <Link
             href="/cotizar"
-            className="inline-flex min-h-12 w-full items-center justify-center rounded-2xl border border-black/10 bg-white px-5 py-3 text-sm font-medium text-neutral-900 transition hover:bg-neutral-50"
+            className="inline-flex min-h-12 w-full items-center justify-center rounded-2xl border border-[#E18147]/40 bg-white px-5 py-3 text-sm font-medium text-zinc-900 transition-colors duration-200 hover:border-[#E18147] hover:shadow-[0_0_0_3px_rgba(225,129,71,0.15)]"
           >
             Solicitar cotización
           </Link>

@@ -176,7 +176,7 @@ export default function CatalogClient({
                 "whitespace-nowrap rounded-full border px-3 py-2 text-[11px] lg:px-4 lg:text-xs transition",
                 current.cat === c.value
                   ? "border-zinc-900 bg-zinc-900 text-white"
-                  : "border-zinc-200 bg-white text-zinc-700 hover:border-[#F5B301] hover:shadow-[0_0_0_3px_rgba(245,179,1,0.18)] hover:text-zinc-900",
+                  : "border-zinc-200 bg-white text-zinc-700 hover:border-[#E18147] hover:shadow-[0_0_0_3px_rgba(225,129,71,0.18)] hover:text-zinc-900",
               )}
             >
               {c.label}
@@ -195,7 +195,7 @@ export default function CatalogClient({
                 }
               }}
               placeholder="Buscar…"
-              className="w-full rounded-full border border-zinc-200 bg-white px-4 py-2 text-sm outline-none focus:border-[#F5B301] focus:shadow-[0_0_0_3px_rgba(245,179,1,0.18)]"
+              className="w-full rounded-full border border-zinc-200 bg-white px-4 py-2 text-sm outline-none focus:border-[#E18147] focus:shadow-[0_0_0_3px_rgba(225,129,71,0.18)]"
             />
           </div>
 
@@ -279,7 +279,7 @@ export default function CatalogClient({
                     <button
                       type="button"
                       onClick={() => handleAddToCart(p)}
-                      className="rounded-full border border-zinc-200 bg-white px-4 py-2.5 text-sm font-medium text-zinc-900 transition hover:border-[#F5B301] hover:shadow-[0_0_0_3px_rgba(245,179,1,0.15)]"
+                      className="rounded-full border border-zinc-200 bg-white px-4 py-2.5 text-sm font-medium text-zinc-900 transition hover:border-[#E18147] hover:shadow-[0_0_0_3px_rgba(225,129,71,0.15)]"
                     >
                       Añadir al carrito
                     </button>
@@ -287,7 +287,7 @@ export default function CatalogClient({
                     <button
                       type="button"
                       onClick={() => handleBuyNow(p)}
-                      className="rounded-full bg-zinc-900 px-4 py-2.5 text-sm font-medium text-white transition hover:bg-zinc-800"
+                      className="rounded-full bg-black px-4 py-2.5 text-sm font-medium text-white transition-colors duration-200 hover:bg-[#E18147] hover:text-white"
                     >
                       Comprar ahora
                     </button>
@@ -297,7 +297,7 @@ export default function CatalogClient({
                 <button
                   type="button"
                   onClick={() => handleQuote(p)}
-                  className="rounded-full border border-zinc-200 bg-white px-4 py-2.5 text-sm font-medium text-zinc-900 transition hover:border-[#F5B301] hover:shadow-[0_0_0_3px_rgba(245,179,1,0.15)]"
+                  className="rounded-full border border-zinc-200 bg-white px-4 py-2.5 text-sm font-medium text-zinc-900 transition hover:border-[#E18147] hover:shadow-[0_0_0_3px_rgba(225,129,71,0.15)]"
                 >
                   Cotizar
                 </button>

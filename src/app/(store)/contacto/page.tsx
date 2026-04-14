@@ -125,7 +125,7 @@ export default function ContactoPage() {
             <div className="flex flex-wrap gap-3">
               <Button
                 asChild
-                className="h-9 rounded-xl bg-zinc-900 text-white hover:bg-zinc-700"
+                className="h-9 rounded-xl bg-black text-white transition-colors duration-200 hover:bg-[#E18147] hover:text-white"
               >
                 <a
                   href={`https://wa.me/${WHATSAPP}?text=${WHATSAPP_TEXT}`}
@@ -138,14 +138,14 @@ export default function ContactoPage() {
               <Button
                 asChild
                 variant="outline"
-                className="h-9 rounded-xl border-black/10 bg-white text-zinc-700 hover:bg-zinc-50"
+                className="h-9 rounded-xl border border-[#E18147]/40 bg-white text-zinc-900 transition-colors duration-200 hover:border-[#E18147] hover:shadow-[0_0_0_3px_rgba(225,129,71,0.15)]"
               >
                 <Link href="/cotizar">Formulario de cotización</Link>
               </Button>
               <Button
                 asChild
                 variant="outline"
-                className="h-9 rounded-xl border-black/10 bg-white text-zinc-700 hover:bg-zinc-50"
+                className="h-9 rounded-xl border border-[#E18147]/40 bg-white text-zinc-900 transition-colors duration-200 hover:border-[#E18147] hover:shadow-[0_0_0_3px_rgba(225,129,71,0.15)]"
               >
                 <Link href="/tienda">Ver tienda</Link>
               </Button>

@@ -74,6 +74,9 @@ export default function Navbar() {
           {/* Desktop: Menu + Search */}
           <div className="hidden items-center gap-6 md:flex">
             <nav className="flex items-center gap-8 text-base md:text-lg text-white/80">
+              <Link href="/" className="hover:text-white transition">
+                Inicio
+              </Link>
               <Link href="/tienda" className="hover:text-white transition">
                 Tienda
               </Link>
@@ -132,7 +135,7 @@ export default function Navbar() {
 
             <Link
               href="/cotizar"
-              className="inline-flex h-10 items-center rounded-full bg-[#FDC90D] px-4 text-sm font-semibold text-black shadow-[0_2px_10px_rgba(253,201,13,0.3)] transition-all hover:brightness-110"
+              className="inline-flex h-10 items-center rounded-full bg-[#E18147] px-4 text-sm font-semibold text-white shadow-[0_2px_10px_rgba(225,129,71,0.3)] transition-all hover:brightness-110"
             >
               Cotizar
             </Link>
@@ -144,7 +147,7 @@ export default function Navbar() {
               href="https://wa.me/56994131814?text=Hola!%20Quiero%20cotizar%20lockers."
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex h-10 items-center gap-2 rounded-full bg-[#FDC90D] px-5 text-sm font-semibold text-black shadow-[0_2px_12px_rgba(253,201,13,0.35)] transition-all duration-200 hover:brightness-110 hover:shadow-[0_4px_18px_rgba(253,201,13,0.45)] hover:scale-[1.03] active:scale-[0.98]"
+              className="inline-flex h-10 items-center gap-2 rounded-full bg-[#E18147] px-5 text-sm font-semibold text-white shadow-[0_2px_12px_rgba(225,129,71,0.35)] transition-all duration-200 hover:brightness-110 hover:shadow-[0_4px_18px_rgba(225,129,71,0.45)] hover:scale-[1.03] active:scale-[0.98]"
             >
               <svg className="h-4 w-4 shrink-0" viewBox="0 0 24 24" fill="currentColor">
                 <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/>
@@ -188,7 +191,7 @@ export default function Navbar() {
                 <Button
                   type="button"
                   onClick={goSearch}
-                  className="h-11 flex-1 bg-yellow-400 text-black hover:bg-yellow-300"
+                  className="h-11 flex-1 bg-[#E18147] text-white hover:bg-[#E18147]/85"
                 >
                   Buscar
                 </Button>
@@ -201,6 +204,24 @@ export default function Navbar() {
                   Cerrar
                 </Button>
               </div>
+
+              <nav className="mt-3 flex gap-1 border-t border-white/10 pt-3">
+                {[
+                  { label: "Inicio", href: "/" },
+                  { label: "Tienda", href: "/tienda" },
+                  { label: "Cotizar", href: "/cotizar" },
+                  { label: "Proyectos", href: "/proyectos" },
+                ].map((item) => (
+                  <Link
+                    key={item.href}
+                    href={item.href}
+                    onClick={() => setMobileSearchOpen(false)}
+                    className="flex-1 rounded-xl py-2 text-center text-xs font-medium text-white/70 hover:bg-white/10 hover:text-white transition"
+                  >
+                    {item.label}
+                  </Link>
+                ))}
+              </nav>
             </div>
           )}
         </div>

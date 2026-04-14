@@ -38,14 +38,14 @@ const ESTADOS: { value: EstadoCotizacion; label: string }[] = [
 ];
 
 const ESTADO_STYLES: Record<string, string> = {
-  pendiente: "bg-amber-100 text-amber-800 border-amber-200",
+  pendiente: "bg-[#E18147]/20 text-[#7c3d12] border-[#E18147]/30",
   "en-proceso": "bg-blue-100 text-blue-800 border-blue-200",
   respondida: "bg-green-100 text-green-800 border-green-200",
   cerrada: "bg-zinc-100 text-zinc-500 border-zinc-200",
 };
 
 const ESTADO_ACTIVE: Record<string, string> = {
-  pendiente: "bg-amber-500 text-white border-amber-500",
+  pendiente: "bg-[#E18147] text-white border-[#E18147]",
   "en-proceso": "bg-blue-600 text-white border-blue-600",
   respondida: "bg-green-600 text-white border-green-600",
   cerrada: "bg-zinc-500 text-white border-zinc-500",

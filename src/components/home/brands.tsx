@@ -64,7 +64,7 @@ export default function BrandsSection() {
               className="h-10 rounded-xl border-black/10 bg-white/60 text-zinc-900
                           transition-colors duration-200
                           hover:bg-white hover:text-zinc-900
-                          hover:border-[#FDC90D] hover:shadow-[0_10px_25px_rgba(253,201,13,0.18)]"
+                          hover:border-[#E18147] hover:shadow-[0_10px_25px_rgba(225,129,71,0.18)]"
             >
               <Link href="/proyectos">Ver proyectos</Link>
             </Button>
@@ -72,7 +72,7 @@ export default function BrandsSection() {
             <Button
               asChild
               className="h-10 rounded-xl bg-black text-white transition-colors
-                       hover:bg-[#FDC90D] hover:text-black"
+                       hover:bg-[#E18147] hover:text-white"
             >
               <Link href="/cotizar">Cotizar</Link>
             </Button>

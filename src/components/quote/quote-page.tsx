@@ -97,7 +97,7 @@ export function QuotePage() {
               <div className="flex flex-col gap-3 pt-2 sm:col-span-2 sm:flex-row">
                 <button
                   type="submit"
-                  className="inline-flex min-h-12 items-center justify-center rounded-2xl bg-neutral-950 px-6 py-3 text-sm font-medium text-white transition duration-200 hover:bg-[#F5B301] hover:text-neutral-950 hover:shadow-[0_0_0_3px_rgba(245,179,1,0.15)]"
+                  className="inline-flex min-h-12 items-center justify-center rounded-2xl bg-neutral-950 px-6 py-3 text-sm font-medium text-white transition duration-200 hover:bg-[#E18147] hover:text-white hover:shadow-[0_0_0_3px_rgba(225,129,71,0.15)]"
                 >
                   Enviar solicitud
                 </button>
@@ -106,7 +106,7 @@ export function QuotePage() {
                   href="https://wa.me/56994131814"
                   target="_blank"
                   rel="noreferrer"
-                  className="inline-flex min-h-12 items-center justify-center rounded-2xl border border-black/10 bg-white px-6 py-3 text-sm font-medium text-neutral-900 transition duration-200 hover:border-[#F5B301] hover:bg-white hover:shadow-[0_0_0_3px_rgba(245,179,1,0.15)]"
+                  className="inline-flex min-h-12 items-center justify-center rounded-2xl border border-black/10 bg-white px-6 py-3 text-sm font-medium text-neutral-900 transition duration-200 hover:border-[#E18147] hover:bg-white hover:shadow-[0_0_0_3px_rgba(225,129,71,0.15)]"
                 >
                   Cotizar por WhatsApp
                 </a>
@@ -136,14 +136,14 @@ export function QuotePage() {
               <div className="mt-5 grid gap-3">
                 <Link
                   href="/tienda"
-                  className="inline-flex min-h-12 items-center justify-center rounded-2xl border border-black/10 bg-white px-5 py-3 text-sm font-medium text-neutral-900 transition duration-200 hover:border-[#F5B301] hover:bg-white hover:shadow-[0_0_0_3px_rgba(245,179,1,0.15)]"
+                  className="inline-flex min-h-12 items-center justify-center rounded-2xl border border-black/10 bg-white px-5 py-3 text-sm font-medium text-neutral-900 transition duration-200 hover:border-[#E18147] hover:bg-white hover:shadow-[0_0_0_3px_rgba(225,129,71,0.15)]"
                 >
                   Ver tienda
                 </Link>
 
                 <Link
                   href="/carrito"
-                  className="inline-flex min-h-12 items-center justify-center rounded-2xl border border-black/10 bg-white px-5 py-3 text-sm font-medium text-neutral-900 transition duration-200 hover:border-[#F5B301] hover:bg-white hover:shadow-[0_0_0_3px_rgba(245,179,1,0.15)]"
+                  className="inline-flex min-h-12 items-center justify-center rounded-2xl border border-black/10 bg-white px-5 py-3 text-sm font-medium text-neutral-900 transition duration-200 hover:border-[#E18147] hover:bg-white hover:shadow-[0_0_0_3px_rgba(225,129,71,0.15)]"
                 >
                   Ir al carrito
                 </Link>

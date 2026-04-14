@@ -20,7 +20,7 @@ function swatchClass(label: string): string {
   const key = label.toLowerCase();
   if (key.includes("azul")) return "bg-blue-600";
   if (key.includes("rojo")) return "bg-red-600";
-  if (key.includes("amar")) return "bg-yellow-400";
+  if (key.includes("amar")) return "bg-[#E18147]";
   if (key.includes("verde")) return "bg-green-600";
   if (key.includes("naran")) return "bg-orange-500";
   if (key.includes("morado") || key.includes("violeta")) return "bg-purple-600";
@@ -137,7 +137,7 @@ export default function VariantSelector({
       {/* CTA big */}
       <button
         type="button"
-        className="h-12 w-full rounded-2xl bg-zinc-900 text-white font-medium hover:bg-zinc-800"
+        className="h-12 w-full rounded-2xl bg-black text-white font-medium transition-colors duration-200 hover:bg-[#E18147] hover:text-white"
         onClick={() => {
           // TODO: conectar con el carrito (addItem)
         }}

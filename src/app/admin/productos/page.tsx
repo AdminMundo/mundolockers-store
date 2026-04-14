@@ -155,7 +155,7 @@ export default async function AdminProductosPage({
           <div className="flex flex-wrap gap-3">
             <Link
               href="/admin/productos/nuevo"
-              className="inline-flex items-center rounded-2xl bg-[#FDC90D] px-4 py-2.5 text-sm font-medium text-black transition hover:brightness-95"
+              className="inline-flex items-center rounded-2xl bg-[#E18147] px-4 py-2.5 text-sm font-medium text-white transition hover:brightness-95"
             >
               Nuevo producto
             </Link>
@@ -399,7 +399,7 @@ export default async function AdminProductosPage({
                       <div className="min-w-[240px]">
                         <p className="font-medium text-black">{product.name}</p>
                         {product.is_featured ? (
-                          <span className="mt-2 inline-flex rounded-full bg-[#FDC90D]/20 px-2.5 py-1 text-xs font-medium text-black">
+                          <span className="mt-2 inline-flex rounded-full bg-[#E18147]/20 px-2.5 py-1 text-xs font-medium text-black">
                             Destacado
                           </span>
                         ) : null}

@@ -44,7 +44,7 @@ export function CartLineItem({
                   className={`inline-flex min-h-7 items-center rounded-full px-3 text-xs font-medium ${
                     isPurchase
                       ? "bg-emerald-50 text-emerald-700"
-                      : "bg-amber-50 text-amber-700"
+                      : "bg-[#E18147]/10 text-[#9a4d1e]"
                   }`}
                 >
                   {isPurchase ? "Compra directa" : "Cotización"}
@@ -69,7 +69,7 @@ export function CartLineItem({
 
             <button
               type="button"
-              className="inline-flex min-h-10 items-center rounded-2xl border border-black/10 bg-white px-4 text-sm font-medium text-neutral-700 transition duration-200 hover:border-[#F5B301] hover:bg-white hover:text-neutral-900 hover:shadow-[0_0_0_3px_rgba(245,179,1,0.15)]"
+              className="inline-flex min-h-10 items-center rounded-2xl border border-black/10 bg-white px-4 text-sm font-medium text-neutral-700 transition duration-200 hover:border-[#E18147] hover:bg-white hover:text-neutral-900 hover:shadow-[0_0_0_3px_rgba(225,129,71,0.15)]"
               onClick={onRemove}
             >
               Eliminar

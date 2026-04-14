@@ -66,24 +66,28 @@ const CATEGORIES: Category[] = [
     slug: "estantes-mecano",
     href: "/tienda?cat=estantes-mecano",
     image: "/images/categoria/Estante.webp",
+    priceFrom: "$69.990",
   },
   {
     title: "Storages & Roperillos",
     slug: "storages-roperillos",
     href: "/tienda?cat=storages-roperillos",
     image: "/images/categoria/Roperillos.webp",
+    priceFrom: "$183.990",
   },
   {
     title: "Kardex & Cajoneras",
     slug: "kardex-y-cajoneras",
     href: "/tienda?cat=kardex-y-cajoneras",
     image: "/images/categoria/Kardex.webp",
+    priceFrom: "$161.538",
   },
   {
     title: "Bancas Metálicas",
     slug: "bancas-metalicas",
     href: "/tienda?cat=bancas-metalicas",
     image: "/images/products/banca-metalica-simple-120x45x45.webp",
+    priceFrom: "$79.990",
   },
 
 
@@ -143,20 +147,29 @@ function CategoryCard({ c }: { c: Category }) {
 
               <Button
                 variant="outline"
-                className="mt-2 h-9 rounded-xl border-black/10 bg-white/40 text-zinc-900 transition-colors duration-200 hover:bg-[#000000] hover:text-white hover:border-black/20"
+                className="mt-2 h-9 rounded-xl border border-[#E18147]/40 bg-white text-zinc-900 transition-colors duration-200 hover:border-[#E18147] hover:shadow-[0_0_0_3px_rgba(225,129,71,0.15)]"
               >
                 Ver más <ArrowRight className="ml-2 h-4 w-4" />
               </Button>
             </div>
 
-            {c.priceFrom && (
-              <div className="hidden sm:block text-right">
-                <div className="text-xs text-zinc-500">Desde</div>
-                <div className="text-lg font-semibold text-zinc-900">
-                  {c.priceFrom}
-                </div>
-              </div>
-            )}
+            <div className="hidden sm:block text-right shrink-0">
+              {c.priceFrom ? (
+                <>
+                  <div className="text-xs text-zinc-500">Desde</div>
+                  <div className="text-lg font-semibold text-zinc-900">
+                    {c.priceFrom}
+                  </div>
+                </>
+              ) : (
+                <>
+                  <div className="text-xs text-zinc-500">Precio</div>
+                  <div className="text-sm font-semibold text-zinc-900">
+                    Consultar
+                  </div>
+                </>
+              )}
+            </div>
           </div>
         </div>
       </article>
@@ -225,7 +238,7 @@ export default function CategoriesSection() {
           <Button
             asChild
             variant="outline"
-            className="mt-3 h-9 rounded-xl border-black/10 bg-white/40 text-zinc-900 transition-colors duration-200 hover:bg-black hover:text-white hover:border-black/20"
+            className="mt-3 h-9 rounded-xl border border-[#E18147]/40 bg-white text-zinc-900 transition-colors duration-200 hover:border-[#E18147] hover:shadow-[0_0_0_3px_rgba(225,129,71,0.15)]"
           >
             <Link href="/tienda">Ver todo</Link>
           </Button>

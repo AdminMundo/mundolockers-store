@@ -144,8 +144,8 @@ export default async function GraciasPage({ searchParams }: GraciasPageProps) {
             ))}
           </div>
 
-          <div className="bg-amber-50 px-6 py-4">
-            <p className="text-xs leading-5 text-amber-800">
+          <div className="bg-[#E18147]/10 px-6 py-4">
+            <p className="text-xs leading-5 text-[#7c3d12]">
               Incluye en el comentario de la transferencia tu nombre o número de pedido{" "}
               {numeroLabel ? <strong>{numeroLabel}</strong> : ""} para agilizar la confirmación.
             </p>
@@ -227,13 +227,13 @@ export default async function GraciasPage({ searchParams }: GraciasPageProps) {
         <div className="mt-8 flex flex-col gap-3 sm:flex-row">
           <Link
             href="/tienda"
-            className="inline-flex min-h-12 flex-1 items-center justify-center rounded-2xl bg-neutral-950 px-5 py-3 text-sm font-medium text-white transition hover:bg-neutral-800"
+            className="inline-flex min-h-12 flex-1 items-center justify-center rounded-2xl bg-black px-5 py-3 text-sm font-medium text-white transition-colors duration-200 hover:bg-[#E18147] hover:text-white"
           >
             Seguir comprando
           </Link>
           <Link
             href="/"
-            className="inline-flex min-h-12 flex-1 items-center justify-center rounded-2xl border border-black/10 bg-white px-5 py-3 text-sm font-medium text-neutral-900 transition hover:bg-neutral-50"
+            className="inline-flex min-h-12 flex-1 items-center justify-center rounded-2xl border border-[#E18147]/40 bg-white px-5 py-3 text-sm font-medium text-zinc-900 transition-colors duration-200 hover:border-[#E18147] hover:shadow-[0_0_0_3px_rgba(225,129,71,0.15)]"
           >
             Volver al inicio
           </Link>

@@ -96,8 +96,7 @@ export default function ProcessFaqSection() {
             <Button
               asChild
               variant="outline"
-              className="h-10 rounded-xl border-black/10 bg-white/60 text-zinc-900 transition-colors
-                      hover:bg-white hover:text-zinc-900 hover:border-[#b9b9b9]"
+              className="h-10 rounded-xl border border-[#E18147]/40 bg-white text-zinc-900 transition-colors duration-200 hover:border-[#E18147] hover:shadow-[0_0_0_3px_rgba(225,129,71,0.15)]"
             >
               <Link href="/tienda">
                 Ver tienda <ArrowRight className="ml-2 h-4 w-4" />
@@ -105,8 +104,7 @@ export default function ProcessFaqSection() {
             </Button>
             <Button
               asChild
-              className="h-10 rounded-xl bg-black text-white transition-colors
-                        hover:bg-[#97958f] hover:text-black"
+              className="h-10 rounded-xl bg-black text-white transition-colors duration-200 hover:bg-[#E18147] hover:text-white"
             >
               <a
                 href="https://wa.me/56994131814"
@@ -130,8 +128,8 @@ export default function ProcessFaqSection() {
                 "shadow-[0_18px_45px_rgba(0,0,0,0.08)]",
                 "p-6 transition-all duration-300",
                 "hover:-translate-y-0.5",
-                "hover:border-[#FDC90D]",
-                "hover:shadow-[0_28px_80px_rgba(253,201,13,0.18)]",
+                "hover:border-[#E18147]",
+                "hover:shadow-[0_28px_80px_rgba(225,129,71,0.18)]",
               ].join(" ")}
             >
               <div className="flex items-start gap-3">
@@ -206,15 +204,15 @@ export default function ProcessFaqSection() {
 
               <ul className="mt-5 space-y-3 text-sm text-zinc-700">
                 <li className="flex gap-2">
-                  <span className="mt-0.5 h-2 w-2 rounded-full bg-[#FDC90D]" />
+                  <span className="mt-0.5 h-2 w-2 rounded-full bg-[#E18147]" />
                   Stock o fabricación según modelo
                 </li>
                 <li className="flex gap-2">
-                  <span className="mt-0.5 h-2 w-2 rounded-full bg-[#FDC90D]" />
+                  <span className="mt-0.5 h-2 w-2 rounded-full bg-[#E18147]" />
                   Personalización por proyecto
                 </li>
                 <li className="flex gap-2">
-                  <span className="mt-0.5 h-2 w-2 rounded-full bg-[#FDC90D]" />
+                  <span className="mt-0.5 h-2 w-2 rounded-full bg-[#E18147]" />
                   Despacho coordinado a todo Chile
                 </li>
               </ul>
@@ -224,14 +222,14 @@ export default function ProcessFaqSection() {
               <Button
                 asChild
                 variant="outline"
-                className="h-11 flex-1 rounded-xl border-black/10 bg-white/70 text-zinc-900 hover:bg-black hover:text-white hover:border-black transition-colors"
+                className="h-11 flex-1 rounded-xl border border-[#E18147]/40 bg-white text-zinc-900 transition-colors duration-200 hover:border-[#E18147] hover:shadow-[0_0_0_3px_rgba(225,129,71,0.15)]"
               >
                 <Link href="/proyectos">Ver proyectos</Link>
               </Button>
 
               <Button
                 asChild
-                className="h-11 flex-1 rounded-xl bg-black text-white hover:bg-[#FDC90D] hover:text-black transition-colors"
+                className="h-11 flex-1 rounded-xl bg-black text-white transition-colors duration-200 hover:bg-[#E18147] hover:text-white"
               >
                 <a
                   href="https://wa.me/56994131814"

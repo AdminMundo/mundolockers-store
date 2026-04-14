@@ -353,11 +353,11 @@ export function CheckoutPageClient({ initialState }: Props) {
             className="space-y-6"
           >
             {quoteItems.length > 0 ? (
-              <section className="rounded-[28px] border border-amber-200 bg-amber-50 p-5 sm:p-6">
-                <h2 className="text-lg font-semibold tracking-tight text-amber-900">
+              <section className="rounded-[28px] border border-[#E18147]/30 bg-[#E18147]/10 p-5 sm:p-6">
+                <h2 className="text-lg font-semibold tracking-tight text-[#6b3017]">
                   Tienes productos para cotizar
                 </h2>
-                <p className="mt-2 text-sm leading-6 text-amber-800">
+                <p className="mt-2 text-sm leading-6 text-[#7c3d12]">
                   Este checkout solo procesará productos de compra directa. Tus{" "}
                   {summary.quoteQuantity} producto(s) de cotización continúan
                   por un flujo separado.
@@ -366,7 +366,7 @@ export function CheckoutPageClient({ initialState }: Props) {
                 <div className="mt-4">
                   <Link
                     href="/cotizar"
-                    className="inline-flex min-h-11 items-center justify-center rounded-2xl border border-amber-300 bg-white px-5 py-3 text-sm font-medium text-amber-900 transition hover:bg-amber-100"
+                    className="inline-flex min-h-11 items-center justify-center rounded-2xl border border-[#E18147]/50 bg-white px-5 py-3 text-sm font-medium text-[#6b3017] transition hover:bg-[#E18147]/20"
                   >
                     Ir a cotización
                   </Link>
@@ -612,7 +612,7 @@ export function CheckoutPageClient({ initialState }: Props) {
                 <button
                   type="submit"
                   disabled={isPending}
-                  className="inline-flex min-h-12 w-full items-center justify-center rounded-2xl bg-neutral-950 px-5 py-3 text-sm font-medium text-white transition hover:bg-neutral-800 disabled:opacity-60"
+                  className="inline-flex min-h-12 w-full items-center justify-center rounded-2xl bg-black px-5 py-3 text-sm font-medium text-white transition-colors duration-200 hover:bg-[#E18147] hover:text-white disabled:opacity-60"
                 >
                   {isPending
                     ? "Procesando…"
@@ -691,7 +691,7 @@ export function CheckoutPageClient({ initialState }: Props) {
                   type="submit"
                   form="checkout-form"
                   disabled={isPending}
-                  className="inline-flex min-h-12 w-full items-center justify-center rounded-2xl bg-neutral-950 px-5 py-3 text-sm font-medium text-white transition hover:bg-neutral-800 disabled:opacity-60"
+                  className="inline-flex min-h-12 w-full items-center justify-center rounded-2xl bg-black px-5 py-3 text-sm font-medium text-white transition-colors duration-200 hover:bg-[#E18147] hover:text-white disabled:opacity-60"
                 >
                   {isPending
                     ? "Procesando…"
@@ -702,7 +702,7 @@ export function CheckoutPageClient({ initialState }: Props) {
 
                 <Link
                   href="/carrito"
-                  className="inline-flex min-h-12 w-full items-center justify-center rounded-2xl border border-black/10 bg-white px-5 py-3 text-sm font-medium text-neutral-900 transition hover:bg-neutral-50"
+                  className="inline-flex min-h-12 w-full items-center justify-center rounded-2xl border border-[#E18147]/40 bg-white px-5 py-3 text-sm font-medium text-zinc-900 transition-colors duration-200 hover:border-[#E18147] hover:shadow-[0_0_0_3px_rgba(225,129,71,0.15)]"
                 >
                   Volver al carrito
                 </Link>

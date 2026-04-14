@@ -48,8 +48,7 @@ export default function WhyUsSection() {
           <Button
             asChild
             variant="outline"
-            className="hidden h-10 rounded-xl border-black/10 bg-white/60 text-zinc-900 transition-colors
-                      hover:!bg-[#FDC90D] hover:!text-black hover:!border-black/20 md:inline-flex"
+            className="hidden h-10 rounded-xl border border-[#E18147]/40 bg-white text-zinc-900 transition-colors duration-200 hover:border-[#E18147] hover:shadow-[0_0_0_3px_rgba(225,129,71,0.15)] md:inline-flex"
           >
             <Link href="/tienda">
               Ver tienda <ArrowRight className="ml-2 h-4 w-4" />
@@ -70,8 +69,8 @@ export default function WhyUsSection() {
                   "shadow-[0_18px_45px_rgba(0,0,0,0.10)]",
                   "p-6 transition-all duration-300",
                   "hover:-translate-y-0.5",
-                  "hover:border-[#FDC90D]",
-                  "hover:shadow-[0_28px_80px_rgba(253,201,13,0.18)]",
+                  "hover:border-[#E18147]",
+                  "hover:shadow-[0_28px_80px_rgba(225,129,71,0.18)]",
                 ].join(" ")}
               >
                 <div className="flex items-center gap-3">
@@ -96,8 +95,7 @@ export default function WhyUsSection() {
           <Button
             asChild
             variant="outline"
-            className="h-11 w-full rounded-xl border-black/10 bg-white/60 text-zinc-900 transition-colors
-                      hover:!bg-[#FDC90D] hover:!text-black hover:!border-black/20"
+            className="h-11 w-full rounded-xl border border-[#E18147]/40 bg-white text-zinc-900 transition-colors duration-200 hover:border-[#E18147] hover:shadow-[0_0_0_3px_rgba(225,129,71,0.15)]"
           >
             <Link href="/tienda">
               Ver tienda <ArrowRight className="ml-2 h-4 w-4" />
