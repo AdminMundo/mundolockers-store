@@ -27,7 +27,7 @@ export default async function AdminCotizacionesPage() {
 
   const { data: cotizaciones, error } = await supabase
     .from("cotizaciones")
-    .select("id,nombre,empresa,correo,telefono,tipo_proyecto,mensaje,productos,estado,created_at")
+    .select("id,nombre,empresa,rut,correo,telefono,tipo_proyecto,mensaje,productos,estado,created_at")
     .order("created_at", { ascending: false })
     .returns<Cotizacion[]>();
 

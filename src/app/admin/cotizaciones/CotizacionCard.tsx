@@ -18,6 +18,7 @@ type Cotizacion = {
   id: string;
   nombre: string;
   empresa: string | null;
+  rut: string | null;
   correo: string;
   telefono: string | null;
   tipo_proyecto: string | null;
@@ -109,6 +110,11 @@ export function CotizacionCard({ c }: { c: Cotizacion }) {
             >
               {c.telefono}
             </a>
+          )}
+          {c.rut && (
+            <span className="inline-flex items-center rounded-xl border border-black/10 bg-[#F8F8FA] px-3 py-1.5 text-xs font-medium text-black/60">
+              RUT: {c.rut}
+            </span>
           )}
         </div>
       </div>

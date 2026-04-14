@@ -114,6 +114,7 @@ export async function submitQuoteAction(
 ): Promise<QuoteActionState> {
   const nombre = String(formData.get("nombre") ?? "").trim();
   const empresa = String(formData.get("empresa") ?? "").trim();
+  const rut = String(formData.get("rut") ?? "").trim();
   const correo = String(formData.get("correo") ?? "").trim();
   const telefono = String(formData.get("telefono") ?? "").trim();
   const tipo_proyecto = String(formData.get("tipo_proyecto") ?? "").trim();
@@ -142,6 +143,7 @@ export async function submitQuoteAction(
   const { error: dbError } = await supabase.from("cotizaciones").insert({
     nombre,
     empresa: empresa || null,
+    rut: rut || null,
     correo,
     telefono: telefono || null,
     tipo_proyecto: tipo_proyecto || null,

@@ -198,6 +198,18 @@ export function QuotePageClient({ initialState }: Props) {
 
                     <label className="block">
                       <span className="mb-2 block text-sm font-medium text-neutral-800">
+                        RUT empresa
+                      </span>
+                      <input
+                        type="text"
+                        name="rut"
+                        placeholder="76.580.205-9"
+                        className="min-h-12 w-full rounded-2xl border border-black/10 bg-white px-4 text-sm text-neutral-950 outline-none transition placeholder:text-neutral-400 focus:border-neutral-900"
+                      />
+                    </label>
+
+                    <label className="block">
+                      <span className="mb-2 block text-sm font-medium text-neutral-800">
                         Correo <span className="text-red-500">*</span>
                       </span>
                       <input
