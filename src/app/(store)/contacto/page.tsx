@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import Script from "next/script";
 import { Mail, MessageCircle, MapPin, Clock, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
@@ -8,6 +9,20 @@ export const metadata: Metadata = {
   description:
     "Contáctanos por WhatsApp, correo o visítanos en nuestra bodega en Quinta Normal, Santiago. Atención personalizada para proyectos y cotizaciones.",
   robots: { index: true, follow: true },
+  alternates: { canonical: "/contacto" },
+  openGraph: {
+    title: "Contacto | LockerStore",
+    description:
+      "Contáctanos por WhatsApp, correo o visítanos en nuestra bodega en Quinta Normal, Santiago. Atención personalizada para proyectos y cotizaciones.",
+    url: "/contacto",
+    type: "website",
+  },
+  twitter: {
+    card: "summary",
+    title: "Contacto | LockerStore",
+    description:
+      "Contáctanos por WhatsApp o visítanos en Quinta Normal, Santiago. Atención personalizada para proyectos y cotizaciones.",
+  },
 };
 
 const WHATSAPP = "56994131814";
@@ -44,9 +59,40 @@ const CHANNELS = [
   },
 ];
 
+const localBusinessSchema = {
+  "@context": "https://schema.org",
+  "@type": "LocalBusiness",
+  name: "LockerStore",
+  description: "Fabricante y comercializador de lockers metálicos y plásticos en Chile.",
+  url: "https://www.lockersstore.cl",
+  telephone: "+56994131814",
+  email: "lockerstore2@gmail.com",
+  address: {
+    "@type": "PostalAddress",
+    addressLocality: "Quinta Normal",
+    addressRegion: "Región Metropolitana",
+    addressCountry: "CL",
+  },
+  openingHoursSpecification: [
+    {
+      "@type": "OpeningHoursSpecification",
+      dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+      opens: "08:30",
+      closes: "17:30",
+    },
+  ],
+  sameAs: ["https://wa.me/56994131814"],
+};
+
 export default function ContactoPage() {
   return (
     <main className="min-h-screen bg-[#F5F5F7]">
+      <Script
+        id="local-business-schema"
+        type="application/ld+json"
+        strategy="afterInteractive"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusinessSchema) }}
+      />
       {/* Hero */}
       <section className="bg-[#0F172A] pt-28 pb-14">
         <div className="mx-auto max-w-3xl px-4 sm:px-6">
@@ -100,7 +146,7 @@ export default function ContactoPage() {
                 <h2 className="text-sm font-semibold text-zinc-900">Horario de atención</h2>
                 <ul className="mt-2 space-y-1 text-sm text-zinc-600">
                   <li><span className="font-medium text-zinc-800">Lunes a Viernes:</span> 8:30 – 17:30</li>
-                  <li><span className="font-medium text-zinc-800">Sábado:</span> 8:30 – 13:00</li>
+                  <li><span className="font-medium text-zinc-800">Sábado:</span> Cerrado</li>
                   <li><span className="font-medium text-zinc-800">Domingo:</span> Cerrado</li>
                 </ul>
                 <p className="mt-2 text-xs text-zinc-400">

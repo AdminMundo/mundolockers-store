@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Script from "next/script";
 import { PolicyPage } from "@/components/legal/PolicyPage";
 
 export const metadata: Metadata = {
@@ -6,11 +7,59 @@ export const metadata: Metadata = {
   description:
     "Conoce la garantía de los productos LockerStore: cobertura, plazos y cómo hacer efectiva tu garantía.",
   robots: { index: true, follow: true },
+  alternates: { canonical: "/garantia" },
+  openGraph: {
+    title: "Garantía de Productos | LockerStore",
+    description:
+      "Todos nuestros lockers tienen garantía mínima de 3 meses. Conoce la cobertura, plazos y cómo hacer efectiva tu garantía.",
+    url: "/garantia",
+    type: "website",
+  },
+  twitter: {
+    card: "summary",
+    title: "Garantía de Productos | LockerStore",
+    description:
+      "Garantía mínima de 3 meses en todos nuestros lockers. Conoce la cobertura y cómo reclamarla.",
+  },
+};
+
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: [
+    {
+      "@type": "Question",
+      name: "¿Cuánto dura la garantía de los lockers LockerStore?",
+      acceptedAnswer: { "@type": "Answer", text: "Todos los productos tienen garantía mínima de 3 meses contra defectos de fabricación, conforme a la Ley N° 19.496 del Consumidor." },
+    },
+    {
+      "@type": "Question",
+      name: "¿Qué cubre la garantía?",
+      acceptedAnswer: { "@type": "Answer", text: "Cubre defectos en soldaduras, bisagras, cerraduras, deformaciones del cuerpo metálico o plástico por defecto de material, pintura con desprendimientos prematuros y piezas faltantes." },
+    },
+    {
+      "@type": "Question",
+      name: "¿Cómo hago efectiva la garantía?",
+      acceptedAnswer: { "@type": "Answer", text: "Contáctanos a lockerstore2@gmail.com o por WhatsApp +56 9 9413 1814 con tu número de pedido y fotos del defecto. Respondemos en 2 días hábiles." },
+    },
+    {
+      "@type": "Question",
+      name: "¿Cuánto tiempo tienen para resolver el caso?",
+      acceptedAnswer: { "@type": "Answer", text: "El plazo máximo es de 30 días corridos desde recibido el producto. Si se supera, tienes derecho a la devolución del precio pagado." },
+    },
+  ],
 };
 
 export default function GarantiaPage() {
   return (
-    <PolicyPage
+    <>
+      <Script
+        id="faq-schema"
+        type="application/ld+json"
+        strategy="afterInteractive"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+      />
+      <PolicyPage
       badge="Posventa"
       title="Garantía de Productos"
       subtitle="Respaldamos la calidad de cada locker que fabricamos. Conoce tu cobertura y cómo hacerla efectiva."
@@ -132,5 +181,6 @@ export default function GarantiaPage() {
         },
       ]}
     />
+    </>
   );
 }

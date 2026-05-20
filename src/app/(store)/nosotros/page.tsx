@@ -9,6 +9,22 @@ export const metadata: Metadata = {
   description:
     "Conoce a LockerStore: empresa chilena fabricante de lockers metálicos y plásticos para industria, colegios, minería y proyectos institucionales.",
   robots: { index: true, follow: true },
+  alternates: { canonical: "/nosotros" },
+  openGraph: {
+    title: "Quiénes Somos | LockerStore",
+    description:
+      "Conoce a LockerStore: empresa chilena fabricante de lockers metálicos y plásticos para industria, colegios, minería y proyectos institucionales.",
+    url: "/nosotros",
+    type: "website",
+    images: [{ url: "/images/home/Encabezadoprincipal.webp", width: 1200, height: 630, alt: "Lockers LockerStore fabricación nacional" }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Quiénes Somos | LockerStore",
+    description:
+      "Empresa chilena con +15 años fabricando lockers metálicos y plásticos para industria, colegios y minería.",
+    images: ["/images/home/Encabezadoprincipal.webp"],
+  },
 };
 
 const VALUES = [

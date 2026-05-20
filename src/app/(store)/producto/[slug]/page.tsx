@@ -4,6 +4,8 @@ import ProductGallery from "./_components/ProductGallery";
 import ProductPanel from "./_components/ProductPanel";
 import TechSheetSection from "./_components/TechSheetSection";
 
+export const dynamic = "force-dynamic";
+
 type PageProps = {
   params: Promise<{ slug: string }>;
 };
@@ -49,13 +51,6 @@ export default async function ProductPage({ params }: PageProps) {
   );
 }
 
-function getDetailDots(categorySlug: string | null, productName: string): DetailDot[] {
-  if (categorySlug === "lockers-metalicos") {
-    return [
-      { src: "/images/details/lockers-metalicos/1.svg", alt: `${productName} - detalle 1` },
-      { src: "/images/details/lockers-metalicos/2.svg", alt: `${productName} - detalle 2` },
-      { src: "/images/details/lockers-metalicos/3.svg", alt: `${productName} - detalle 3` },
-    ];
-  }
+function getDetailDots(_categorySlug: string | null, _productName: string): DetailDot[] {
   return [];
 }
