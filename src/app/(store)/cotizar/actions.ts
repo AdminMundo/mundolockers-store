@@ -141,6 +141,7 @@ export async function submitQuoteAction(
   const supabase = createSupabaseServer();
 
   const { error: dbError } = await supabase.from("cotizaciones").insert({
+    source: "lockersstore",
     nombre,
     empresa: empresa || null,
     rut: rut || null,
