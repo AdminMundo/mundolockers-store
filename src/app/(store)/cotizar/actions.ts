@@ -2,7 +2,7 @@
 
 import { Resend } from "resend";
 import { createSupabaseServer } from "@/lib/supabase/server";
-import { escapeHtml } from "@/lib/utils";
+import { escapeHtml, sanitizeHeaderText } from "@/lib/utils";
 
 export type QuoteActionState = {
   success: boolean;
@@ -16,6 +16,46 @@ type QuoteProduct = {
   unitPrice: number | null;
   variant: string | null;
 };
+
+/**
+ * El JSON de productos viene del cliente (FormData de un server action
+ * público) — se valida en runtime en vez de solo castear el tipo, para que
+ * un payload manipulado no pueda meter HTML/objetos raros en el correo.
+ */
+function parseQuoteProducts(raw: string): QuoteProduct[] | null {
+  if (!raw) return null;
+
+  let parsed: unknown;
+  try {
+    parsed = JSON.parse(raw);
+  } catch {
+    return null;
+  }
+
+  if (!Array.isArray(parsed)) return null;
+
+  const products: QuoteProduct[] = [];
+  for (const entry of parsed) {
+    if (typeof entry !== "object" || entry === null) continue;
+    const e = entry as Record<string, unknown>;
+
+    if (typeof e.name !== "string" || !e.name.trim()) continue;
+    if (typeof e.quantity !== "number" || !Number.isFinite(e.quantity)) continue;
+    if (!(e.sku == null || typeof e.sku === "string")) continue;
+    if (!(e.variant == null || typeof e.variant === "string")) continue;
+    if (!(e.unitPrice == null || (typeof e.unitPrice === "number" && Number.isFinite(e.unitPrice)))) continue;
+
+    products.push({
+      name: e.name.slice(0, 200),
+      sku: typeof e.sku === "string" ? e.sku.slice(0, 100) : null,
+      quantity: Math.min(999, Math.max(1, Math.floor(e.quantity))),
+      unitPrice: typeof e.unitPrice === "number" ? e.unitPrice : null,
+      variant: typeof e.variant === "string" ? e.variant.slice(0, 100) : null,
+    });
+  }
+
+  return products.length > 0 ? products : null;
+}
 
 function buildNotificationHtml(data: {
   nombre: string;
@@ -148,14 +188,7 @@ export async function submitQuoteAction(
     return { success: false, error: "El correo ingresado no es válido." };
   }
 
-  let productos: QuoteProduct[] | null = null;
-  if (productosRaw) {
-    try {
-      productos = JSON.parse(productosRaw) as QuoteProduct[];
-    } catch {
-      productos = null;
-    }
-  }
+  const productos = parseQuoteProducts(productosRaw);
 
   const supabase = createSupabaseServer();
 
@@ -188,11 +221,14 @@ export async function submitQuoteAction(
   if (resendKey && notifyTo) {
     try {
       const resend = new Resend(resendKey);
-      await resend.emails.send({
+      const nombreSubject = sanitizeHeaderText(nombre);
+      const empresaSubject = empresa ? sanitizeHeaderText(empresa) : "";
+
+      const { error: sendError } = await resend.emails.send({
         from: "LockerStore <cotizaciones@lockersstore.cl>",
         to: [notifyTo],
         replyTo: correo,
-        subject: `Nueva cotización de ${nombre}${empresa ? ` – ${empresa}` : ""}`,
+        subject: `Nueva cotización de ${nombreSubject}${empresaSubject ? ` – ${empresaSubject}` : ""}`,
         html: buildNotificationHtml({
           nombre,
           empresa: empresa || null,
@@ -203,8 +239,12 @@ export async function submitQuoteAction(
           productos,
         }),
       });
+
+      if (sendError) {
+        // El email falló pero la cotización ya se guardó — no devolvemos error al usuario
+        console.error("[submitQuoteAction] Resend error:", sendError);
+      }
     } catch (emailErr) {
-      // El email falló pero la cotización ya se guardó — no devolvemos error al usuario
       console.error("[submitQuoteAction] Email error:", emailErr);
     }
   }

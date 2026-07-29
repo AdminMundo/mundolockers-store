@@ -15,5 +15,10 @@ const HTML_ESCAPES: Record<string, string> = {
 
 /** Escapa texto de usuario antes de interpolarlo en HTML (ej: emails). */
 export function escapeHtml(value: string): string {
-  return value.replace(/[&<>"']/g, (char) => HTML_ESCAPES[char])
+  return String(value).replace(/[&<>"']/g, (char) => HTML_ESCAPES[char])
+}
+
+/** Quita saltos de línea de texto de usuario antes de usarlo en un header de email (ej: Subject). */
+export function sanitizeHeaderText(value: string): string {
+  return String(value).replace(/[\r\n]+/g, " ").trim()
 }

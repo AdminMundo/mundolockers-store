@@ -2,7 +2,8 @@
 
 import { createSupabaseServer } from "@/lib/supabase/server";
 import { createFlowPayment } from "@/lib/flow";
-import { escapeHtml } from "@/lib/utils";
+import { escapeHtml, sanitizeHeaderText } from "@/lib/utils";
+import { sendTransactionalEmail } from "@/lib/resend";
 
 export type CreatePedidoResult =
   | { success: true; orderId: string }
@@ -271,29 +272,13 @@ export async function createPedidoAction(
       return { success: false, error: error?.message ?? "Error desconocido" };
     }
 
-    // Notificación por email (silenciosa)
+    // Notificación por email — cada envío es independiente y queda logueado si falla
     try {
-      const resendKey = process.env.RESEND_API_KEY;
       const notifyEmail = process.env.QUOTE_NOTIFICATION_EMAIL;
-      if (resendKey && notifyEmail) {
+      if (notifyEmail) {
         const numeroLabel = data.numero
           ? `#${String(data.numero).padStart(4, "0")}`
           : data.id.slice(0, 8).toUpperCase();
-
-        const sendEmail = (to: string, subject: string, html: string) =>
-          fetch("https://api.resend.com/emails", {
-            method: "POST",
-            headers: {
-              Authorization: `Bearer ${resendKey}`,
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              from: "LockerStore <pedidos@lockersstore.cl>",
-              to: [to],
-              subject,
-              html,
-            }),
-          });
 
         const entrega =
           input.tipo_entrega === "despacho"
@@ -302,44 +287,55 @@ export async function createPedidoAction(
 
         const esTransferencia = input.tipo_pago === "transferencia";
         const metodoPago = esTransferencia ? "transferencia bancaria" : "tarjeta / Flow";
+        const nombreSubject = sanitizeHeaderText(input.nombre);
 
-        // Email al dueño (siempre)
-        await sendEmail(
-          notifyEmail,
-          `Nuevo pedido ${numeroLabel} — ${input.nombre}`,
-          `
-            <h2>Nuevo pedido ${numeroLabel}</h2>
-            <p><strong>Cliente:</strong> ${escapeHtml(input.nombre)}</p>
-            <p><strong>Correo:</strong> ${escapeHtml(input.correo)}</p>
-            <p><strong>Teléfono:</strong> ${escapeHtml(input.telefono)}</p>
-            ${input.empresa ? `<p><strong>Empresa:</strong> ${escapeHtml(input.empresa)}</p>` : ""}
-            <p><strong>Método de pago:</strong> ${metodoPago}</p>
-            <p><strong>Entrega:</strong> ${entrega}</p>
-            <p><strong>Total:</strong> $${total.toLocaleString("es-CL")}</p>
-            ${input.notas ? `<p><strong>Notas:</strong> ${escapeHtml(input.notas)}</p>` : ""}
-            <hr/>
-            <p>Ver pedido en admin: <a href="${process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.lockersstore.cl"}/admin/pedidos">Panel de pedidos</a></p>
-          `,
-        );
+        const emails = [
+          sendTransactionalEmail({
+            to: notifyEmail,
+            from: "LockerStore <pedidos@lockersstore.cl>",
+            subject: `Nuevo pedido ${numeroLabel} — ${nombreSubject}`,
+            html: `
+              <h2>Nuevo pedido ${numeroLabel}</h2>
+              <p><strong>Cliente:</strong> ${escapeHtml(input.nombre)}</p>
+              <p><strong>Correo:</strong> ${escapeHtml(input.correo)}</p>
+              <p><strong>Teléfono:</strong> ${escapeHtml(input.telefono)}</p>
+              ${input.empresa ? `<p><strong>Empresa:</strong> ${escapeHtml(input.empresa)}</p>` : ""}
+              <p><strong>Método de pago:</strong> ${metodoPago}</p>
+              <p><strong>Entrega:</strong> ${entrega}</p>
+              <p><strong>Total:</strong> $${total.toLocaleString("es-CL")}</p>
+              ${input.notas ? `<p><strong>Notas:</strong> ${escapeHtml(input.notas)}</p>` : ""}
+              <hr/>
+              <p>Ver pedido en admin: <a href="${process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.lockersstore.cl"}/admin/pedidos">Panel de pedidos</a></p>
+            `,
+          }),
+        ];
 
         // Email al cliente solo si es transferencia (Flow confirma por webhook)
         if (esTransferencia) {
-          await sendEmail(
-            input.correo,
-            `Tu pedido ${numeroLabel} fue recibido — LockerStore`,
-            `
-              <h2>Recibimos tu pedido ${numeroLabel}</h2>
-              <p>Hola ${escapeHtml(input.nombre)},</p>
-              <p>Tu pedido fue recibido correctamente. Nos contactaremos contigo para coordinar el pago por transferencia bancaria.</p>
-              <p><strong>Total:</strong> $${total.toLocaleString("es-CL")}</p>
-              <p><strong>Entrega:</strong> ${entrega}</p>
-              <hr/>
-              <p>Si tienes dudas escríbenos a <a href="mailto:pedidos@lockersstore.cl">pedidos@lockersstore.cl</a></p>
-            `,
+          emails.push(
+            sendTransactionalEmail({
+              to: input.correo,
+              from: "LockerStore <pedidos@lockersstore.cl>",
+              subject: `Tu pedido ${numeroLabel} fue recibido — LockerStore`,
+              html: `
+                <h2>Recibimos tu pedido ${numeroLabel}</h2>
+                <p>Hola ${escapeHtml(input.nombre)},</p>
+                <p>Tu pedido fue recibido correctamente. Nos contactaremos contigo para coordinar el pago por transferencia bancaria.</p>
+                <p><strong>Total:</strong> $${total.toLocaleString("es-CL")}</p>
+                <p><strong>Entrega:</strong> ${entrega}</p>
+                <hr/>
+                <p>Si tienes dudas escríbenos a <a href="mailto:pedidos@lockersstore.cl">pedidos@lockersstore.cl</a></p>
+              `,
+            }),
           );
         }
+
+        // En paralelo y de forma independiente: si uno falla, no bloquea al otro.
+        await Promise.allSettled(emails);
       }
-    } catch {}
+    } catch (emailErr) {
+      console.error("[createPedidoAction] error enviando notificaciones:", emailErr);
+    }
 
     return { success: true, orderId: data.id };
   } catch (err) {

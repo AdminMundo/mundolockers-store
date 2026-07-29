@@ -1,7 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getFlowPaymentStatus } from "@/lib/flow";
 import { createSupabaseServer } from "@/lib/supabase/server";
-import { escapeHtml } from "@/lib/utils";
+import { escapeHtml, sanitizeHeaderText } from "@/lib/utils";
+import { sendTransactionalEmail } from "@/lib/resend";
 
 type PedidoResumen = {
   id: string;
@@ -15,9 +16,7 @@ type PedidoResumen = {
 };
 
 async function sendPaymentConfirmationEmails(pedido: PedidoResumen) {
-  const resendKey = process.env.RESEND_API_KEY;
   const notifyEmail = process.env.QUOTE_NOTIFICATION_EMAIL;
-  if (!resendKey) return;
 
   const label = pedido.numero
     ? `#${String(pedido.numero).padStart(4, "0")}`
@@ -29,48 +28,46 @@ async function sendPaymentConfirmationEmails(pedido: PedidoResumen) {
       : "Retiro en tienda";
 
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.lockersstore.cl";
+  const nombreSubject = sanitizeHeaderText(pedido.nombre);
 
-  const sendEmail = (to: string, subject: string, html: string) =>
-    fetch("https://api.resend.com/emails", {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${resendKey}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ from: "LockerStore <pedidos@lockersstore.cl>", to: [to], subject, html }),
-    });
-
-  // Email al cliente
-  await sendEmail(
-    pedido.correo,
-    `Tu pedido ${label} fue confirmado — LockerStore`,
-    `
-      <h2>¡Pago recibido! Tu pedido ${label} está confirmado</h2>
-      <p>Hola ${escapeHtml(pedido.nombre)},</p>
-      <p>Recibimos tu pago correctamente. Pronto nos pondremos en contacto contigo.</p>
-      <p><strong>Total pagado:</strong> $${Number(pedido.total).toLocaleString("es-CL")}</p>
-      <p><strong>Entrega:</strong> ${entrega}</p>
-      <hr/>
-      <p>Si tienes dudas escríbenos a <a href="mailto:pedidos@lockersstore.cl">pedidos@lockersstore.cl</a></p>
-    `,
-  );
-
-  // Email al dueño
-  if (notifyEmail) {
-    await sendEmail(
-      notifyEmail,
-      `Pago confirmado pedido ${label} — ${pedido.nombre}`,
-      `
-        <h2>Pago confirmado — pedido ${label}</h2>
-        <p><strong>Cliente:</strong> ${escapeHtml(pedido.nombre)}</p>
-        <p><strong>Correo:</strong> ${escapeHtml(pedido.correo)}</p>
-        <p><strong>Total:</strong> $${Number(pedido.total).toLocaleString("es-CL")}</p>
+  const emails = [
+    sendTransactionalEmail({
+      to: pedido.correo,
+      from: "LockerStore <pedidos@lockersstore.cl>",
+      subject: `Tu pedido ${label} fue confirmado — LockerStore`,
+      html: `
+        <h2>¡Pago recibido! Tu pedido ${label} está confirmado</h2>
+        <p>Hola ${escapeHtml(pedido.nombre)},</p>
+        <p>Recibimos tu pago correctamente. Pronto nos pondremos en contacto contigo.</p>
+        <p><strong>Total pagado:</strong> $${Number(pedido.total).toLocaleString("es-CL")}</p>
         <p><strong>Entrega:</strong> ${entrega}</p>
         <hr/>
-        <p><a href="${siteUrl}/admin/pedidos">Ver pedido en admin →</a></p>
+        <p>Si tienes dudas escríbenos a <a href="mailto:pedidos@lockersstore.cl">pedidos@lockersstore.cl</a></p>
       `,
+    }),
+  ];
+
+  if (notifyEmail) {
+    emails.push(
+      sendTransactionalEmail({
+        to: notifyEmail,
+        from: "LockerStore <pedidos@lockersstore.cl>",
+        subject: `Pago confirmado pedido ${label} — ${nombreSubject}`,
+        html: `
+          <h2>Pago confirmado — pedido ${label}</h2>
+          <p><strong>Cliente:</strong> ${escapeHtml(pedido.nombre)}</p>
+          <p><strong>Correo:</strong> ${escapeHtml(pedido.correo)}</p>
+          <p><strong>Total:</strong> $${Number(pedido.total).toLocaleString("es-CL")}</p>
+          <p><strong>Entrega:</strong> ${entrega}</p>
+          <hr/>
+          <p><a href="${siteUrl}/admin/pedidos">Ver pedido en admin →</a></p>
+        `,
+      }),
     );
   }
+
+  // En paralelo y de forma independiente: si uno falla, no bloquea al otro.
+  await Promise.allSettled(emails);
 }
 
 /**
@@ -79,7 +76,7 @@ async function sendPaymentConfirmationEmails(pedido: PedidoResumen) {
  */
 export async function POST(req: NextRequest) {
   // Parsear body (Flow usa application/x-www-form-urlencoded)
-  let params: Record<string, string> = {};
+  const params: Record<string, string> = {};
   try {
     const text = await req.text();
     for (const [k, v] of new URLSearchParams(text)) {
