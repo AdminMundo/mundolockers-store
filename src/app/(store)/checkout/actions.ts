@@ -2,6 +2,7 @@
 
 import { createSupabaseServer } from "@/lib/supabase/server";
 import { createFlowPayment } from "@/lib/flow";
+import { escapeHtml } from "@/lib/utils";
 
 export type CreatePedidoResult =
   | { success: true; orderId: string }
@@ -296,7 +297,7 @@ export async function createPedidoAction(
 
         const entrega =
           input.tipo_entrega === "despacho"
-            ? `Despacho — ${input.ciudad}, ${input.region}`
+            ? `Despacho — ${escapeHtml(input.ciudad)}, ${escapeHtml(input.region)}`
             : "Retiro en tienda";
 
         const esTransferencia = input.tipo_pago === "transferencia";
@@ -308,14 +309,14 @@ export async function createPedidoAction(
           `Nuevo pedido ${numeroLabel} — ${input.nombre}`,
           `
             <h2>Nuevo pedido ${numeroLabel}</h2>
-            <p><strong>Cliente:</strong> ${input.nombre}</p>
-            <p><strong>Correo:</strong> ${input.correo}</p>
-            <p><strong>Teléfono:</strong> ${input.telefono}</p>
-            ${input.empresa ? `<p><strong>Empresa:</strong> ${input.empresa}</p>` : ""}
+            <p><strong>Cliente:</strong> ${escapeHtml(input.nombre)}</p>
+            <p><strong>Correo:</strong> ${escapeHtml(input.correo)}</p>
+            <p><strong>Teléfono:</strong> ${escapeHtml(input.telefono)}</p>
+            ${input.empresa ? `<p><strong>Empresa:</strong> ${escapeHtml(input.empresa)}</p>` : ""}
             <p><strong>Método de pago:</strong> ${metodoPago}</p>
             <p><strong>Entrega:</strong> ${entrega}</p>
             <p><strong>Total:</strong> $${total.toLocaleString("es-CL")}</p>
-            ${input.notas ? `<p><strong>Notas:</strong> ${input.notas}</p>` : ""}
+            ${input.notas ? `<p><strong>Notas:</strong> ${escapeHtml(input.notas)}</p>` : ""}
             <hr/>
             <p>Ver pedido en admin: <a href="${process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.lockersstore.cl"}/admin/pedidos">Panel de pedidos</a></p>
           `,
@@ -328,7 +329,7 @@ export async function createPedidoAction(
             `Tu pedido ${numeroLabel} fue recibido — LockerStore`,
             `
               <h2>Recibimos tu pedido ${numeroLabel}</h2>
-              <p>Hola ${input.nombre},</p>
+              <p>Hola ${escapeHtml(input.nombre)},</p>
               <p>Tu pedido fue recibido correctamente. Nos contactaremos contigo para coordinar el pago por transferencia bancaria.</p>
               <p><strong>Total:</strong> $${total.toLocaleString("es-CL")}</p>
               <p><strong>Entrega:</strong> ${entrega}</p>

@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getFlowPaymentStatus } from "@/lib/flow";
 import { createSupabaseServer } from "@/lib/supabase/server";
+import { escapeHtml } from "@/lib/utils";
 
 type PedidoResumen = {
   id: string;
@@ -24,7 +25,7 @@ async function sendPaymentConfirmationEmails(pedido: PedidoResumen) {
 
   const entrega =
     pedido.tipo_entrega === "despacho"
-      ? `Despacho a ${pedido.ciudad ?? ""}, ${pedido.region ?? ""}`
+      ? `Despacho a ${escapeHtml(pedido.ciudad ?? "")}, ${escapeHtml(pedido.region ?? "")}`
       : "Retiro en tienda";
 
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.lockersstore.cl";
@@ -45,7 +46,7 @@ async function sendPaymentConfirmationEmails(pedido: PedidoResumen) {
     `Tu pedido ${label} fue confirmado — LockerStore`,
     `
       <h2>¡Pago recibido! Tu pedido ${label} está confirmado</h2>
-      <p>Hola ${pedido.nombre},</p>
+      <p>Hola ${escapeHtml(pedido.nombre)},</p>
       <p>Recibimos tu pago correctamente. Pronto nos pondremos en contacto contigo.</p>
       <p><strong>Total pagado:</strong> $${Number(pedido.total).toLocaleString("es-CL")}</p>
       <p><strong>Entrega:</strong> ${entrega}</p>
@@ -61,8 +62,8 @@ async function sendPaymentConfirmationEmails(pedido: PedidoResumen) {
       `Pago confirmado pedido ${label} — ${pedido.nombre}`,
       `
         <h2>Pago confirmado — pedido ${label}</h2>
-        <p><strong>Cliente:</strong> ${pedido.nombre}</p>
-        <p><strong>Correo:</strong> ${pedido.correo}</p>
+        <p><strong>Cliente:</strong> ${escapeHtml(pedido.nombre)}</p>
+        <p><strong>Correo:</strong> ${escapeHtml(pedido.correo)}</p>
         <p><strong>Total:</strong> $${Number(pedido.total).toLocaleString("es-CL")}</p>
         <p><strong>Entrega:</strong> ${entrega}</p>
         <hr/>

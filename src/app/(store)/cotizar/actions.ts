@@ -2,6 +2,7 @@
 
 import { Resend } from "resend";
 import { createSupabaseServer } from "@/lib/supabase/server";
+import { escapeHtml } from "@/lib/utils";
 
 export type QuoteActionState = {
   success: boolean;
@@ -44,9 +45,9 @@ function buildNotificationHtml(data: {
               .map(
                 (p) => `
               <tr>
-                <td style="padding:8px 12px;border:1px solid #e5e7eb;">${p.name}</td>
-                <td style="padding:8px 12px;border:1px solid #e5e7eb;color:#6b7280;">${p.sku ?? "—"}</td>
-                <td style="padding:8px 12px;border:1px solid #e5e7eb;">${p.variant ?? "—"}</td>
+                <td style="padding:8px 12px;border:1px solid #e5e7eb;">${escapeHtml(p.name)}</td>
+                <td style="padding:8px 12px;border:1px solid #e5e7eb;color:#6b7280;">${p.sku ? escapeHtml(p.sku) : "—"}</td>
+                <td style="padding:8px 12px;border:1px solid #e5e7eb;">${p.variant ? escapeHtml(p.variant) : "—"}</td>
                 <td style="padding:8px 12px;border:1px solid #e5e7eb;text-align:right;">${p.quantity}</td>
                 <td style="padding:8px 12px;border:1px solid #e5e7eb;text-align:right;">
                   ${p.unitPrice != null ? `$${p.unitPrice.toLocaleString("es-CL")}` : "Consultar"}
@@ -69,33 +70,33 @@ function buildNotificationHtml(data: {
         <table width="100%" cellpadding="0" cellspacing="0" style="font-size:14px;">
           <tr>
             <td style="padding:6px 0;color:#6b7280;width:130px;">Nombre</td>
-            <td style="padding:6px 0;font-weight:500;">${data.nombre}</td>
+            <td style="padding:6px 0;font-weight:500;">${escapeHtml(data.nombre)}</td>
           </tr>
           ${data.empresa ? `
           <tr>
             <td style="padding:6px 0;color:#6b7280;">Empresa</td>
-            <td style="padding:6px 0;">${data.empresa}</td>
+            <td style="padding:6px 0;">${escapeHtml(data.empresa)}</td>
           </tr>` : ""}
           <tr>
             <td style="padding:6px 0;color:#6b7280;">Correo</td>
-            <td style="padding:6px 0;"><a href="mailto:${data.correo}" style="color:#111;">${data.correo}</a></td>
+            <td style="padding:6px 0;"><a href="mailto:${escapeHtml(data.correo)}" style="color:#111;">${escapeHtml(data.correo)}</a></td>
           </tr>
           ${data.telefono ? `
           <tr>
             <td style="padding:6px 0;color:#6b7280;">Teléfono</td>
-            <td style="padding:6px 0;"><a href="tel:${data.telefono}" style="color:#111;">${data.telefono}</a></td>
+            <td style="padding:6px 0;"><a href="tel:${escapeHtml(data.telefono)}" style="color:#111;">${escapeHtml(data.telefono)}</a></td>
           </tr>` : ""}
           ${data.tipo_proyecto ? `
           <tr>
             <td style="padding:6px 0;color:#6b7280;">Proyecto</td>
-            <td style="padding:6px 0;">${data.tipo_proyecto}</td>
+            <td style="padding:6px 0;">${escapeHtml(data.tipo_proyecto)}</td>
           </tr>` : ""}
         </table>
 
         ${data.mensaje ? `
         <div style="margin-top:20px;padding:16px;background:#f9fafb;border-radius:12px;font-size:14px;line-height:1.6;color:#374151;">
           <p style="margin:0 0 4px;font-size:11px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:#9ca3af;">Mensaje</p>
-          <p style="margin:0;">${data.mensaje.replace(/\n/g, "<br/>")}</p>
+          <p style="margin:0;">${escapeHtml(data.mensaje).replace(/\n/g, "<br/>")}</p>
         </div>` : ""}
 
         ${productosHtml}
@@ -188,7 +189,7 @@ export async function submitQuoteAction(
     try {
       const resend = new Resend(resendKey);
       await resend.emails.send({
-        from: "LockerStore <onboarding@resend.dev>",
+        from: "LockerStore <cotizaciones@lockersstore.cl>",
         to: [notifyTo],
         replyTo: correo,
         subject: `Nueva cotización de ${nombre}${empresa ? ` – ${empresa}` : ""}`,
