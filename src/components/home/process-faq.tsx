@@ -148,7 +148,7 @@ export default function ProcessFaqSection() {
         </div>
 
         {/* FAQ */}
-        <div className="mt-12 grid gap-6 lg:grid-cols-[1.05fr_.95fr]">
+        <div id="faq" className="mt-12 grid gap-6 lg:grid-cols-[1.05fr_.95fr] scroll-mt-28">
           <div
             className={[
               "rounded-3xl border border-black/10",
@@ -224,7 +224,7 @@ export default function ProcessFaqSection() {
                 variant="outline"
                 className="h-11 flex-1 rounded-xl border border-[#E18147]/40 bg-white text-zinc-900 transition-colors duration-200 hover:border-[#E18147] hover:shadow-[0_0_0_3px_rgba(225,129,71,0.15)]"
               >
-                <Link href="/proyectos">Ver proyectos</Link>
+                <Link href="/nosotros">Ver proyectos</Link>
               </Button>
 
               <Button

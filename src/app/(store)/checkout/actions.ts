@@ -14,21 +14,41 @@ export type CreateFlowPaymentResult =
 const SITE_URL =
   process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.lockersstore.cl";
 
+/**
+ * El monto a cobrar se lee siempre desde el pedido ya guardado en la base de
+ * datos (calculado server-side en createPedidoAction) — nunca se acepta un
+ * monto que venga del navegador, para que no se pueda alterar el precio a
+ * pagar en Flow.
+ */
 export async function createFlowPaymentAction(
   orderId: string,
-  orderNumber: number | null,
-  amount: number,
   email: string,
 ): Promise<CreateFlowPaymentResult> {
   try {
-    const label = orderNumber
-      ? `#${String(orderNumber).padStart(4, "0")}`
-      : orderId.slice(0, 8).toUpperCase();
+    const supabase = createSupabaseServer();
+
+    const { data: pedido, error } = await supabase
+      .from("pedidos")
+      .select("id, numero, total, estado_pago")
+      .eq("id", orderId)
+      .single();
+
+    if (error || !pedido) {
+      return { success: false, error: "No se encontró el pedido a pagar." };
+    }
+
+    if (pedido.estado_pago === "pagado") {
+      return { success: false, error: "Este pedido ya fue pagado." };
+    }
+
+    const label = pedido.numero
+      ? `#${String(pedido.numero).padStart(4, "0")}`
+      : pedido.id.slice(0, 8).toUpperCase();
 
     const { url, token } = await createFlowPayment({
-      commerceOrder: orderId,
+      commerceOrder: pedido.id,
       subject: `Pedido LockerStore ${label}`,
-      amount,
+      amount: pedido.total,
       email,
       urlConfirmation: `${SITE_URL}/api/flow/webhook`,
       urlReturn: `${SITE_URL}/api/flow/return`,
@@ -55,9 +75,150 @@ export type CreatePedidoInput = {
   tipo_pago: string;
   notas: string;
   productosJson: string;
-  subtotal: number;
-  total: number;
 };
+
+type RequestedLine = {
+  productId: string;
+  variantId: string | null;
+  quantity: number;
+};
+
+type ProductRow = {
+  id: string;
+  name: string;
+  sku: string | null;
+  slug: string;
+  price_clp: number | null;
+  is_active: boolean | null;
+};
+
+type VariantRow = {
+  id: string;
+  product_id: string;
+  name: string | null;
+  color: string | null;
+  door_color: string | null;
+  price_clp: number | null;
+  is_active: boolean | null;
+  variant_sku: string | null;
+};
+
+function getVariantLabel(variant: VariantRow): string {
+  return variant.door_color || variant.color || variant.name || "Variante";
+}
+
+function parseRequestedLines(raw: string): RequestedLine[] {
+  let parsed: unknown;
+  try {
+    parsed = JSON.parse(raw);
+  } catch {
+    return [];
+  }
+
+  if (!Array.isArray(parsed)) return [];
+
+  const lines: RequestedLine[] = [];
+  for (const entry of parsed) {
+    if (typeof entry !== "object" || entry === null) continue;
+    const e = entry as Record<string, unknown>;
+    const productId = e.productId;
+    const variantId = e.variantId;
+    const quantity = e.quantity;
+
+    if (typeof productId !== "string" || !productId) continue;
+    if (!(variantId === null || typeof variantId === "string")) continue;
+    if (typeof quantity !== "number" || !Number.isFinite(quantity)) continue;
+
+    const safeQuantity = Math.min(999, Math.max(1, Math.floor(quantity)));
+    lines.push({ productId, variantId: variantId || null, quantity: safeQuantity });
+  }
+
+  return lines;
+}
+
+/**
+ * Recalcula precios y totales desde la base de datos. El cliente solo indica
+ * qué producto/variante/cantidad quiere — nunca el precio ni el total, para
+ * evitar que un pedido se cree (y se cobre vía Flow) con montos manipulados.
+ */
+async function buildValidatedOrder(
+  supabase: ReturnType<typeof createSupabaseServer>,
+  productosJson: string,
+): Promise<
+  | { ok: true; productos: Record<string, unknown>[]; subtotal: number; total: number }
+  | { ok: false; error: string }
+> {
+  const requested = parseRequestedLines(productosJson);
+  if (requested.length === 0) {
+    return { ok: false, error: "El carrito de compra está vacío o no es válido." };
+  }
+
+  const productIds = [...new Set(requested.map((r) => r.productId))];
+  const variantIds = [...new Set(requested.map((r) => r.variantId).filter((v): v is string => v !== null))];
+
+  const [productsRes, variantsRes] = await Promise.all([
+    supabase
+      .from("products")
+      .select("id, name, sku, slug, price_clp, is_active")
+      .in("id", productIds)
+      .returns<ProductRow[]>(),
+    variantIds.length > 0
+      ? supabase
+          .from("product_variants")
+          .select("id, product_id, name, color, door_color, price_clp, is_active, variant_sku")
+          .in("id", variantIds)
+          .returns<VariantRow[]>()
+      : Promise.resolve({ data: [] as VariantRow[], error: null }),
+  ]);
+
+  if (productsRes.error) {
+    return { ok: false, error: "No se pudo verificar el catálogo de productos." };
+  }
+  if (variantsRes.error) {
+    return { ok: false, error: "No se pudo verificar las variantes de producto." };
+  }
+
+  const productsById = new Map(productsRes.data.map((p) => [p.id, p]));
+  const variantsById = new Map((variantsRes.data ?? []).map((v) => [v.id, v]));
+
+  const productos: Record<string, unknown>[] = [];
+  let subtotal = 0;
+
+  for (const line of requested) {
+    const product = productsById.get(line.productId);
+    if (!product || !product.is_active) {
+      return { ok: false, error: "Uno de los productos de tu pedido ya no está disponible." };
+    }
+
+    const variant = line.variantId ? variantsById.get(line.variantId) : null;
+    if (line.variantId && (!variant || variant.product_id !== product.id || !variant.is_active)) {
+      return { ok: false, error: "Una de las variantes seleccionadas ya no está disponible." };
+    }
+
+    const unitPrice = variant?.price_clp ?? product.price_clp;
+    if (typeof unitPrice !== "number" || unitPrice <= 0) {
+      return { ok: false, error: `"${product.name}" no tiene precio de compra directa disponible.` };
+    }
+
+    const lineSubtotal = unitPrice * line.quantity;
+    subtotal += lineSubtotal;
+
+    productos.push({
+      productId: product.id,
+      variantId: variant?.id ?? null,
+      name: product.name,
+      sku: variant?.variant_sku ?? product.sku ?? product.slug,
+      variant: variant ? getVariantLabel(variant) : null,
+      quantity: line.quantity,
+      unitPrice,
+    });
+  }
+
+  const iva = Math.round(subtotal * 0.19);
+  const total = subtotal + iva;
+
+  return { ok: true, productos, subtotal, total };
+}
 
 export async function createPedidoAction(
   input: CreatePedidoInput,
@@ -65,10 +226,11 @@ export async function createPedidoAction(
   try {
     const supabase = createSupabaseServer();
 
-    let productos: unknown[] = [];
-    try {
-      productos = JSON.parse(input.productosJson);
-    } catch {}
+    const validated = await buildValidatedOrder(supabase, input.productosJson);
+    if (!validated.ok) {
+      return { success: false, error: validated.error };
+    }
+    const { productos, subtotal, total } = validated;
 
     const notasCompleta = [
       input.tipo_documento === "factura" && input.rut_empresa
@@ -92,9 +254,9 @@ export async function createPedidoAction(
         ciudad: input.ciudad || null,
         direccion: input.direccion || null,
         productos,
-        subtotal: input.subtotal,
+        subtotal,
         costo_despacho: 0,
-        total: input.total,
+        total,
         tipo_pago: input.tipo_pago,
         estado: "recibido",
         estado_pago: "pendiente",
@@ -152,7 +314,7 @@ export async function createPedidoAction(
             ${input.empresa ? `<p><strong>Empresa:</strong> ${input.empresa}</p>` : ""}
             <p><strong>Método de pago:</strong> ${metodoPago}</p>
             <p><strong>Entrega:</strong> ${entrega}</p>
-            <p><strong>Total:</strong> $${input.subtotal.toLocaleString("es-CL")}</p>
+            <p><strong>Total:</strong> $${total.toLocaleString("es-CL")}</p>
             ${input.notas ? `<p><strong>Notas:</strong> ${input.notas}</p>` : ""}
             <hr/>
             <p>Ver pedido en admin: <a href="${process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.lockersstore.cl"}/admin/pedidos">Panel de pedidos</a></p>
@@ -168,7 +330,7 @@ export async function createPedidoAction(
               <h2>Recibimos tu pedido ${numeroLabel}</h2>
               <p>Hola ${input.nombre},</p>
               <p>Tu pedido fue recibido correctamente. Nos contactaremos contigo para coordinar el pago por transferencia bancaria.</p>
-              <p><strong>Total:</strong> $${input.subtotal.toLocaleString("es-CL")}</p>
+              <p><strong>Total:</strong> $${total.toLocaleString("es-CL")}</p>
               <p><strong>Entrega:</strong> ${entrega}</p>
               <hr/>
               <p>Si tienes dudas escríbenos a <a href="mailto:pedidos@lockersstore.cl">pedidos@lockersstore.cl</a></p>

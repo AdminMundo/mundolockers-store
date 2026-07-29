@@ -108,10 +108,28 @@ function buildNotificationHtml(data: {
   `;
 }
 
+const MIN_FILL_TIME_MS = 1500;
+
 export async function submitQuoteAction(
   _prev: QuoteActionState,
   formData: FormData,
 ): Promise<QuoteActionState> {
+  // Honeypot: campo invisible para humanos. Si viene lleno, es un bot.
+  const honeypot = String(formData.get("company_site") ?? "").trim();
+
+  // Trampa de tiempo: un bot típico completa y envía el formulario casi
+  // instantáneamente; una persona tarda al menos un par de segundos.
+  const renderedAt = Number(formData.get("ts") ?? 0);
+  const filledInMs = Date.now() - renderedAt;
+  const submittedTooFast =
+    !renderedAt || !Number.isFinite(filledInMs) || filledInMs < MIN_FILL_TIME_MS;
+
+  if (honeypot || submittedTooFast) {
+    // Respondemos éxito "falso" para no darle señal útil a un bot que
+    // esté probando el formulario, sin guardar nada ni enviar correo.
+    return { success: true, error: null };
+  }
+
   const nombre = String(formData.get("nombre") ?? "").trim();
   const empresa = String(formData.get("empresa") ?? "").trim();
   const rut = String(formData.get("rut") ?? "").trim();

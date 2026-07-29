@@ -210,7 +210,7 @@ export default function Navbar() {
                   { label: "Inicio", href: "/" },
                   { label: "Tienda", href: "/tienda" },
                   { label: "Cotizar", href: "/cotizar" },
-                  { label: "Proyectos", href: "/proyectos" },
+                  { label: "Carrito", href: "/carrito" },
                 ].map((item) => (
                   <Link
                     key={item.href}

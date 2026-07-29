@@ -256,11 +256,9 @@ export function CheckoutPageClient({ initialState }: Props) {
   const productosJson = useMemo(() => {
     return JSON.stringify(
       purchaseItems.map((item) => ({
-        name: item.product.name,
-        sku: item.product.sku,
+        productId: item.product.productId,
+        variantId: item.variant?.id ?? null,
         quantity: item.quantity,
-        unitPrice: item.pricing.unitPrice,
-        variant: item.variant?.name ?? null,
       })),
     );
   }, [purchaseItems]);
@@ -293,8 +291,6 @@ export function CheckoutPageClient({ initialState }: Props) {
         tipo_pago: form.paymentMethod,
         notas: form.orderNotes,
         productosJson,
-        subtotal,
-        total,
       });
 
       if (!result.success) {
@@ -305,8 +301,6 @@ export function CheckoutPageClient({ initialState }: Props) {
       if (form.paymentMethod === "flow") {
         const flowResult = await createFlowPaymentAction(
           result.orderId,
-          null,
-          total,
           form.email,
         );
         if (!flowResult.success) {

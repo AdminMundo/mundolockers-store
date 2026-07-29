@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useActionState, useMemo } from "react";
+import { useActionState, useMemo, useState } from "react";
 
 import { CartHero } from "@/components/cart/cart-hero";
 import { CartLineItem } from "@/components/cart/cart-line-item";
@@ -26,6 +26,8 @@ export function QuotePageClient({ initialState }: Props) {
     submitQuoteAction,
     initialActionState,
   );
+
+  const [formRenderedAt] = useState(() => Date.now());
 
   const productosJson = useMemo(
     () =>
@@ -170,6 +172,22 @@ export function QuotePageClient({ initialState }: Props) {
                     {productosJson && (
                       <input type="hidden" name="productos" value={productosJson} />
                     )}
+                    <input type="hidden" name="ts" value={formRenderedAt} />
+
+                    {/* Honeypot anti-spam: invisible para personas, los bots suelen completarlo */}
+                    <div
+                      aria-hidden="true"
+                      className="absolute left-[-9999px] top-auto h-0 w-0 overflow-hidden"
+                    >
+                      <label htmlFor="company_site">No completar este campo</label>
+                      <input
+                        type="text"
+                        id="company_site"
+                        name="company_site"
+                        tabIndex={-1}
+                        autoComplete="off"
+                      />
+                    </div>
 
                     <label className="block">
                       <span className="mb-2 block text-sm font-medium text-neutral-800">

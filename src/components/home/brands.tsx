@@ -66,7 +66,7 @@ export default function BrandsSection() {
                           hover:bg-white hover:text-zinc-900
                           hover:border-[#E18147] hover:shadow-[0_10px_25px_rgba(225,129,71,0.18)]"
             >
-              <Link href="/proyectos">Ver proyectos</Link>
+              <Link href="/nosotros">Ver proyectos</Link>
             </Button>
 
             <Button
