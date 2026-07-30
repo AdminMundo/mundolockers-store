@@ -126,9 +126,9 @@ export default async function AdminPedidosPage({
             {totalPedidos}
           </p>
         </div>
-        <div className="rounded-[28px] border border-[#E18147]/20 bg-[#E18147]/10 p-6 shadow-sm">
-          <p className="text-sm text-[#9a4d1e]/70">Recibidos</p>
-          <p className="mt-3 text-3xl font-semibold tracking-tight text-[#9a4d1e]">
+        <div className="rounded-[28px] border border-[#0477BF]/20 bg-[#0477BF]/10 p-6 shadow-sm">
+          <p className="text-sm text-[#0a5c8c]/70">Recibidos</p>
+          <p className="mt-3 text-3xl font-semibold tracking-tight text-[#0a5c8c]">
             {recibidos}
           </p>
         </div>

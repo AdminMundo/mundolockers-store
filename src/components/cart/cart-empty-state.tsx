@@ -20,14 +20,14 @@ export function CartEmptyState() {
         <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
           <Link
             href="/tienda"
-            className="inline-flex min-h-12 items-center justify-center rounded-2xl bg-neutral-950 px-6 py-3 text-sm font-medium text-white transition duration-200 hover:bg-[#E18147] hover:text-white hover:shadow-[0_0_0_3px_rgba(225,129,71,0.15)]"
+            className="inline-flex min-h-12 items-center justify-center rounded-2xl bg-neutral-950 px-6 py-3 text-sm font-medium text-white transition duration-200 hover:bg-[#0477BF] hover:text-white hover:shadow-[0_0_0_3px_rgba(4,119,191,0.15)]"
           >
             Ir a la tienda
           </Link>
 
           <Link
             href="/cotizar"
-            className="inline-flex min-h-12 items-center justify-center rounded-2xl border border-black/10 bg-white px-6 py-3 text-sm font-medium text-neutral-900 transition duration-200 hover:border-[#E18147] hover:bg-white hover:shadow-[0_0_0_3px_rgba(225,129,71,0.15)]"
+            className="inline-flex min-h-12 items-center justify-center rounded-2xl border border-black/10 bg-white px-6 py-3 text-sm font-medium text-neutral-900 transition duration-200 hover:border-[#0477BF] hover:bg-white hover:shadow-[0_0_0_3px_rgba(4,119,191,0.15)]"
           >
             Solicitar cotización
           </Link>

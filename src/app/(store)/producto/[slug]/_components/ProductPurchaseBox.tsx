@@ -282,7 +282,7 @@ export default function ProductPurchaseBox({
       </div>
 
       {!canPurchase ? (
-        <div className="rounded-2xl border border-[#E18147]/30 bg-[#E18147]/10 px-4 py-3 text-sm text-[#7c3d12]">
+        <div className="rounded-2xl border border-[#0477BF]/30 bg-[#0477BF]/10 px-4 py-3 text-sm text-[#04395c]">
           Este producto no tiene precio directo disponible. Continúa por
           cotización.
         </div>
@@ -292,7 +292,7 @@ export default function ProductPurchaseBox({
           type="button"
           onClick={handleAddToCart}
           disabled={!canPurchase}
-          className="inline-flex h-12 items-center justify-center rounded-2xl border border-zinc-200 bg-white text-sm font-medium text-zinc-900 transition duration-200 hover:border-[#E18147] hover:bg-white hover:shadow-[0_0_0_3px_rgba(225,129,71,0.15)] disabled:cursor-not-allowed disabled:opacity-50"
+          className="inline-flex h-12 items-center justify-center rounded-2xl border border-zinc-200 bg-white text-sm font-medium text-zinc-900 transition duration-200 hover:border-[#0477BF] hover:bg-white hover:shadow-[0_0_0_3px_rgba(4,119,191,0.15)] disabled:cursor-not-allowed disabled:opacity-50"
         >
           Añadir al carrito
         </button>
@@ -301,7 +301,7 @@ export default function ProductPurchaseBox({
           type="button"
           onClick={handleBuyNow}
           disabled={!canPurchase}
-          className="inline-flex h-12 items-center justify-center rounded-2xl bg-zinc-900 text-sm font-medium text-white transition duration-200 hover:bg-[#E18147] hover:text-white hover:shadow-[0_0_0_3px_rgba(225,129,71,0.15)] disabled:cursor-not-allowed disabled:opacity-50"
+          className="inline-flex h-12 items-center justify-center rounded-2xl bg-zinc-900 text-sm font-medium text-white transition duration-200 hover:bg-[#0477BF] hover:text-white hover:shadow-[0_0_0_3px_rgba(4,119,191,0.15)] disabled:cursor-not-allowed disabled:opacity-50"
         >
           Comprar ahora
         </button>
@@ -327,7 +327,7 @@ export default function ProductPurchaseBox({
         <button
           type="button"
           onClick={handleAddQuote}
-          className="inline-flex h-11 items-center justify-center rounded-2xl border border-zinc-200 bg-white text-sm font-medium text-zinc-900 transition duration-200 hover:border-[#E18147] hover:bg-white hover:shadow-[0_0_0_3px_rgba(225,129,71,0.15)]"
+          className="inline-flex h-11 items-center justify-center rounded-2xl border border-zinc-200 bg-white text-sm font-medium text-zinc-900 transition duration-200 hover:border-[#0477BF] hover:bg-white hover:shadow-[0_0_0_3px_rgba(4,119,191,0.15)]"
         >
           Agregar a cotizar
         </button>
@@ -335,14 +335,14 @@ export default function ProductPurchaseBox({
           href={whatsappHref}
           target="_blank"
           rel="noreferrer"
-          className="inline-flex h-11 items-center justify-center rounded-2xl border border-zinc-200 bg-white text-sm font-medium text-zinc-900 transition duration-200 hover:border-[#E18147] hover:bg-white hover:shadow-[0_0_0_3px_rgba(225,129,71,0.15)]"
+          className="inline-flex h-11 items-center justify-center rounded-2xl border border-zinc-200 bg-white text-sm font-medium text-zinc-900 transition duration-200 hover:border-[#0477BF] hover:bg-white hover:shadow-[0_0_0_3px_rgba(4,119,191,0.15)]"
         >
           Cotizar por WhatsApp
         </a>
 
         <a
           href="#especificaciones"
-          className="inline-flex h-11 items-center justify-center rounded-2xl bg-[#E18147] text-sm font-semibold text-white transition duration-200 hover:bg-[#E18147]/85 sm:col-span-2"
+          className="inline-flex h-11 items-center justify-center rounded-2xl bg-[#0477BF] text-sm font-semibold text-white transition duration-200 hover:bg-[#0477BF]/85 sm:col-span-2"
         >
           Ver especificaciones
         </a>

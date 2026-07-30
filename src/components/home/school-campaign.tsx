@@ -19,7 +19,7 @@ export default function SchoolCampaignSection() {
         <div className="relative overflow-hidden rounded-3xl border border-black/10 bg-white/55 backdrop-blur-2xl shadow-[0_18px_45px_rgba(0,0,0,0.12)]">
           <div className="pointer-events-none absolute inset-0">
             {/* wash de color muy suave */}
-            <div className="absolute -top-28 -left-28 h-[520px] w-[520px] rounded-full bg-[#E18147]/65 blur-3xl" />
+            <div className="absolute -top-28 -left-28 h-[520px] w-[520px] rounded-full bg-[#0477BF]/65 blur-3xl" />
             {/* azul (equilibra y da profundidad) */}
             <div className="absolute -bottom-40 -right-40 h-[760px] w-[760px] rounded-full bg-black/35 blur-3xl" />
             <div className="absolute inset-0 bg-gradient-to-b from-white/35 via-transparent to-white/20" />
@@ -33,11 +33,11 @@ export default function SchoolCampaignSection() {
                 <Badge
                   className={[
                     "relative overflow-hidden",
-                    "border border-[#E18147]/60",
-                    "bg-[#E18147]/25 text-zinc-900",
-                    "shadow-[0_10px_30px_rgba(225,129,71,0.25)]",
+                    "border border-[#0477BF]/60",
+                    "bg-[#0477BF]/25 text-zinc-900",
+                    "shadow-[0_10px_30px_rgba(4,119,191,0.25)]",
                     "backdrop-blur-xl",
-                    "hover:bg-[#E18147]/30",
+                    "hover:bg-[#0477BF]/30",
                     "after:pointer-events-none after:absolute after:inset-x-2 after:top-0 after:h-px",
                     "after:bg-gradient-to-r after:from-transparent after:via-white/70 after:to-transparent",
                   ].join(" ")}
@@ -78,7 +78,7 @@ export default function SchoolCampaignSection() {
               <div className="mt-7 flex flex-col gap-2 sm:flex-row">
                 <Button
                   asChild
-                  className="h-11 rounded-xl bg-black text-white transition-colors duration-200 hover:bg-[#E18147] hover:text-white"
+                  className="h-11 rounded-xl bg-black text-white transition-colors duration-200 hover:bg-[#0477BF] hover:text-white"
                 >
                   <Link href="/tienda?cat=lockers-kids">
                     Ver lockers escolares{" "}
@@ -89,7 +89,7 @@ export default function SchoolCampaignSection() {
                 <Button
                   asChild
                   variant="outline"
-                  className="h-11 rounded-xl border border-[#E18147]/40 bg-white text-zinc-900 transition-colors duration-200 hover:border-[#E18147] hover:shadow-[0_0_0_3px_rgba(225,129,71,0.15)]"
+                  className="h-11 rounded-xl border border-[#0477BF]/40 bg-white text-zinc-900 transition-colors duration-200 hover:border-[#0477BF] hover:shadow-[0_0_0_3px_rgba(4,119,191,0.15)]"
                 >
                   <a href={waLink()} target="_blank" rel="noopener noreferrer">
                     Cotizar WhatsApp

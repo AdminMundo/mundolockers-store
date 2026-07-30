@@ -137,7 +137,7 @@ export default function VariantSelector({
       {/* CTA big */}
       <button
         type="button"
-        className="h-12 w-full rounded-2xl bg-black text-white font-medium transition-colors duration-200 hover:bg-[#E18147] hover:text-white"
+        className="h-12 w-full rounded-2xl bg-black text-white font-medium transition-colors duration-200 hover:bg-[#0477BF] hover:text-white"
         onClick={() => {
           // TODO: conectar con el carrito (addItem)
         }}

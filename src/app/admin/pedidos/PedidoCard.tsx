@@ -59,7 +59,7 @@ const ESTADOS_PAGO: { value: EstadoPago; label: string }[] = [
 ];
 
 const ESTADO_STYLES: Record<string, string> = {
-  recibido: "bg-[#E18147]/20 text-[#7c3d12] border-[#E18147]/30",
+  recibido: "bg-[#0477BF]/20 text-[#04395c] border-[#0477BF]/30",
   gestionando: "bg-blue-100 text-blue-800 border-blue-200",
   preparado: "bg-violet-100 text-violet-800 border-violet-200",
   enviado: "bg-indigo-100 text-indigo-800 border-indigo-200",
@@ -69,7 +69,7 @@ const ESTADO_STYLES: Record<string, string> = {
 };
 
 const ESTADO_ACTIVE: Record<string, string> = {
-  recibido: "bg-[#E18147] text-white border-[#E18147]",
+  recibido: "bg-[#0477BF] text-white border-[#0477BF]",
   gestionando: "bg-blue-600 text-white border-blue-600",
   preparado: "bg-violet-600 text-white border-violet-600",
   enviado: "bg-indigo-600 text-white border-indigo-600",
@@ -79,7 +79,7 @@ const ESTADO_ACTIVE: Record<string, string> = {
 };
 
 const PAGO_STYLES: Record<string, string> = {
-  pendiente: "bg-[#E18147]/10 text-[#9a4d1e] border-[#E18147]/30",
+  pendiente: "bg-[#0477BF]/10 text-[#0a5c8c] border-[#0477BF]/30",
   pagado: "bg-emerald-50 text-emerald-700 border-emerald-200",
   rechazado: "bg-red-50 text-red-700 border-red-200",
 };
@@ -261,7 +261,7 @@ export function PedidoCard({ p }: { p: Pedido }) {
                       ? "bg-emerald-600 text-white border-emerald-600"
                       : e.value === "rechazado"
                         ? "bg-red-600 text-white border-red-600"
-                        : "bg-[#E18147] text-white border-[#E18147]"
+                        : "bg-[#0477BF] text-white border-[#0477BF]"
                     : "border-black/10 bg-white text-black/60 hover:border-black/20 hover:text-black",
                   isPending ? "cursor-not-allowed opacity-50" : "",
                 ].join(" ")}
@@ -378,8 +378,8 @@ export function PedidoCard({ p }: { p: Pedido }) {
 
       {/* Notas */}
       {p.notas && (
-        <div className="mt-3 rounded-2xl bg-[#E18147]/10 border border-[#E18147]/20 px-4 py-3">
-          <p className="text-[10px] font-semibold uppercase tracking-widest text-[#E18147]/70">
+        <div className="mt-3 rounded-2xl bg-[#0477BF]/10 border border-[#0477BF]/20 px-4 py-3">
+          <p className="text-[10px] font-semibold uppercase tracking-widest text-[#0477BF]/70">
             Notas internas
           </p>
           <p className="mt-1 text-sm leading-6 text-black/70">{p.notas}</p>

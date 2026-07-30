@@ -8,14 +8,14 @@ export default function CTAGroup({ productName }: { productName: string }) {
     <div className="grid gap-3 sm:grid-cols-2">
       <a
         href={href}
-        className="h-11 inline-flex items-center justify-center rounded-2xl border border-[#E18147]/40 bg-white text-sm font-medium text-zinc-900 transition-colors duration-200 hover:border-[#E18147] hover:shadow-[0_0_0_3px_rgba(225,129,71,0.15)]"
+        className="h-11 inline-flex items-center justify-center rounded-2xl border border-[#0477BF]/40 bg-white text-sm font-medium text-zinc-900 transition-colors duration-200 hover:border-[#0477BF] hover:shadow-[0_0_0_3px_rgba(4,119,191,0.15)]"
       >
         Cotizar por WhatsApp
       </a>
 
       <a
         href="#especificaciones"
-        className="h-11 inline-flex items-center justify-center rounded-2xl bg-[#E18147] text-sm font-semibold text-white hover:bg-[#E18147]/85"
+        className="h-11 inline-flex items-center justify-center rounded-2xl bg-[#0477BF] text-sm font-semibold text-white hover:bg-[#0477BF]/85"
       >
         Ver especificaciones
       </a>

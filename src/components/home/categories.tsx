@@ -147,7 +147,7 @@ function CategoryCard({ c }: { c: Category }) {
 
               <Button
                 variant="outline"
-                className="mt-2 h-9 rounded-xl border border-[#E18147]/40 bg-white text-zinc-900 transition-colors duration-200 hover:border-[#E18147] hover:shadow-[0_0_0_3px_rgba(225,129,71,0.15)]"
+                className="mt-2 h-9 rounded-xl border border-[#0477BF]/40 bg-white text-zinc-900 transition-colors duration-200 hover:border-[#0477BF] hover:shadow-[0_0_0_3px_rgba(4,119,191,0.15)]"
               >
                 Ver más <ArrowRight className="ml-2 h-4 w-4" />
               </Button>
@@ -238,7 +238,7 @@ export default function CategoriesSection() {
           <Button
             asChild
             variant="outline"
-            className="mt-3 h-9 rounded-xl border border-[#E18147]/40 bg-white text-zinc-900 transition-colors duration-200 hover:border-[#E18147] hover:shadow-[0_0_0_3px_rgba(225,129,71,0.15)]"
+            className="mt-3 h-9 rounded-xl border border-[#0477BF]/40 bg-white text-zinc-900 transition-colors duration-200 hover:border-[#0477BF] hover:shadow-[0_0_0_3px_rgba(4,119,191,0.15)]"
           >
             <Link href="/tienda">Ver todo</Link>
           </Button>

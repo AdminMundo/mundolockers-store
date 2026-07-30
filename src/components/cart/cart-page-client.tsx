@@ -62,7 +62,7 @@ function MobileStickyBar({ summary }: { summary: CartSummary }) {
           {hasPurchaseItems ? (
             <Link
               href="/checkout"
-              className="inline-flex min-h-12 items-center justify-center rounded-2xl bg-black px-5 py-3 text-sm font-medium text-white transition-colors duration-200 hover:bg-[#E18147] hover:text-white"
+              className="inline-flex min-h-12 items-center justify-center rounded-2xl bg-black px-5 py-3 text-sm font-medium text-white transition-colors duration-200 hover:bg-[#0477BF] hover:text-white"
             >
               Finalizar compra
             </Link>
@@ -71,7 +71,7 @@ function MobileStickyBar({ summary }: { summary: CartSummary }) {
           {hasQuoteItems ? (
             <Link
               href="/cotizar"
-              className="inline-flex min-h-12 items-center justify-center rounded-2xl border border-[#E18147]/40 bg-white px-5 py-3 text-sm font-medium text-zinc-900 transition-colors duration-200 hover:border-[#E18147] hover:shadow-[0_0_0_3px_rgba(225,129,71,0.15)]"
+              className="inline-flex min-h-12 items-center justify-center rounded-2xl border border-[#0477BF]/40 bg-white px-5 py-3 text-sm font-medium text-zinc-900 transition-colors duration-200 hover:border-[#0477BF] hover:shadow-[0_0_0_3px_rgba(4,119,191,0.15)]"
             >
               Solicitar cotización
             </Link>
@@ -166,14 +166,14 @@ export function CartPageClient({ initialState }: Props) {
               <div className="flex flex-col gap-3 pt-2 sm:flex-row">
                 <Link
                   href="/tienda"
-                  className="inline-flex min-h-11 items-center justify-center rounded-2xl border border-[#E18147]/40 bg-white px-5 py-3 text-sm font-medium text-zinc-900 transition-colors duration-200 hover:border-[#E18147] hover:shadow-[0_0_0_3px_rgba(225,129,71,0.15)]"
+                  className="inline-flex min-h-11 items-center justify-center rounded-2xl border border-[#0477BF]/40 bg-white px-5 py-3 text-sm font-medium text-zinc-900 transition-colors duration-200 hover:border-[#0477BF] hover:shadow-[0_0_0_3px_rgba(4,119,191,0.15)]"
                 >
                   Seguir comprando
                 </Link>
 
                 <button
                   type="button"
-                  className="inline-flex min-h-11 items-center justify-center rounded-2xl border border-[#E18147]/40 bg-white px-5 py-3 text-sm font-medium text-zinc-900 transition-colors duration-200 hover:border-[#E18147] hover:shadow-[0_0_0_3px_rgba(225,129,71,0.15)]"
+                  className="inline-flex min-h-11 items-center justify-center rounded-2xl border border-[#0477BF]/40 bg-white px-5 py-3 text-sm font-medium text-zinc-900 transition-colors duration-200 hover:border-[#0477BF] hover:shadow-[0_0_0_3px_rgba(4,119,191,0.15)]"
                   onClick={clear}
                 >
                   Vaciar carrito

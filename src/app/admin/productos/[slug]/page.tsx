@@ -126,7 +126,7 @@ export default async function AdminProductoDetallePage({
               href="/admin/productos"
               className="inline-flex items-center rounded-2xl px-4 py-2.5 text-sm font-medium transition"
               style={{
-                backgroundColor: "#E18147",
+                backgroundColor: "#0477BF",
                 color: "#ffffff",
               }}
             >

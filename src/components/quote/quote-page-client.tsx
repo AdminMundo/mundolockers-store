@@ -101,14 +101,14 @@ export function QuotePageClient({ initialState }: Props) {
                   <div className="mt-6 flex flex-col gap-3 sm:flex-row">
                     <Link
                       href="/tienda"
-                      className="inline-flex min-h-12 items-center justify-center rounded-2xl bg-neutral-950 px-6 py-3 text-sm font-medium text-white transition duration-200 hover:bg-[#E18147] hover:text-white hover:shadow-[0_0_0_3px_rgba(225,129,71,0.15)]"
+                      className="inline-flex min-h-12 items-center justify-center rounded-2xl bg-neutral-950 px-6 py-3 text-sm font-medium text-white transition duration-200 hover:bg-[#0477BF] hover:text-white hover:shadow-[0_0_0_3px_rgba(4,119,191,0.15)]"
                     >
                       Ver tienda
                     </Link>
 
                     <Link
                       href="/carrito"
-                      className="inline-flex min-h-12 items-center justify-center rounded-2xl border border-black/10 bg-white px-6 py-3 text-sm font-medium text-neutral-900 transition duration-200 hover:border-[#E18147] hover:bg-white hover:shadow-[0_0_0_3px_rgba(225,129,71,0.15)]"
+                      className="inline-flex min-h-12 items-center justify-center rounded-2xl border border-black/10 bg-white px-6 py-3 text-sm font-medium text-neutral-900 transition duration-200 hover:border-[#0477BF] hover:bg-white hover:shadow-[0_0_0_3px_rgba(4,119,191,0.15)]"
                     >
                       Ir al carrito
                     </Link>
@@ -147,7 +147,7 @@ export function QuotePageClient({ initialState }: Props) {
                   </div>
                   <Link
                     href="/tienda"
-                    className="inline-flex min-h-10 items-center justify-center rounded-2xl border border-black/10 bg-white px-5 py-2.5 text-sm font-medium text-neutral-900 transition duration-200 hover:border-[#E18147] hover:shadow-[0_0_0_3px_rgba(225,129,71,0.15)]"
+                    className="inline-flex min-h-10 items-center justify-center rounded-2xl border border-black/10 bg-white px-5 py-2.5 text-sm font-medium text-neutral-900 transition duration-200 hover:border-[#0477BF] hover:shadow-[0_0_0_3px_rgba(4,119,191,0.15)]"
                   >
                     Seguir viendo productos
                   </Link>
@@ -285,7 +285,7 @@ export function QuotePageClient({ initialState }: Props) {
                       <button
                         type="submit"
                         disabled={pending}
-                        className="inline-flex min-h-12 items-center justify-center rounded-2xl bg-neutral-950 px-6 py-3 text-sm font-medium text-white transition duration-200 hover:bg-[#E18147] hover:text-white hover:shadow-[0_0_0_3px_rgba(225,129,71,0.15)] disabled:cursor-not-allowed disabled:opacity-60"
+                        className="inline-flex min-h-12 items-center justify-center rounded-2xl bg-neutral-950 px-6 py-3 text-sm font-medium text-white transition duration-200 hover:bg-[#0477BF] hover:text-white hover:shadow-[0_0_0_3px_rgba(4,119,191,0.15)] disabled:cursor-not-allowed disabled:opacity-60"
                       >
                         {pending ? "Enviando…" : "Enviar solicitud"}
                       </button>
@@ -294,7 +294,7 @@ export function QuotePageClient({ initialState }: Props) {
                         href="https://wa.me/56994131814"
                         target="_blank"
                         rel="noreferrer"
-                        className="inline-flex min-h-12 items-center justify-center rounded-2xl border border-black/10 bg-white px-6 py-3 text-sm font-medium text-neutral-900 transition duration-200 hover:border-[#E18147] hover:bg-white hover:shadow-[0_0_0_3px_rgba(225,129,71,0.15)]"
+                        className="inline-flex min-h-12 items-center justify-center rounded-2xl border border-black/10 bg-white px-6 py-3 text-sm font-medium text-neutral-900 transition duration-200 hover:border-[#0477BF] hover:bg-white hover:shadow-[0_0_0_3px_rgba(4,119,191,0.15)]"
                       >
                         Cotizar por WhatsApp
                       </a>
@@ -307,7 +307,7 @@ export function QuotePageClient({ initialState }: Props) {
 
           <aside className="space-y-6 lg:sticky lg:top-24 lg:self-start">
             {summary.mixedFlow ? (
-              <section className="rounded-[28px] bg-[#E18147]/10 px-5 py-4 text-sm leading-7 text-[#7c3d12]">
+              <section className="rounded-[28px] bg-[#0477BF]/10 px-5 py-4 text-sm leading-7 text-[#04395c]">
                 Tu carrito tiene productos de compra directa y productos para
                 cotizar. Cada flujo continúa por separado.
               </section>
@@ -335,7 +335,7 @@ export function QuotePageClient({ initialState }: Props) {
                 {purchaseItems.length > 0 ? (
                   <Link
                     href="/checkout"
-                    className="inline-flex min-h-12 items-center justify-center rounded-2xl bg-neutral-950 px-5 py-3 text-sm font-medium text-white transition duration-200 hover:bg-[#E18147] hover:text-white hover:shadow-[0_0_0_3px_rgba(225,129,71,0.15)]"
+                    className="inline-flex min-h-12 items-center justify-center rounded-2xl bg-neutral-950 px-5 py-3 text-sm font-medium text-white transition duration-200 hover:bg-[#0477BF] hover:text-white hover:shadow-[0_0_0_3px_rgba(4,119,191,0.15)]"
                   >
                     Finalizar compra
                   </Link>
@@ -343,14 +343,14 @@ export function QuotePageClient({ initialState }: Props) {
 
                 <Link
                   href="/tienda"
-                  className="inline-flex min-h-12 items-center justify-center rounded-2xl border border-black/10 bg-white px-5 py-3 text-sm font-medium text-neutral-900 transition duration-200 hover:border-[#E18147] hover:bg-white hover:shadow-[0_0_0_3px_rgba(225,129,71,0.15)]"
+                  className="inline-flex min-h-12 items-center justify-center rounded-2xl border border-black/10 bg-white px-5 py-3 text-sm font-medium text-neutral-900 transition duration-200 hover:border-[#0477BF] hover:bg-white hover:shadow-[0_0_0_3px_rgba(4,119,191,0.15)]"
                 >
                   Ver tienda
                 </Link>
 
                 <Link
                   href="/carrito"
-                  className="inline-flex min-h-12 items-center justify-center rounded-2xl border border-black/10 bg-white px-5 py-3 text-sm font-medium text-neutral-900 transition duration-200 hover:border-[#E18147] hover:bg-white hover:shadow-[0_0_0_3px_rgba(225,129,71,0.15)]"
+                  className="inline-flex min-h-12 items-center justify-center rounded-2xl border border-black/10 bg-white px-5 py-3 text-sm font-medium text-neutral-900 transition duration-200 hover:border-[#0477BF] hover:bg-white hover:shadow-[0_0_0_3px_rgba(4,119,191,0.15)]"
                 >
                   Ir al carrito
                 </Link>

@@ -34,7 +34,7 @@ export default function NotFound() {
       <div className="mt-8 flex flex-wrap justify-center gap-3">
         <Button
           asChild
-          className="h-10 rounded-xl bg-[#E18147] text-white font-semibold hover:brightness-110 shadow-[0_2px_12px_rgba(225,129,71,0.35)]"
+          className="h-10 rounded-xl bg-[#0477BF] text-white font-semibold hover:brightness-110 shadow-[0_2px_12px_rgba(4,119,191,0.35)]"
         >
           <Link href="/tienda">
             Ver tienda <ArrowRight className="ml-2 h-4 w-4" />

@@ -61,10 +61,10 @@ export function PolicyPage({ badge, title, subtitle, updatedAt, sections }: Prop
               </a>
             </p>
             <div className="mt-4 flex flex-wrap gap-3">
-              <Link href="/tienda" className="inline-flex h-9 items-center rounded-xl bg-black px-4 text-sm font-medium text-white transition-colors duration-200 hover:bg-[#E18147] hover:text-white">
+              <Link href="/tienda" className="inline-flex h-9 items-center rounded-xl bg-black px-4 text-sm font-medium text-white transition-colors duration-200 hover:bg-[#0477BF] hover:text-white">
                 Ver tienda
               </Link>
-              <Link href="/" className="inline-flex h-9 items-center rounded-xl border border-[#E18147]/40 bg-white px-4 text-sm font-medium text-zinc-900 transition-colors duration-200 hover:border-[#E18147] hover:shadow-[0_0_0_3px_rgba(225,129,71,0.15)]">
+              <Link href="/" className="inline-flex h-9 items-center rounded-xl border border-[#0477BF]/40 bg-white px-4 text-sm font-medium text-zinc-900 transition-colors duration-200 hover:border-[#0477BF] hover:shadow-[0_0_0_3px_rgba(4,119,191,0.15)]">
                 Volver al inicio
               </Link>
             </div>

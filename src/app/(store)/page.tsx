@@ -79,7 +79,7 @@ export default function HomePage() {
               <div className="mt-7 flex gap-4">
                 <Button
                   asChild
-                  className="h-12 rounded-xl bg-black px-7 text-base font-semibold text-white transition-colors duration-200 hover:bg-[#E18147] hover:text-white"
+                  className="h-12 rounded-xl bg-black px-7 text-base font-semibold text-white transition-colors duration-200 hover:bg-[#0477BF] hover:text-white"
                 >
                   <Link href="/cotizar">Cotizar Ahora</Link>
                 </Button>
@@ -87,7 +87,7 @@ export default function HomePage() {
                 <Button
                   asChild
                   variant="outline"
-                  className="h-12 rounded-xl border border-[#E18147]/40 bg-white px-7 text-base font-semibold text-zinc-900 transition-colors duration-200 hover:border-[#E18147] hover:shadow-[0_0_0_3px_rgba(225,129,71,0.15)]"
+                  className="h-12 rounded-xl border border-[#0477BF]/40 bg-white px-7 text-base font-semibold text-zinc-900 transition-colors duration-200 hover:border-[#0477BF] hover:shadow-[0_0_0_3px_rgba(4,119,191,0.15)]"
                 >
                   <Link href="/tienda">Ver Productos</Link>
                 </Button>

@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 };
 
 const ESTADO_DOT: Record<string, string> = {
-  pendiente: "bg-[#E18147]",
+  pendiente: "bg-[#0477BF]",
   "en-proceso": "bg-blue-500",
   respondida: "bg-green-500",
   cerrada: "bg-zinc-400",
@@ -26,7 +26,7 @@ const ESTADO_LABEL: Record<string, string> = {
 };
 
 const PAGO_DOT: Record<string, string> = {
-  pendiente: "bg-[#E18147]",
+  pendiente: "bg-[#0477BF]",
   pagado: "bg-green-500",
   rechazado: "bg-red-400",
 };
@@ -101,13 +101,13 @@ export default async function AdminPage() {
       sub: `de ${totalProductos} totales`,
       color: "text-white",
       bg: "bg-zinc-900",
-      accent: "#E18147",
+      accent: "#0477BF",
     },
     {
       label: "Cotizaciones pendientes",
       value: pendientes,
       sub: `${enProceso} en proceso`,
-      color: "text-[#E18147]",
+      color: "text-[#0477BF]",
       bg: "bg-white",
       accent: null,
     },
@@ -115,7 +115,7 @@ export default async function AdminPage() {
       label: "Pedidos pendientes de pago",
       value: pedidosPendientes,
       sub: `${pedidosPagados} pagado${pedidosPagados !== 1 ? "s" : ""}`,
-      color: pedidosPendientes > 0 ? "text-[#E18147]" : "text-green-600",
+      color: pedidosPendientes > 0 ? "text-[#0477BF]" : "text-green-600",
       bg: "bg-white",
       accent: null,
     },
@@ -279,7 +279,7 @@ export default async function AdminPage() {
             </h2>
             <div className="mt-4 space-y-2.5">
               {[
-                { label: "Pendientes", value: pendientes, dot: "bg-[#E18147]" },
+                { label: "Pendientes", value: pendientes, dot: "bg-[#0477BF]" },
                 { label: "En proceso", value: enProceso, dot: "bg-blue-500" },
                 { label: "Respondidas", value: respondidas, dot: "bg-green-500" },
                 { label: "Cerradas", value: cerradas, dot: "bg-zinc-300" },
@@ -404,7 +404,7 @@ export default async function AdminPage() {
             </h2>
             <div className="mt-4 space-y-2.5">
               {[
-                { label: "Pendientes de pago", value: pedidosPendientes, dot: "bg-[#E18147]" },
+                { label: "Pendientes de pago", value: pedidosPendientes, dot: "bg-[#0477BF]" },
                 { label: "Pagados", value: pedidosPagados, dot: "bg-green-500" },
                 { label: "Rechazados", value: pedidosRechazados, dot: "bg-red-400" },
               ].map((row) => (

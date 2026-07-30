@@ -100,7 +100,7 @@ function ProductCard({ p }: { p: FeaturedProduct }) {
 
           {/* Producto flotante */}
           <div className="mt-4 relative h-[200px] w-full">
-            <div className="pointer-events-none absolute inset-x-4 top-10 h-48 rounded-full blur-3xl bg-[#E18147]/40" />
+            <div className="pointer-events-none absolute inset-x-4 top-10 h-48 rounded-full blur-3xl bg-[#0477BF]/40" />
             <Image
               src={p.image}
               alt={p.title}
@@ -136,14 +136,14 @@ function ProductCard({ p }: { p: FeaturedProduct }) {
               <div className="mt-3 flex items-center gap-2">
                 <Button
                   variant="outline"
-                  className="h-9 rounded-xl border border-[#E18147]/40 bg-white text-zinc-900 transition-colors duration-200 hover:border-[#E18147] hover:shadow-[0_0_0_3px_rgba(225,129,71,0.15)]"
+                  className="h-9 rounded-xl border border-[#0477BF]/40 bg-white text-zinc-900 transition-colors duration-200 hover:border-[#0477BF] hover:shadow-[0_0_0_3px_rgba(4,119,191,0.15)]"
                 >
                   Ver ficha
                   <ArrowRight className="ml-2 h-4 w-4" />
                 </Button>
                 <WhatsAppButton
                   href={waLink(p.title)}
-                  className="h-9 rounded-xl border border-[#E18147]/40 bg-white text-zinc-900 transition-colors duration-200 hover:border-[#E18147] hover:shadow-[0_0_0_3px_rgba(225,129,71,0.15)]"
+                  className="h-9 rounded-xl border border-[#0477BF]/40 bg-white text-zinc-900 transition-colors duration-200 hover:border-[#0477BF] hover:shadow-[0_0_0_3px_rgba(4,119,191,0.15)]"
                 >
                   WhatsApp
                 </WhatsAppButton>
@@ -183,13 +183,13 @@ export default function FeaturedProductsSection() {
             <Button
               asChild
               variant="outline"
-              className="h-10 rounded-xl border border-[#E18147]/40 bg-white text-zinc-900 transition-colors duration-200 hover:border-[#E18147] hover:shadow-[0_0_0_3px_rgba(225,129,71,0.15)]"
+              className="h-10 rounded-xl border border-[#0477BF]/40 bg-white text-zinc-900 transition-colors duration-200 hover:border-[#0477BF] hover:shadow-[0_0_0_3px_rgba(4,119,191,0.15)]"
             >
               <Link href="/tienda">Ver tienda</Link>
             </Button>
             <Button
               asChild
-              className="h-10 rounded-xl bg-black text-white transition-colors duration-200 hover:bg-[#E18147] hover:text-white"
+              className="h-10 rounded-xl bg-black text-white transition-colors duration-200 hover:bg-[#0477BF] hover:text-white"
             >
               <a
                 href="https://wa.me/56994131814"
@@ -212,14 +212,14 @@ export default function FeaturedProductsSection() {
           <Button
             asChild
             variant="outline"
-            className="h-10 w-full rounded-xl border border-[#E18147]/40 bg-white text-zinc-900 transition-colors duration-200 hover:border-[#E18147] hover:shadow-[0_0_0_3px_rgba(225,129,71,0.15)]"
+            className="h-10 w-full rounded-xl border border-[#0477BF]/40 bg-white text-zinc-900 transition-colors duration-200 hover:border-[#0477BF] hover:shadow-[0_0_0_3px_rgba(4,119,191,0.15)]"
           >
             <Link href="/tienda">Ver tienda</Link>
           </Button>
 
           <Button
             asChild
-            className="h-10 w-full rounded-xl bg-black text-white transition-colors duration-200 hover:bg-[#E18147] hover:text-white"
+            className="h-10 w-full rounded-xl bg-black text-white transition-colors duration-200 hover:bg-[#0477BF] hover:text-white"
           >
             <a
               href={waLink("un locker")}
