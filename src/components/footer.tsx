@@ -10,224 +10,229 @@ const WHATSAPP_TEXT = encodeURIComponent(
 
 export default function Footer() {
   return (
-    <footer className="bg-[#F5F5F7] text-zinc-900">
+    <footer className="bg-[#F5F5F7]">
       <div className="mx-auto max-w-6xl px-4 pb-10 pt-14">
         <div
           className={[
-            "rounded-3xl border border-black/10",
-            "bg-white/60 backdrop-blur-2xl",
-            "shadow-[0_18px_45px_rgba(0,0,0,0.10)]",
+            "relative overflow-hidden rounded-3xl",
+            "bg-gradient-to-b from-[#0477BF] to-[#04527f] text-white",
+            "shadow-[0_20px_50px_rgba(4,119,191,0.25)]",
             "p-7 md:p-10",
           ].join(" ")}
         >
-          <div className="grid gap-10 md:grid-cols-4">
-            {/* Brand */}
-            <div className="md:col-span-1">
-          <Link href="/" className="group flex items-center shrink-0">
-            <Image
-              src="/brand/logometalico2.webp"
-              alt="LockerStore"
-              width={320}
-              height={90}
-              priority
-              sizes="(max-width: 768px) 180px, 320px"
-              className="
-                logo-float
-                h-10 md:h-9 w-auto
-                opacity-95 brightness-110 contrast-125
-                drop-shadow-[0_4px_18px_rgba(0,0,0,0.28)]
-                transition-all duration-500 ease-out
-                group-hover:scale-[1.04]
-                group-hover:brightness-125
-                group-hover:drop-shadow-[0_8px_24px_rgba(255,255,255,0.18)]
-              "
-            />
-          </Link>
+          {/* Círculos decorativos */}
+          <div className="pointer-events-none absolute -left-40 top-0 h-96 w-96 rounded-full bg-white/10 blur-3xl" />
+          <div className="pointer-events-none absolute right-[-8rem] top-1/4 h-[26rem] w-[26rem] rounded-full bg-[#03395c]/50 blur-3xl" />
+          <div className="pointer-events-none absolute left-1/3 bottom-[-6rem] h-72 w-72 rounded-full bg-white/5 blur-3xl" />
 
-              <p className="mt-3 text-sm text-zinc-600">
-                Lockers metálicos y plásticos para industria, colegios y
-                proyectos institucionales.
+          <div className="relative">
+            <div className="grid gap-10 md:grid-cols-4">
+              {/* Brand */}
+              <div className="md:col-span-1">
+                <Link href="/" className="group flex items-center shrink-0">
+                  <Image
+                    src="/brand/logometalico2.webp"
+                    alt="LockerStore"
+                    width={320}
+                    height={90}
+                    priority
+                    sizes="(max-width: 768px) 180px, 320px"
+                    className="
+                      logo-float
+                      h-10 md:h-9 w-auto
+                      opacity-95 brightness-110 contrast-125
+                      drop-shadow-[0_4px_18px_rgba(0,0,0,0.28)]
+                      transition-all duration-500 ease-out
+                      group-hover:scale-[1.04]
+                      group-hover:drop-shadow-[0_8px_24px_rgba(255,255,255,0.28)]
+                    "
+                  />
+                </Link>
+
+                <p className="mt-3 text-sm text-white/70">
+                  Lockers metálicos y plásticos para industria, colegios y
+                  proyectos institucionales.
+                </p>
+
+                <div className="mt-5 flex flex-wrap gap-2">
+                  <Button
+                    asChild
+                    className="h-10 rounded-xl bg-white text-[#04527f] px-5 text-sm font-medium transition-colors duration-200 hover:bg-white/90"
+                  >
+                    <a
+                      href={`https://wa.me/${WHATSAPP_NUMBER}?text=${WHATSAPP_TEXT}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      Cotizar WhatsApp <ArrowRight className="ml-2 h-4 w-4" />
+                    </a>
+                  </Button>
+
+                  <Button
+                    asChild
+                    variant="outline"
+                    className="h-10 rounded-xl border border-white/30 bg-transparent text-white transition-colors duration-200 hover:border-white hover:bg-white/10"
+                  >
+                    <Link href="/tienda">Ver tienda</Link>
+                  </Button>
+                </div>
+              </div>
+
+              {/* Tienda */}
+              <div>
+                <h3 className="text-sm font-semibold tracking-tight text-white">Tienda</h3>
+                <ul className="mt-4 space-y-3 text-sm text-white/70">
+                  <li>
+                    <Link
+                      className="transition-colors hover:text-white"
+                      href="/tienda?cat=lockers-metalicos"
+                    >
+                      Lockers Metálicos
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      className="transition-colors hover:text-white"
+                      href="/tienda?cat=lockers-kids"
+                    >
+                      Lockers Kids
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      className="transition-colors hover:text-white"
+                      href="/tienda?cat=lockers-escolares"
+                    >
+                      Lockers Escolares
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      className="transition-colors hover:text-white"
+                      href="/tienda?cat=lockers-mineros"
+                    >
+                      Lockers Mineros
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      className="transition-colors hover:text-white"
+                      href="/tienda?cat=lockers-phone&page=1"
+                    >
+                      Lockers Para Telefonos
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      className="transition-colors hover:text-white"
+                      href="/tienda?cat=kardex-y-cajoneras"
+                    >
+                      Kardex &amp; Cajoneras
+                    </Link>
+                  </li>
+                </ul>
+              </div>
+
+              {/* Ayuda */}
+              <div>
+                <h3 className="text-sm font-semibold tracking-tight text-white">Ayuda</h3>
+                <ul className="mt-4 space-y-3 text-sm text-white/70">
+                  <li>
+                    <Link className="transition-colors hover:text-white" href="/nosotros">
+                      Quiénes somos
+                    </Link>
+                  </li>
+                  <li>
+                    <Link className="transition-colors hover:text-white" href="/contacto">
+                      Contacto
+                    </Link>
+                  </li>
+                  <li>
+                    <Link className="transition-colors hover:text-white" href="/despacho">
+                      Despacho e instalación
+                    </Link>
+                  </li>
+                  <li>
+                    <Link className="transition-colors hover:text-white" href="/garantia">
+                      Garantía
+                    </Link>
+                  </li>
+                  <li>
+                    <Link className="transition-colors hover:text-white" href="/medios-de-pago">
+                      Medios de pago
+                    </Link>
+                  </li>
+                  <li>
+                    <Link className="transition-colors hover:text-white" href="/#faq">
+                      Preguntas frecuentes
+                    </Link>
+                  </li>
+                  <li>
+                    <Link className="transition-colors hover:text-white" href="/cotizar">
+                      Cotizar
+                    </Link>
+                  </li>
+                </ul>
+              </div>
+
+              {/* Contacto */}
+              <div>
+                <h3 className="text-sm font-semibold tracking-tight text-white">Contacto</h3>
+
+                <ul className="mt-4 space-y-4 text-sm text-white/70">
+                  <li className="flex gap-3">
+                    <Mail className="mt-0.5 h-4 w-4 text-white/50" />
+                    <a
+                      className="transition-colors hover:text-white"
+                      href="mailto:lockerstore2@gmail.com"
+                    >
+                      lockerstore2@gmail.com
+                    </a>
+                  </li>
+
+                  <li className="flex gap-3">
+                    <MessageCircle className="mt-0.5 h-4 w-4 text-white/50" />
+                    <a
+                      className="transition-colors hover:text-white"
+                      href={`https://wa.me/${WHATSAPP_NUMBER}?text=${WHATSAPP_TEXT}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      +56 9 94131814
+                    </a>
+                  </li>
+                </ul>
+
+                <div className="mt-5 text-xs text-white/50">
+                  Dominio: <span className="text-white/80">lockersstore.cl</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Bottom bar */}
+            <div className="mt-12 flex flex-col gap-3 border-t border-white/15 pt-6 text-xs text-white/60 md:flex-row md:items-center md:justify-between">
+              <p>
+                © {new Date().getFullYear()} LockerStore. Todos los derechos
+                reservados.
               </p>
 
-              <div className="mt-5 flex flex-wrap gap-2">
-                <Button
-                  asChild
-                  className="h-10 rounded-xl bg-black text-white px-5 text-sm font-medium transition-colors duration-200 hover:bg-[#0477BF] hover:text-white"
+              <div className="flex flex-wrap gap-x-4 gap-y-2">
+                <Link className="transition-colors hover:text-white" href="/politicas/privacidad">
+                  Privacidad
+                </Link>
+                <Link className="transition-colors hover:text-white" href="/politicas/terminos">
+                  Términos
+                </Link>
+                <Link
+                  className="transition-colors hover:text-white"
+                  href="/politicas/cambios-y-devoluciones"
                 >
-                  <a
-                    href={`https://wa.me/${WHATSAPP_NUMBER}?text=${WHATSAPP_TEXT}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    Cotizar WhatsApp <ArrowRight className="ml-2 h-4 w-4" />
-                  </a>
-                </Button>
-
-                <Button
-                  asChild
-                  variant="outline"
-                  className="h-10 rounded-xl border border-[#0477BF]/40 bg-white text-zinc-900 transition-colors duration-200 hover:border-[#0477BF] hover:shadow-[0_0_0_3px_rgba(4,119,191,0.15)]"
-                >
-                  <Link href="/tienda">Ver tienda</Link>
-                </Button>
+                  Cambios y devoluciones
+                </Link>
+                <Link className="transition-colors hover:text-white" href="/login">
+                  Administrador
+                </Link>
               </div>
-            </div>
-
-            {/* Tienda */}
-            <div>
-              <h3 className="text-sm font-semibold tracking-tight">Tienda</h3>
-              <ul className="mt-4 space-y-3 text-sm text-zinc-700">
-                <li>
-                  <Link
-                    className="hover:text-black"
-                    href="/tienda?cat=lockers-metalicos"
-                  >
-                    Lockers Metálicos
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    className="hover:text-black"
-                    href="/tienda?cat=lockers-kids"
-                  >
-                    Lockers Kids
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    className="hover:text-black"
-                    href="/tienda?cat=lockers-escolares"
-                  >
-                    Lockers Escolares
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    className="hover:text-black"
-                    href="/tienda?cat=lockers-mineros"
-                  >
-                    Lockers Mineros
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    className="hover:text-black"
-                    href="/tienda?cat=lockers-phone&page=1"
-                  >
-                    Lockers Para Telefonos
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    className="hover:text-black"
-                    href="/tienda?cat=kardex-y-cajoneras"
-                  >
-                    Kardex &amp; Cajoneras
-                  </Link>
-                </li>
-              </ul>
-            </div>
-
-            {/* Ayuda */}
-            <div>
-              <h3 className="text-sm font-semibold tracking-tight">Ayuda</h3>
-              <ul className="mt-4 space-y-3 text-sm text-zinc-700">
-                <li>
-                  <Link className="hover:text-black" href="/nosotros">
-                    Quiénes somos
-                  </Link>
-                </li>
-                <li>
-                  <Link className="hover:text-black" href="/contacto">
-                    Contacto
-                  </Link>
-                </li>
-                <li>
-                  <Link className="hover:text-black" href="/despacho">
-                    Despacho e instalación
-                  </Link>
-                </li>
-                <li>
-                  <Link className="hover:text-black" href="/garantia">
-                    Garantía
-                  </Link>
-                </li>
-                <li>
-                  <Link className="hover:text-black" href="/medios-de-pago">
-                    Medios de pago
-                  </Link>
-                </li>
-                <li>
-                  <Link className="hover:text-black" href="/#faq">
-                    Preguntas frecuentes
-                  </Link>
-                </li>
-                <li>
-                  <Link className="hover:text-black" href="/cotizar">
-                    Cotizar
-                  </Link>
-                </li>
-              </ul>
-            </div>
-
-            {/* Contacto */}
-            <div>
-              <h3 className="text-sm font-semibold tracking-tight">Contacto</h3>
-
-              <ul className="mt-4 space-y-4 text-sm text-zinc-700">
-                <li className="flex gap-3">
-                  <Mail className="mt-0.5 h-4 w-4 text-zinc-500" />
-                  <a
-                    className="hover:text-black"
-                    href="mailto:lockerstore2@gmail.com"
-                  >
-                    lockerstore2@gmail.com
-                  </a>
-                </li>
-
-                <li className="flex gap-3">
-                  <MessageCircle className="mt-0.5 h-4 w-4 text-zinc-500" />
-                  <a
-                    className="hover:text-black"
-                    href={`https://wa.me/${WHATSAPP_NUMBER}?text=${WHATSAPP_TEXT}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    +56 9 94131814
-                  </a>
-                </li>
-              </ul>
-
-
-              <div className="mt-5 text-xs text-zinc-500">
-                Dominio: <span className="text-zinc-700">lockersstore.cl</span>
-              </div>
-            </div>
-          </div>
-
-          {/* Bottom bar */}
-          <div className="mt-10 flex flex-col gap-3 border-t border-black/10 pt-6 text-xs text-zinc-500 md:flex-row md:items-center md:justify-between">
-            <p>
-              © {new Date().getFullYear()} LockerStore. Todos los derechos
-              reservados.
-            </p>
-
-            <div className="flex flex-wrap gap-x-4 gap-y-2">
-              <Link className="hover:text-black" href="/politicas/privacidad">
-                Privacidad
-              </Link>
-              <Link className="hover:text-black" href="/politicas/terminos">
-                Términos
-              </Link>
-              <Link
-                className="hover:text-black"
-                href="/politicas/cambios-y-devoluciones"
-              >
-                Cambios y devoluciones
-              </Link>
-              <Link className="hover:text-black" href="/login">
-                Administrador
-              </Link>
             </div>
           </div>
         </div>

@@ -84,37 +84,55 @@ function ProductCard({ p }: { p: FeaturedProduct }) {
         className={[
           "relative overflow-hidden rounded-3xl",
           "min-h-[520px] pb-[150px] h-full",
-          "border border-black/10",
-          "bg-zinc-200/70 backdrop-blur-xl",
-          "shadow-[0_18px_45px_rgba(0,0,0,0.16)]",
+          "border border-zinc-200 bg-white",
+          "shadow-[0_1px_2px_rgba(0,0,0,0.04)]",
           "transition-all duration-300",
-          "hover:-translate-y-0.5 hover:shadow-[0_30px_75px_rgba(0,0,0,0.20)]",
+          "hover:-translate-y-0.5 hover:border-[#0477BF]/30 hover:shadow-[0_24px_60px_rgba(4,119,191,0.14)]",
         ].join(" ")}
       >
+        {/* Filo superior tipo "circuito" */}
+        <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-zinc-300 to-transparent transition-colors duration-300 group-hover:via-[#0477BF]/70" />
+
         <div className="p-5">
           {p.tag && (
-            <Badge className="bg-black/10 text-zinc-700 hover:bg-black/10">
+            <Badge className="gap-1.5 border-zinc-200 bg-white text-zinc-600 hover:bg-white">
+              <span className="h-1.5 w-1.5 rounded-full bg-[#0477BF]" />
               {p.tag}
             </Badge>
           )}
 
-          {/* Producto flotante */}
+          {/* Panel del producto */}
           <div className="mt-4 relative h-[200px] w-full">
-            <div className="pointer-events-none absolute inset-x-4 top-10 h-48 rounded-full blur-3xl bg-[#0477BF]/40" />
+            {/* Backdrop tipo "blueprint": grid fino + esquineros */}
+            <div className="absolute inset-3 overflow-hidden rounded-2xl bg-gradient-to-b from-zinc-50 to-white">
+              <div className="absolute inset-0 opacity-70 [background-image:linear-gradient(to_right,rgba(0,0,0,0.035)_1px,transparent_1px),linear-gradient(to_bottom,rgba(0,0,0,0.035)_1px,transparent_1px)] [background-size:20px_20px]" />
+            </div>
+            {[
+              "left-0 top-0 border-l-2 border-t-2",
+              "right-0 top-0 border-r-2 border-t-2",
+              "left-0 bottom-0 border-l-2 border-b-2",
+              "right-0 bottom-0 border-r-2 border-b-2",
+            ].map((pos) => (
+              <span
+                key={pos}
+                className={`pointer-events-none absolute h-3 w-3 rounded-[2px] border-zinc-300 transition-colors duration-300 group-hover:border-[#0477BF] ${pos}`}
+              />
+            ))}
+
             <Image
               src={p.image}
               alt={p.title}
               fill
               sizes="(min-width: 1280px) 25vw, (min-width: 1024px) 33vw, (min-width: 740px) 50vw, 85vw"
-              className="object-contain object-center drop-shadow-[0_28px_34px_rgba(0,0,0,0.28)] transition-transform duration-500 ease-out group-hover:scale-[1.06] translate-y-10"
+              className="object-contain object-center drop-shadow-[0_20px_24px_rgba(0,0,0,0.14)] transition-transform duration-500 ease-out group-hover:scale-[1.06] translate-y-10"
             />
           </div>
         </div>
 
         {/* Barra inferior “catálogo” (misma altura siempre) */}
         <div className="absolute inset-x-0 bottom-0">
-          <div className="pointer-events-none h-16 bg-gradient-to-b from-transparent to-white/80" />
-          <div className="relative z-10 flex items-end justify-between gap-4 px-5 pb-5 pt-4 bg-white/60 backdrop-blur-2xl border-t border-black/10 h-[170px]">
+          <div className="pointer-events-none h-16 bg-gradient-to-b from-transparent to-white" />
+          <div className="relative z-10 flex items-end justify-between gap-4 px-5 pb-5 pt-4 bg-white border-t border-zinc-100 h-[170px]">
             <div className="min-w-0">
               <h3 className="text-lg font-semibold text-zinc-900 leading-tight min-h-[48px] line-clamp-2">
                 {p.title}
@@ -134,16 +152,13 @@ function ProductCard({ p }: { p: FeaturedProduct }) {
               </p>
 
               <div className="mt-3 flex items-center gap-2">
-                <Button
-                  variant="outline"
-                  className="h-9 rounded-xl border border-[#0477BF]/40 bg-white text-zinc-900 transition-colors duration-200 hover:border-[#0477BF] hover:shadow-[0_0_0_3px_rgba(4,119,191,0.15)]"
-                >
+                <Button className="h-9 rounded-xl bg-zinc-900 text-white transition-colors duration-200 hover:bg-[#0477BF]">
                   Ver ficha
                   <ArrowRight className="ml-2 h-4 w-4" />
                 </Button>
                 <WhatsAppButton
                   href={waLink(p.title)}
-                  className="h-9 rounded-xl border border-[#0477BF]/40 bg-white text-zinc-900 transition-colors duration-200 hover:border-[#0477BF] hover:shadow-[0_0_0_3px_rgba(4,119,191,0.15)]"
+                  className="h-9 rounded-xl border border-zinc-200 bg-white text-zinc-900 transition-colors duration-200 hover:border-[#0477BF] hover:shadow-[0_0_0_3px_rgba(4,119,191,0.15)]"
                 >
                   WhatsApp
                 </WhatsAppButton>
