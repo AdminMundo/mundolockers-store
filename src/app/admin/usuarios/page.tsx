@@ -3,6 +3,7 @@ import { createSupabaseServer } from "@/lib/supabase/server";
 import { getAdminEmailSet, isEnvAdminEmail } from "@/lib/auth/roles";
 import { promoteToAdminAction, demoteAdminAction } from "./actions";
 import { ResetPasswordControl } from "./reset-password-form";
+import { EditEmailControl } from "./edit-email-form";
 
 export const metadata: Metadata = {
   title: "Usuarios | Admin | LockerStore",
@@ -208,6 +209,7 @@ export default async function AdminUsuariosPage({ searchParams }: PageProps) {
                               </form>
                             )
                           ) : null}
+                          {email && <EditEmailControl userId={u.id} email={email} />}
                           <ResetPasswordControl userId={u.id} />
                         </div>
                       </td>
