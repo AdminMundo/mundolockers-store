@@ -69,3 +69,37 @@ export async function getCatalog(params: CatalogQuery) {
     pageSize: PAGE_SIZE,
   };
 }
+
+export type FeaturedProduct = {
+  productId: string;
+  slug: string;
+  sku: string;
+  name: string;
+  imageUrl: string | null;
+  priceFromClp: number | null;
+};
+
+export async function getFeaturedProducts(limit = 8): Promise<FeaturedProduct[]> {
+  const supabase = createSupabasePublicServer();
+
+  const { data, error } = await supabase
+    .from("catalog_products")
+    .select("product_id,slug,sku,name,image_url,price_from_clp")
+    .eq("is_active", true)
+    .eq("is_featured", true)
+    .order("price_from_clp", { ascending: true })
+    .limit(limit);
+
+  if (error) {
+    throw new Error(error.message);
+  }
+
+  return (data ?? []).map((p) => ({
+    productId: p.product_id,
+    slug: p.slug,
+    sku: p.sku,
+    name: p.name,
+    imageUrl: p.image_url,
+    priceFromClp: p.price_from_clp,
+  }));
+}

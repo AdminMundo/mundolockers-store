@@ -2,72 +2,23 @@ import Link from "next/link";
 import Image from "next/image";
 import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
 import WhatsAppButton from "@/components/whatsapp-button";
+import { getFeaturedProducts } from "@/lib/catalog";
 
-type FeaturedProduct = {
+type CardProduct = {
   title: string;
-  slug: string;
   href: string;
   image: string;
-  price?: string;
-  tag?: string;
+  price: string | null;
 };
 
-const FEATURED: FeaturedProduct[] = [
-  {
-    title: "Locker Metálico 10 puertas - 5 cuerpos dobles ",
-    slug: "locker-metalico-5p",
-    href: "/tienda?cat=lockers-metalicos",
-    image: "/images/topProductos/10puertas.webp",
-
-    tag: "Top ventas",
-  },
-  {
-    title: "Locker Telefono - 2 Puertas",
-    slug: "locker-telefono-2puertas",
-    href: "/tienda?cat=lockers-phone&page=1",
-    image: "/images/topProductos/Lockerescolar2puertas.webp",
-    tag: "Nuevo",
-  },
-  {
-    title: "Roperillo - 2 Puerta",
-    slug: "storage-roperillo",
-    href: "/tienda?cat=storages-roperillos",
-    image: "/images/topProductos/Roperillo1puerta2.webp",
-  },
-  {
-    title: "Locker Minero reforzado",
-    slug: "locker-minero",
-    href: "/tienda?cat=lockers-mineros",
-    image: "/images/topProductos/minero2.webp",
-  },
-  {
-    title: "Locker Metálico 12 Puertas 4 Cuerpos Triples",
-    slug: "locker-mecano",
-    href: "/tienda?cat=lockers-metalicos",
-    image: "/images/topProductos/12puertas.webp",
-  },
-
-  {
-    title: "Locker Metálico 5 cuerpos, 20 puertas",
-    slug: "kardex",
-    href: "/tienda?cat=lockers-metalicos",
-    image: "/images/products/locker-metalico-20-puertas-5-cuerpos-cuadruples.webp",
-  },
-  {
-    title: "Banca Metálica",
-    slug: "banca-metalica",
-    href: "/tienda?cat=bancas-metalicas",
-    image: "/images/topProductos/banca.svg",
-  },
-  {
-    title: "Lockers Jr. – 20 puertas - 5 cuerpos cuadruples",
-    slug: "locker-home",
-    href: "/tienda?cat=lockers-metalicos",
-    image: "/images/topProductos/Lockersjr20puertas.svg",
-  },
-];
+function formatCLP(value: number): string {
+  return new Intl.NumberFormat("es-CL", {
+    style: "currency",
+    currency: "CLP",
+    maximumFractionDigits: 0,
+  }).format(value);
+}
 
 function waLink(productName: string) {
   const msg = encodeURIComponent(
@@ -77,7 +28,7 @@ function waLink(productName: string) {
   return `https://wa.me/56994131814?text=${msg}`;
 }
 
-function ProductCard({ p }: { p: FeaturedProduct }) {
+function ProductCard({ p }: { p: CardProduct }) {
   return (
     <Link href={p.href} className="group block h-full">
       <article
@@ -94,15 +45,8 @@ function ProductCard({ p }: { p: FeaturedProduct }) {
         <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-zinc-300 to-transparent transition-colors duration-300 group-hover:via-[#0477BF]/70" />
 
         <div className="p-5">
-          {p.tag && (
-            <Badge className="gap-1.5 border-zinc-200 bg-white text-zinc-600 hover:bg-white">
-              <span className="h-1.5 w-1.5 rounded-full bg-[#0477BF]" />
-              {p.tag}
-            </Badge>
-          )}
-
           {/* Panel del producto */}
-          <div className="mt-4 relative h-[200px] w-full">
+          <div className="relative h-[200px] w-full">
             {/* Backdrop tipo "blueprint": grid fino + esquineros */}
             <div className="absolute inset-3 overflow-hidden rounded-2xl bg-gradient-to-b from-zinc-50 to-white">
               <div className="absolute inset-0 opacity-70 [background-image:linear-gradient(to_right,rgba(0,0,0,0.035)_1px,transparent_1px),linear-gradient(to_bottom,rgba(0,0,0,0.035)_1px,transparent_1px)] [background-size:20px_20px]" />
@@ -164,15 +108,6 @@ function ProductCard({ p }: { p: FeaturedProduct }) {
                 </WhatsAppButton>
               </div>
             </div>
-
-            {p.price && (
-              <div className="hidden sm:block text-right shrink-0">
-                <div className="text-sm text-zinc-500">Desde</div>
-                <div className="text-xl font-semibold text-zinc-900">
-                  {p.price}
-                </div>
-              </div>
-            )}
           </div>
         </div>
       </article>
@@ -180,7 +115,19 @@ function ProductCard({ p }: { p: FeaturedProduct }) {
   );
 }
 
-export default function FeaturedProductsSection() {
+export default async function FeaturedProductsSection() {
+  const featured = await getFeaturedProducts(8);
+  const items: CardProduct[] = featured
+    .filter((p) => p.imageUrl)
+    .map((p) => ({
+      title: p.name,
+      href: `/producto/${p.slug}`,
+      image: p.imageUrl as string,
+      price: p.priceFromClp ? formatCLP(p.priceFromClp) : null,
+    }));
+
+  if (items.length === 0) return null;
+
   return (
     <section className="relative bg-transparent text-zinc-900">
       <div className="mx-auto max-w-6xl px-4 py-14">
@@ -218,8 +165,8 @@ export default function FeaturedProductsSection() {
         </div>
 
         <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-          {FEATURED.map((p) => (
-            <ProductCard key={p.slug} p={p} />
+          {items.map((p) => (
+            <ProductCard key={p.href} p={p} />
           ))}
         </div>
 
