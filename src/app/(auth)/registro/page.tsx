@@ -1,26 +1,17 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { LoginForm } from "@/components/auth/login-form";
+import { RegisterForm } from "@/components/auth/register-form";
 
 export const metadata: Metadata = {
-  title: "Iniciar sesión | LockerStore",
-  description: "Inicia sesión en tu cuenta LockerStore.",
+  title: "Crear cuenta | LockerStore",
+  description: "Crea tu cuenta LockerStore para ver tus pedidos y cotizaciones.",
   robots: {
     index: false,
     follow: false,
   },
 };
 
-type LoginPageProps = {
-  searchParams: Promise<{
-    next?: string;
-  }>;
-};
-
-export default async function LoginPage({ searchParams }: LoginPageProps) {
-  const params = await searchParams;
-  const next = typeof params.next === "string" ? params.next : "";
-
+export default function RegistroPage() {
   return (
     <main className="min-h-screen bg-[#F5F5F7] px-6 py-16">
       <div className="mx-auto max-w-md">
@@ -28,22 +19,21 @@ export default async function LoginPage({ searchParams }: LoginPageProps) {
           <p className="text-sm text-black/50">LockerStore</p>
 
           <h1 className="mt-2 text-3xl font-semibold tracking-tight">
-            Iniciar sesión
+            Crear cuenta
           </h1>
 
           <p className="mt-2 text-sm text-black/60">
-            Ingresa con tu cuenta para ver tus pedidos, cotizaciones o
-            administrar el panel.
+            Guarda tu historial de pedidos y cotizaciones en un solo lugar.
           </p>
 
           <div className="mt-6">
-            <LoginForm next={next} />
+            <RegisterForm />
           </div>
 
           <p className="mt-6 text-center text-sm text-black/60">
-            ¿No tienes cuenta?{" "}
-            <Link href="/registro" className="font-medium text-black hover:underline">
-              Regístrate
+            ¿Ya tienes cuenta?{" "}
+            <Link href="/login" className="font-medium text-black hover:underline">
+              Inicia sesión
             </Link>
           </p>
         </div>

@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
-import { logoutAction } from "@/app/admin/actions";
+import { logoutAction } from "@/app/(auth)/actions";
 import { requireAdmin } from "@/lib/auth/admin";
 import { createSupabaseServer } from "@/lib/supabase/server";
 

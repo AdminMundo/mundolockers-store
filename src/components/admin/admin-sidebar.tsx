@@ -12,6 +12,8 @@ const navItems = [
   { href: "/admin/productos", label: "Productos" },
   { href: "/admin/pedidos", label: "Pedidos" },
   { href: "/admin/cotizaciones", label: "Cotizaciones" },
+  { href: "/admin/cotizador", label: "Cotizador" },
+  { href: "/admin/usuarios", label: "Usuarios" },
 ];
 
 export function AdminSidebar({ userEmail }: AdminSidebarProps) {

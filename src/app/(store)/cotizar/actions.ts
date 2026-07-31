@@ -2,6 +2,7 @@
 
 import { Resend } from "resend";
 import { createSupabaseServer } from "@/lib/supabase/server";
+import { createSupabaseServerAuthClient } from "@/lib/supabase/auth-server";
 import { escapeHtml, sanitizeHeaderText } from "@/lib/utils";
 
 export type QuoteActionState = {
@@ -192,7 +193,13 @@ export async function submitQuoteAction(
 
   const supabase = createSupabaseServer();
 
+  const authClient = await createSupabaseServerAuthClient();
+  const {
+    data: { user },
+  } = await authClient.auth.getUser();
+
   const { error: dbError } = await supabase.from("cotizaciones").insert({
+    user_id: user?.id ?? null,
     source: "lockersstore",
     nombre,
     empresa: empresa || null,

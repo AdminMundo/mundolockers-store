@@ -1,6 +1,18 @@
 import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
 
+const ADMIN_EMAILS = new Set(
+  (process.env.ADMIN_EMAILS ?? "")
+    .split(",")
+    .map((email) => email.trim().toLowerCase())
+    .filter(Boolean),
+);
+
+function isAdminEmail(email: string | null | undefined): boolean {
+  if (!email) return false;
+  return ADMIN_EMAILS.has(email.toLowerCase());
+}
+
 export async function updateAuthSession(request: NextRequest) {
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const anonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
@@ -43,9 +55,10 @@ export async function updateAuthSession(request: NextRequest) {
   } = await supabase.auth.getUser();
 
   const isAdminRoute = request.nextUrl.pathname.startsWith("/admin");
+  const isAccountRoute = request.nextUrl.pathname.startsWith("/mi-cuenta");
   const isLoginRoute = request.nextUrl.pathname.startsWith("/login");
 
-  if (isAdminRoute && !user) {
+  if ((isAdminRoute || isAccountRoute) && !user) {
     const redirectUrl = request.nextUrl.clone();
     redirectUrl.pathname = "/login";
     redirectUrl.searchParams.set(
@@ -56,8 +69,12 @@ export async function updateAuthSession(request: NextRequest) {
   }
 
   if (isLoginRoute && user) {
-    const rawNext = request.nextUrl.searchParams.get("next") || "/admin";
-    const next = rawNext.startsWith("/") ? rawNext : "/admin";
+    const rawNext = request.nextUrl.searchParams.get("next") || "";
+    const next = rawNext.startsWith("/")
+      ? rawNext
+      : isAdminEmail(user.email)
+        ? "/admin"
+        : "/mi-cuenta";
     const redirectUrl = request.nextUrl.clone();
     redirectUrl.pathname = next;
     redirectUrl.search = "";

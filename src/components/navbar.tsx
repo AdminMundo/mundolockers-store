@@ -7,9 +7,14 @@ import { useRouter } from "next/navigation";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Search, X } from "lucide-react";
+import { Search, X, User } from "lucide-react";
 
-export default function Navbar() {
+type NavUser = { email: string | null; isAdmin: boolean } | null;
+
+export default function Navbar({ user = null }: { user?: NavUser }) {
+  const accountHref = user ? (user.isAdmin ? "/admin" : "/mi-cuenta") : "/login";
+  const accountLabel = user ? (user.isAdmin ? "Admin" : "Mi cuenta") : "Iniciar sesión";
+
   const [scrolled, setScrolled] = useState(false);
   const [query, setQuery] = useState("");
   const [mobileSearchOpen, setMobileSearchOpen] = useState(false);
@@ -85,6 +90,14 @@ export default function Navbar() {
               </Link>
               <Link href="/carrito" className="hover:text-white transition">
                 Carrito
+              </Link>
+              <Link
+                href={accountHref}
+                title={accountLabel}
+                aria-label={accountLabel}
+                className="flex items-center hover:text-white transition"
+              >
+                <User className="h-5 w-5" />
               </Link>
             </nav>
 
@@ -205,7 +218,7 @@ export default function Navbar() {
                 </Button>
               </div>
 
-              <nav className="mt-3 flex gap-1 border-t border-white/10 pt-3">
+              <nav className="mt-3 flex items-center gap-1 border-t border-white/10 pt-3">
                 {[
                   { label: "Inicio", href: "/" },
                   { label: "Tienda", href: "/tienda" },
@@ -221,6 +234,15 @@ export default function Navbar() {
                     {item.label}
                   </Link>
                 ))}
+                <Link
+                  href={accountHref}
+                  onClick={() => setMobileSearchOpen(false)}
+                  title={accountLabel}
+                  aria-label={accountLabel}
+                  className="flex items-center justify-center rounded-xl py-2 px-3 text-white/70 hover:bg-white/10 hover:text-white transition"
+                >
+                  <User className="h-4 w-4" />
+                </Link>
               </nav>
             </div>
           )}

@@ -1,6 +1,7 @@
 "use server";
 
 import { createSupabaseServer } from "@/lib/supabase/server";
+import { createSupabaseServerAuthClient } from "@/lib/supabase/auth-server";
 import { createFlowPayment } from "@/lib/flow";
 import { escapeHtml, sanitizeHeaderText } from "@/lib/utils";
 import { sendTransactionalEmail } from "@/lib/resend";
@@ -234,6 +235,11 @@ export async function createPedidoAction(
     }
     const { productos, subtotal, total } = validated;
 
+    const authClient = await createSupabaseServerAuthClient();
+    const {
+      data: { user },
+    } = await authClient.auth.getUser();
+
     const notasCompleta = [
       input.tipo_documento === "factura" && input.rut_empresa
         ? `Factura — RUT: ${input.rut_empresa}`
@@ -246,6 +252,7 @@ export async function createPedidoAction(
     const { data, error } = await supabase
       .from("pedidos")
       .insert({
+        user_id: user?.id ?? null,
         nombre: input.nombre,
         correo: input.correo,
         telefono: input.telefono,
