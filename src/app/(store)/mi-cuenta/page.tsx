@@ -85,7 +85,7 @@ export default async function MiCuentaPage() {
     (user.user_metadata?.full_name as string | undefined) || user.email || "Tu cuenta";
 
   return (
-    <main className="min-h-screen bg-[#F5F5F7] px-4 pb-24 pt-28">
+    <main className="min-h-screen bg-[#EEEDEB] px-4 pb-24 pt-28">
       <div className="mx-auto max-w-4xl space-y-8">
         {/* Header */}
         <section className="flex flex-wrap items-center justify-between gap-4 rounded-[32px] border border-black/10 bg-white p-8 shadow-sm">

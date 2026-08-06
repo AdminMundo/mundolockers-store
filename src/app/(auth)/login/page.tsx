@@ -22,7 +22,7 @@ export default async function LoginPage({ searchParams }: LoginPageProps) {
   const next = typeof params.next === "string" ? params.next : "";
 
   return (
-    <main className="min-h-screen bg-[#F5F5F7] px-6 py-16">
+    <main className="min-h-screen bg-[#EEEDEB] px-6 py-16">
       <div className="mx-auto max-w-md">
         <div className="rounded-[32px] border border-black/10 bg-white p-8 shadow-sm">
           <p className="text-sm text-black/50">LockerStore</p>

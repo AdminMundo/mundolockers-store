@@ -1,3 +1,4 @@
+import Script from "next/script";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -66,9 +67,25 @@ const FAQ = [
   },
 ];
 
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: FAQ.map((f) => ({
+    "@type": "Question",
+    name: f.q,
+    acceptedAnswer: { "@type": "Answer", text: f.a },
+  })),
+};
+
 export default function ProcessFaqSection() {
   return (
-    <section className="bg-[#F5F5F7] text-zinc-900">
+    <section className="bg-[#EEEDEB] text-zinc-900">
+      <Script
+        id="jsonld-faq"
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+      />
+
       <div className="mx-auto max-w-6xl px-4 py-16">
         {/* Header */}
         <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">

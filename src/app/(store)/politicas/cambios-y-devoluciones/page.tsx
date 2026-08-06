@@ -99,7 +99,7 @@ export default function CambiosYDevolucionesPage() {
             <p>
               Si recibes un producto con defecto de fabricación o dañado durante el transporte,
               debes notificarnos dentro de las <strong>48 horas</strong> de recepción, adjuntando
-              fotografías del embalaje y el producto. En estos casos, Mundo Lockers SpA asume{" "}
+              fotografías del embalaje y el producto. En estos casos, Roco Import SpA asume{" "}
               <strong>todos los costos</strong> de retiro y reposición o devolución del dinero,
               según lo que prefieras.
             </p>

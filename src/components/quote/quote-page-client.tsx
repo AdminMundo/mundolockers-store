@@ -46,7 +46,7 @@ export function QuotePageClient({ initialState }: Props) {
   );
 
   return (
-    <main className="relative z-0 bg-neutral-50">
+    <main className="relative z-0 bg-[#EEEDEB]">
       <CartHero
         title="Cotizar"
         description="Solicita una propuesta para compras por volumen, proyectos institucionales, personalización o muebles especiales de LockerStore."
@@ -221,7 +221,7 @@ export function QuotePageClient({ initialState }: Props) {
                       <input
                         type="text"
                         name="rut"
-                        placeholder="76.580.205-9"
+                        placeholder="76.123.456-7"
                         className="min-h-12 w-full rounded-2xl border border-black/10 bg-white px-4 text-sm text-neutral-950 outline-none transition placeholder:text-neutral-400 focus:border-neutral-900"
                       />
                     </label>

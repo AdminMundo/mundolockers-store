@@ -86,7 +86,7 @@ const localBusinessSchema = {
 
 export default function ContactoPage() {
   return (
-    <main className="min-h-screen bg-[#F5F5F7]">
+    <main className="min-h-screen bg-[#EEEDEB]">
       <Script
         id="local-business-schema"
         type="application/ld+json"

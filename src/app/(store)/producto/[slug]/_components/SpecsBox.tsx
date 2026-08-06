@@ -36,7 +36,7 @@ function renderValue(value: unknown) {
     return (
       <ul className="list-disc pl-5 space-y-1">
         {parsed.map((v, i) => (
-          <li key={i}>{String(v)}</li>
+          <li key={i}>{renderValue(v)}</li>
         ))}
       </ul>
     );

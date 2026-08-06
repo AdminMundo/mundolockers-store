@@ -1,5 +1,6 @@
 import type { MetadataRoute } from "next";
 import { createSupabaseServer } from "@/lib/supabase/server";
+import { getCategoriesWithCounts } from "@/lib/catalog";
 
 const SITE_URL = "https://www.lockersstore.cl";
 
@@ -74,21 +75,19 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     },
   ];
 
-  // Categorías
-  const CATEGORIAS = [
-    "lockers-metalicos",
-    "lockers-plasticos",
-    "estantes-mecano",
-    "kardex-y-cajoneras",
-    "casilleros-escolares",
-  ];
-
-  const categoryRoutes: MetadataRoute.Sitemap = CATEGORIAS.map((slug) => ({
-    url: `${SITE_URL}/tienda?cat=${slug}`,
-    lastModified: new Date(),
-    changeFrequency: "weekly" as const,
-    priority: 0.8,
-  }));
+  // Categorías (activas, con al menos un producto)
+  let categoryRoutes: MetadataRoute.Sitemap = [];
+  try {
+    const categories = await getCategoriesWithCounts();
+    categoryRoutes = categories
+      .filter((c) => c.productCount > 0)
+      .map((c) => ({
+        url: `${SITE_URL}/tienda/${c.slug}`,
+        lastModified: new Date(),
+        changeFrequency: "weekly" as const,
+        priority: 0.8,
+      }));
+  } catch {}
 
   // Productos activos desde Supabase
   let productRoutes: MetadataRoute.Sitemap = [];

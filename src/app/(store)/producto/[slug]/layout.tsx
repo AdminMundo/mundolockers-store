@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import Script from "next/script";
 import { notFound } from "next/navigation";
 import { getProductBySlug } from "@/lib/product";
-import ProductHeroHeader from "./_components/ProductHeroHeader";
-import { getCategoryAsset } from "@/lib/categoryAssets";
+import HeroBanner from "@/components/site/hero-banner";
+import { truncateAtWord } from "@/lib/utils";
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.lockersstore.cl";
 
@@ -28,9 +28,9 @@ export async function generateMetadata({
   }
 
   const title = product.name;
-  const description =
-    (product.description?.trim() && product.description.trim().slice(0, 155)) ||
-    `Compra y cotiza ${product.name} en LockerStore. Despacho a todo Chile.`;
+  const description = product.description?.trim()
+    ? truncateAtWord(product.description, 155)
+    : `Compra y cotiza ${product.name} en LockerStore. Despacho a todo Chile.`;
 
   const ogImage = product.image_url ?? "/images/home/Encabezadoprincipal.webp";
   const canonicalUrl = `/producto/${product.slug}`;
@@ -63,8 +63,6 @@ export default async function ProductLayout({ children, params }: Props) {
   const product = await getProductBySlug(slug);
 
   if (!product) return notFound();
-
-  const catAsset = getCategoryAsset(product.category_slug);
 
   // JSON-LD: Product + BreadcrumbList
   const productUrl = `${SITE_URL}/producto/${product.slug}`;
@@ -102,7 +100,7 @@ export default async function ProductLayout({ children, params }: Props) {
                   "@type": "ListItem",
                   position: 3,
                   name: product.category_name ?? "Categoría",
-                  item: `${SITE_URL}/tienda?cat=${product.category_slug}`,
+                  item: `${SITE_URL}/tienda/${product.category_slug}`,
                 },
                 {
                   "@type": "ListItem",
@@ -132,9 +130,9 @@ export default async function ProductLayout({ children, params }: Props) {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(productSchema) }}
       />
 
-      <ProductHeroHeader
+      <HeroBanner
+        eyebrow={product.category_name ?? "Producto"}
         title={product.name}
-        subtitle={product.category_name ?? "Producto"}
         description={
           product.description?.trim() ||
           "Consulta variantes, especificaciones y cotiza por WhatsApp."
@@ -145,17 +143,12 @@ export default async function ProductLayout({ children, params }: Props) {
             ? [
                 {
                   label: product.category_name ?? "Categoría",
-                  href: `/tienda?cat=${product.category_slug}`,
+                  href: `/tienda/${product.category_slug}`,
                 },
               ]
             : []),
           { label: product.name, href: `/producto/${product.slug}` },
         ]}
-        backgroundImage="/images/home/Encabezadoprincipal.webp"
-        topImage={catAsset ?? {
-          src: product.image_url ?? "/images/categoria/Estanterias/Estanteriaespecificacion.svg",
-          alt: product.name,
-        }}
       />
 
       {children}

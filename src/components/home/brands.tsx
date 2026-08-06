@@ -27,7 +27,7 @@ const LOOP = [...BRANDS, ...BRANDS];
 
 export default function BrandsSection() {
   return (
-    <section className="bg-[#F5F5F7] text-zinc-900">
+    <section className="bg-[#EEEDEB] text-zinc-900">
       <div className="mx-auto max-w-6xl px-4 py-14">
         <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
           <div>

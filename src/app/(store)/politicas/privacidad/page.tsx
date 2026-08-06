@@ -20,7 +20,7 @@ export default function PrivacidadPage() {
           title: "Responsable del tratamiento",
           content: (
             <p>
-              <strong>Mundo Lockers SpA</strong>, RUT 76.580.205-9, con domicilio en Comandante
+              <strong>Roco Import SpA</strong>, RUT 78.124.096-6, con domicilio en Comandante
               Chacón #5720, Quinta Normal, Santiago, Chile, es responsable del tratamiento de los
               datos personales recabados a través de{" "}
               <a href="https://www.lockersstore.cl">lockersstore.cl</a>. Para consultas, escríbenos a{" "}

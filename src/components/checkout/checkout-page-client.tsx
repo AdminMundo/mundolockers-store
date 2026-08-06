@@ -319,7 +319,7 @@ export function CheckoutPageClient({ initialState }: Props) {
 
   if (purchaseItems.length === 0) {
     return (
-      <main className="relative z-0 bg-neutral-50">
+      <main className="relative z-0 bg-[#EEEDEB]">
         <CartHero
           title="Checkout"
           description="Completa tus datos para continuar con la compra directa de productos estándar."
@@ -333,7 +333,7 @@ export function CheckoutPageClient({ initialState }: Props) {
   }
 
   return (
-    <main className="relative z-0 bg-neutral-50">
+    <main className="relative z-0 bg-[#EEEDEB]">
       <CartHero
         title="Checkout"
         description="Completa tus datos para continuar con la compra directa de productos estándar."
@@ -579,7 +579,7 @@ export function CheckoutPageClient({ initialState }: Props) {
               )}
               {form.paymentMethod === "transferencia" && (
                 <p className="mt-3 text-xs text-neutral-500">
-                  Scotiabank · CTA CTE 980707059 · Mundo Lockers SpA · RUT 76.580.205-9
+                  Banco Santander · CTA CTE 000097545618 · Roco Import SpA · RUT 78.124.096-6
                 </p>
               )}
             </section>

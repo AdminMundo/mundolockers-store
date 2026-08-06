@@ -21,7 +21,7 @@ export default function TerminosPage() {
           content: (
             <p>
               El sitio web <a href="https://www.lockersstore.cl">lockersstore.cl</a> es operado por{" "}
-              <strong>Mundo Lockers SpA</strong>, RUT 76.580.205-9, domiciliada en Comandante
+              <strong>Roco Import SpA</strong>, RUT 78.124.096-6, domiciliada en Comandante
               Chacón #5720, Quinta Normal, Santiago, Chile. Contacto:{" "}
               <a href="mailto:lockerstore2@gmail.com">lockerstore2@gmail.com</a> /{" "}
               <a href="tel:+56224354519">+56 2 243 54 519</a>.
@@ -81,7 +81,7 @@ export default function TerminosPage() {
             <>
               <p>Aceptamos los siguientes medios de pago:</p>
               <ul>
-                <li>Transferencia bancaria / depósito (Scotiabank CTA CTE 980707059).</li>
+                <li>Transferencia bancaria / depósito (Banco Santander CTA CTE 000097545618).</li>
                 <li>Cheque al día (según acuerdo previo).</li>
                 <li>Efectivo en bodega (con cita previa).</li>
               </ul>
@@ -97,7 +97,7 @@ export default function TerminosPage() {
           content: (
             <p>
               Los plazos de entrega son aproximados y dependen de la región de destino, la
-              disponibilidad del transportista y eventuales feriados. Mundo Lockers SpA no se
+              disponibilidad del transportista y eventuales feriados. Roco Import SpA no se
               hace responsable de retrasos imputables a la empresa de transporte. Para más
               detalles, revisa nuestra{" "}
               <a href="/despacho">página de Despacho e Instalación</a>.
@@ -123,7 +123,7 @@ export default function TerminosPage() {
           content: (
             <p>
               Todo el contenido del sitio web (textos, imágenes, logotipos, diseño, código fuente)
-              es propiedad de Mundo Lockers SpA o de sus licenciantes y está protegido por las
+              es propiedad de Roco Import SpA o de sus licenciantes y está protegido por las
               leyes de propiedad intelectual vigentes en Chile. Queda prohibida su reproducción
               total o parcial sin autorización escrita previa.
             </p>
@@ -133,7 +133,7 @@ export default function TerminosPage() {
           title: "Limitación de responsabilidad",
           content: (
             <p>
-              Mundo Lockers SpA no será responsable de daños indirectos, lucro cesante ni
+              Roco Import SpA no será responsable de daños indirectos, lucro cesante ni
               perjuicios derivados del uso inadecuado de los productos o de circunstancias ajenas
               a nuestra voluntad (caso fortuito, fuerza mayor, fallas de terceros). Nuestra
               responsabilidad máxima se limita al valor del producto adquirido.

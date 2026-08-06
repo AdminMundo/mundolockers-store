@@ -15,7 +15,7 @@ type Props = {
 
 export function PolicyPage({ badge, title, subtitle, updatedAt, sections }: Props) {
   return (
-    <main className="min-h-screen bg-[#F5F5F7]">
+    <main className="min-h-screen bg-[#EEEDEB]">
       {/* Hero */}
       <section className="bg-[#0F172A] pt-28 pb-14">
         <div className="mx-auto max-w-3xl px-4 sm:px-6">

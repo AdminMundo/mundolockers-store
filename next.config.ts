@@ -72,6 +72,18 @@ const nextConfig: NextConfig = {
       },
     ];
   },
+
+  async redirects() {
+    return [
+      {
+        // URLs viejas de categoría (?cat=x) a las nuevas rutas /tienda/x
+        source: "/tienda",
+        has: [{ type: "query", key: "cat", value: "(?<cat>.+)" }],
+        destination: "/tienda/:cat",
+        permanent: true,
+      },
+    ];
+  },
 };
 
 export default nextConfig;

@@ -20,30 +20,31 @@ export default async function ProductPage({ params }: PageProps) {
   const detailDots = getDetailDots(product.category_slug, product.name);
 
   return (
-    <main className="bg-[#F6F6F7]">
-      <div className="mx-auto max-w-6xl px-4 pt-28 pb-10">
+    <main className="bg-[#EEEDEB]">
+      <div className="mx-auto max-w-6xl px-4 pt-8 pb-10">
         <div className="grid gap-8 lg:grid-cols-[1.15fr_0.85fr] items-start">
-          {/* LEFT column */}
-          <div className="space-y-8">
-            <div className="rounded-3xl bg-white p-6 shadow-sm border border-zinc-100">
-              <ProductGallery
-                productName={product.name}
-                coverImage={product.image_url}
-                variantImages={product.variants.map((v) => ({
-                  variantId: v.id,
-                  urls: v.image_urls ?? [],
-                }))}
-                detailDots={detailDots}
-              />
-            </div>
-
-            {/* ✅ Esto llena el espacio blanco (cuando el panel derecho es más alto) */}
-            <TechSheetSection slug={product.slug} categorySlug={product.category_slug} productName={product.name} />
+          {/* Gallery: top-left on desktop, first on mobile */}
+          <div className="rounded-3xl bg-white p-6 shadow-sm border border-zinc-100 lg:col-start-1 lg:row-start-1">
+            <ProductGallery
+              productName={product.name}
+              coverImage={product.image_url}
+              variantImages={product.variants.map((v) => ({
+                variantId: v.id,
+                urls: v.image_urls ?? [],
+              }))}
+              detailDots={detailDots}
+            />
           </div>
 
-          {/* RIGHT column */}
-          <div className="rounded-3xl bg-white p-7 shadow-sm border border-zinc-100 lg:sticky lg:top-36">
+          {/* Purchase panel: right column on desktop, right after the gallery on mobile
+              (price/CTA must be reachable before the tech sheet, not after it) */}
+          <div className="rounded-3xl bg-white p-7 shadow-sm border border-zinc-100 lg:col-start-2 lg:row-start-1 lg:row-span-2 lg:sticky lg:top-36">
             <ProductPanel product={product} />
+          </div>
+
+          {/* Tech sheet: bottom-left on desktop, last on mobile */}
+          <div className="lg:col-start-1 lg:row-start-2">
+            <TechSheetSection slug={product.slug} categorySlug={product.category_slug} productName={product.name} />
           </div>
         </div>
       </div>

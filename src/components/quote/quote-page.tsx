@@ -4,7 +4,7 @@ import { CartHero } from "@/components/cart/cart-hero";
 
 export function QuotePage() {
   return (
-    <main className="relative z-0 bg-neutral-50">
+    <main className="relative z-0 bg-[#EEEDEB]">
       <CartHero
         title="Cotizar"
         description="Solicita una propuesta para compras por volumen, proyectos institucionales, personalización o muebles especiales de LockerStore."

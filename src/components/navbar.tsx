@@ -50,7 +50,7 @@ export default function Navbar({ user = null }: { user?: NavUser }) {
             "shadow-[0_10px_30px_rgba(0,0,0,0.25)]",
             "px-4 md:px-6",
             "transition-all duration-300",
-            scrolled ? "bg-zinc-950/40" : "bg-white/5",
+            scrolled ? "bg-zinc-950/90" : "bg-zinc-950/75",
             "after:pointer-events-none after:absolute after:inset-x-6 after:bottom-0 after:h-px after:bg-gradient-to-r after:from-transparent after:via-white/25 after:to-transparent after:opacity-40",
           ].join(" ")}
         >
@@ -174,7 +174,7 @@ export default function Navbar({ user = null }: { user?: NavUser }) {
 
           {/* Mobile Search Panel */}
           {mobileSearchOpen && (
-            <div className="absolute left-3 right-3 top-[calc(100%+10px)] rounded-2xl border border-white/10 bg-zinc-950/60 p-3 backdrop-blur-xl shadow-[0_12px_35px_rgba(0,0,0,0.35)] md:hidden">
+            <div className="absolute left-3 right-3 top-[calc(100%+10px)] rounded-2xl border border-white/10 bg-zinc-950/90 p-3 backdrop-blur-xl shadow-[0_12px_35px_rgba(0,0,0,0.35)] md:hidden">
               <div className="relative">
                 <button
                   type="button"

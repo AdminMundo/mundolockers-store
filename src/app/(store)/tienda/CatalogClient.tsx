@@ -7,18 +7,7 @@ import Link from "next/link";
 
 import { useCart } from "@/lib/cart/use-cart";
 import type { AddCartLineInput, CartFlow } from "@/lib/cart/types";
-
-const CATEGORIES = [
-  { label: "All", value: "all" },
-  { label: "Lockers Metálicos", value: "lockers-metalicos" },
-  { label: "Lockers Kids", value: "lockers-kids" },
-  { label: "Lockers Mineros", value: "lockers-mineros" },
-  { label: "Roperillos & Storage", value: "storages-roperillos" },
-  { label: "Bancas", value: "bancas" },
-  { label: "Kardex y cajoneras", value: "kardex-y-cajoneras" },
-  { label: "Estantes mecano", value: "estantes-mecano" },
-  { label: "Lockers Phone", value: "lockers-phone" },
-];
+import type { CategoryNav } from "@/lib/catalog";
 
 function cn(...c: (string | false | null | undefined)[]) {
   return c.filter(Boolean).join(" ");
@@ -98,9 +87,11 @@ function ProductImage({ src, alt }: { src: string; alt: string }) {
 export default function CatalogClient({
   initialParams,
   data,
+  categories,
 }: {
   initialParams: { q: string; cat: string; sort: string; page: number };
   data: CatalogData;
+  categories: CategoryNav[];
 }) {
   const router = useRouter();
   const pathname = usePathname();
@@ -108,10 +99,12 @@ export default function CatalogClient({
   const [isPending, startTransition] = useTransition();
   const { addItem } = useCart();
 
+  // "cat" ya no viaja por query string: viene del segmento de ruta
+  // (/tienda o /tienda/[categoria]), por eso sale directo de initialParams.
   const current = useMemo(() => {
     return {
       q: sp.get("q") ?? initialParams.q ?? "",
-      cat: sp.get("cat") ?? initialParams.cat ?? "all",
+      cat: initialParams.cat ?? "all",
       sort: sp.get("sort") ?? initialParams.sort ?? "featured",
       page: Number(sp.get("page") ?? initialParams.page ?? 1),
     };
@@ -121,6 +114,7 @@ export default function CatalogClient({
     const params = new URLSearchParams(sp.toString());
 
     Object.entries(next).forEach(([k, v]) => {
+      if (k === "cat") return;
       if (v === undefined || v === null || v === "" || v === "all") {
         params.delete(k);
       } else {
@@ -128,7 +122,7 @@ export default function CatalogClient({
       }
     });
 
-    if ("cat" in next || "sort" in next || "q" in next) {
+    if ("sort" in next || "q" in next) {
       params.set("page", "1");
     }
 
@@ -136,6 +130,15 @@ export default function CatalogClient({
       const qs = params.toString();
       router.push(qs ? `${pathname}?${qs}` : pathname);
     });
+  }
+
+  function categoryHref(slug: string) {
+    const base = slug === "all" ? "/tienda" : `/tienda/${slug}`;
+    const params = new URLSearchParams();
+    if (current.q) params.set("q", current.q);
+    if (current.sort && current.sort !== "featured") params.set("sort", current.sort);
+    const qs = params.toString();
+    return qs ? `${base}?${qs}` : base;
   }
 
   function handleAddToCart(item: CatalogItem): void {
@@ -167,20 +170,30 @@ export default function CatalogClient({
     <div className="space-y-6">
       <div className="rounded-2xl border border-zinc-200 bg-white/80 p-3 backdrop-blur md:p-4">
         <div className="flex flex-wrap items-center gap-2 pb-2">
-          {CATEGORIES.map((c) => (
-            <button
-              key={c.value}
-              type="button"
-              onClick={() => setParams({ cat: c.value })}
+          <Link
+            href={categoryHref("all")}
+            className={cn(
+              "whitespace-nowrap rounded-full border px-3 py-2 text-[11px] lg:px-4 lg:text-xs transition",
+              current.cat === "all"
+                ? "border-zinc-900 bg-zinc-900 text-white"
+                : "border-zinc-200 bg-white text-zinc-700 hover:border-[#0477BF] hover:shadow-[0_0_0_3px_rgba(4,119,191,0.18)] hover:text-zinc-900",
+            )}
+          >
+            Todos
+          </Link>
+          {categories.map((c) => (
+            <Link
+              key={c.slug}
+              href={categoryHref(c.slug)}
               className={cn(
                 "whitespace-nowrap rounded-full border px-3 py-2 text-[11px] lg:px-4 lg:text-xs transition",
-                current.cat === c.value
+                current.cat === c.slug
                   ? "border-zinc-900 bg-zinc-900 text-white"
                   : "border-zinc-200 bg-white text-zinc-700 hover:border-[#0477BF] hover:shadow-[0_0_0_3px_rgba(4,119,191,0.18)] hover:text-zinc-900",
               )}
             >
-              {c.label}
-            </button>
+              {c.name}
+            </Link>
           ))}
         </div>
 

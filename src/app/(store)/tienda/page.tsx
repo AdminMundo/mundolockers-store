@@ -1,25 +1,36 @@
 import type { Metadata } from "next";
-import Image from "next/image";
+import HeroBanner from "@/components/site/hero-banner";
 import CatalogClient from "./CatalogClient";
-import { getCatalog } from "@/lib/catalog";
+import { getCatalog, getCategoriesWithCounts } from "@/lib/catalog";
 
 export const dynamic = "force-dynamic";
 
-export const metadata: Metadata = {
-  title: "Tienda",
-  description:
-    "Catálogo completo de lockers metálicos, plásticos, casilleros escolares, estantes mecano y kardex. Precios directos, despacho a todo Chile.",
-  alternates: { canonical: "/tienda" },
-  openGraph: {
-    title: "Tienda | LockerStore",
-    description:
-      "Explora nuestro catálogo de lockers y soluciones de almacenamiento para industria, colegios y hogar.",
-    url: "/tienda",
-    type: "website",
-  },
-};
-
 type SP = Record<string, string | string[] | undefined>;
+
+const DESCRIPTION =
+  "Catálogo completo de lockers metálicos, plásticos, casilleros escolares, estantes mecano y kardex. Precios directos, despacho a todo Chile.";
+
+export async function generateMetadata({
+  searchParams,
+}: {
+  searchParams: Promise<SP>;
+}): Promise<Metadata> {
+  const sp = await searchParams;
+  const isSearch = typeof sp.q === "string" && sp.q.trim().length > 0;
+
+  return {
+    title: "Tienda",
+    description: DESCRIPTION,
+    alternates: { canonical: "/tienda" },
+    openGraph: {
+      title: "Tienda | LockerStore",
+      description: DESCRIPTION,
+      url: "/tienda",
+      type: "website",
+    },
+    robots: { index: !isSearch, follow: true },
+  };
+}
 
 export default async function TiendaPage({
   searchParams,
@@ -36,41 +47,27 @@ export default async function TiendaPage({
     | "price_desc";
   const page = typeof sp.page === "string" ? Number(sp.page) : 1;
 
-  const result = await getCatalog({ q, cat, sort, page });
+  const [result, categories] = await Promise.all([
+    getCatalog({ q, cat, sort, page }),
+    getCategoriesWithCounts(),
+  ]);
 
   return (
-    <main className="min-h-screen bg-white text-zinc-900">
-      {/* HERO full */}
-      <section className="relative h-[420px] w-full overflow-hidden bg-zinc-300 md:h-[520px]">
-        <Image
-          src="/images/home/Encabezadoprincipal.webp"
-          alt="Tienda LockerStore"
-          fill
-          priority
-          className="object-cover"
-        />
-        <div className="absolute inset-0 bg-black/20" />
+    <main className="min-h-screen bg-[#EEEDEB] text-zinc-900">
+      <HeroBanner
+        eyebrow="LockerStore"
+        title="Tienda"
+        description="Explora nuestros lockers y soluciones de almacenamiento. Filtra por categoría y cotiza rápido."
+      />
 
-        <div className="absolute bottom-10 left-0 right-0">
-          <div className="mx-auto max-w-6xl px-4">
-            <p className="text-xs uppercase tracking-widest text-white/80">
-              LockerStore
-            </p>
-            <h1 className="mt-2 text-4xl font-semibold tracking-tight text-white md:text-5xl">
-              Tienda
-            </h1>
-            <p className="mt-3 max-w-xl text-sm text-white/80">
-              Explora nuestros lockers y soluciones de almacenamiento. Filtra por categoría y cotiza rápido.
-            </p>
-          </div>
-        </div>
-      </section>
-
-      {/* PANEL BLANCO montado encima */}
-      <section className="-mt-12 md:-mt-16">
+      <section className="py-8 md:py-12">
         <div className="mx-auto max-w-6xl px-4">
           <div className="rounded-[28px] bg-white px-4 pb-6 pt-6 shadow-sm ring-1 ring-zinc-200 md:px-6 md:pb-8 md:pt-8">
-            <CatalogClient initialParams={{ q, cat, sort, page }} data={result} />
+            <CatalogClient
+              initialParams={{ q, cat, sort, page }}
+              data={result}
+              categories={categories.filter((c) => c.productCount > 0)}
+            />
           </div>
         </div>
       </section>

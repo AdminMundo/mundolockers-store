@@ -7,9 +7,9 @@ export default function ProductPanel({ product }: { product: ProductDetail }) {
   return (
     <section className="space-y-6">
       <header className="space-y-2">
-        <h1 className="text-3xl font-semibold tracking-tight text-zinc-900">
+        <h2 className="text-3xl font-semibold tracking-tight text-zinc-900">
           {product.name}
-        </h1>
+        </h2>
 
         {product.description ? (
           <p className="line-clamp-3 text-sm leading-6 text-zinc-600">

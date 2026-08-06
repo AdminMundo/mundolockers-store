@@ -32,15 +32,15 @@ const CATEGORIES: Category[] = [
   {
     title: "Lockers Metálicos",
     slug: "lockers-metalicos",
-    href: "/tienda?cat=lockers-metalicos",
+    href: "/tienda/lockers-metalicos",
     image: "/images/categoria/LockerMetalico.webp",
     priceFrom: "$89.900",
     tag: "Popular",
   },
   {
   title: "Lockers para Celulares",
-  slug: "lockers-celulares",
-  href: "/tienda?cat=lockers-phone&page=1",
+  slug: "lockers-phone",
+  href: "/tienda/lockers-phone",
   image: "/images/categoria/phonetrans2.webp",
   priceFrom: "$190.900",
   tag: "Popular",
@@ -48,7 +48,7 @@ const CATEGORIES: Category[] = [
   {
     title: "Lockers Kids",
     slug: "lockers-kids",
-    href: "/tienda?cat=lockers-kids",
+    href: "/tienda/lockers-kids",
     image: "/images/categoria/CatLockerKids.webp",
     priceFrom: "$129.900",
     tag: "Popular",
@@ -56,7 +56,7 @@ const CATEGORIES: Category[] = [
   {
     title: "Lockers Mineros",
     slug: "lockers-mineros",
-    href: "/tienda?cat=lockers-mineros",
+    href: "/tienda/lockers-mineros",
     image: "/images/categoria/LockerMinero.webp",
     priceFrom: "$159.900",
     tag: "Popular",
@@ -64,28 +64,28 @@ const CATEGORIES: Category[] = [
   {
     title: "Estanterias Mecano",
     slug: "estantes-mecano",
-    href: "/tienda?cat=estantes-mecano",
+    href: "/tienda/estantes-mecano",
     image: "/images/categoria/Estante.webp",
     priceFrom: "$69.990",
   },
   {
     title: "Storages & Roperillos",
     slug: "storages-roperillos",
-    href: "/tienda?cat=storages-roperillos",
+    href: "/tienda/storages-roperillos",
     image: "/images/categoria/Roperillos.webp",
     priceFrom: "$183.990",
   },
   {
     title: "Kardex & Cajoneras",
     slug: "kardex-y-cajoneras",
-    href: "/tienda?cat=kardex-y-cajoneras",
+    href: "/tienda/kardex-y-cajoneras",
     image: "/images/categoria/Kardex.webp",
     priceFrom: "$161.538",
   },
   {
     title: "Bancas Metálicas",
-    slug: "bancas-metalicas",
-    href: "/tienda?cat=bancas-metalicas",
+    slug: "bancas",
+    href: "/tienda/bancas",
     image: "/images/products/banca-metalica-simple-120x45x45.webp",
     priceFrom: "$79.990",
   },
@@ -234,9 +234,9 @@ export default function CategoriesSection() {
   }, [api]);
 
   return (
-    <section className="relative bg-[#F5F5F7] text-zinc-900">
-      <div className="pointer-events-none absolute inset-x-0 top-0 h-10 bg-gradient-to-b from-[#F5F5F7] to-transparent" />
-      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-10 bg-gradient-to-t from-[#F5F5F7] to-transparent" />
+    <section className="relative bg-[#EEEDEB] text-zinc-900">
+      <div className="pointer-events-none absolute inset-x-0 top-0 h-10 bg-gradient-to-b from-[#EEEDEB] to-transparent" />
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-10 bg-gradient-to-t from-[#EEEDEB] to-transparent" />
 
       <div className="relative mx-auto max-w-6xl px-4 py-16">
         <div className="flex items-end justify-between gap-4">

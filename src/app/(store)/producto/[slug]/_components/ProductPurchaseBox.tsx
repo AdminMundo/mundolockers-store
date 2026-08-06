@@ -7,6 +7,8 @@ import { useCart } from "@/lib/cart/use-cart";
 import type { AddCartLineInput, CartFlow } from "@/lib/cart/types";
 import type { ProductDetail, ProductVariant } from "@/lib/product";
 
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.lockersstore.cl";
+
 function formatCLP(v: number) {
   return new Intl.NumberFormat("es-CL", {
     style: "currency",
@@ -125,7 +127,7 @@ export default function ProductPurchaseBox({
       `Cantidad: ${quantity}`,
       variantLabel ? `Variante/Color: ${variantLabel}` : null,
       `Precio: ${priceText}`,
-      `Link: ${typeof window !== "undefined" ? window.location.href : `https://www.lockersstore.cl/producto/${product.slug}`}`,
+      `Link: ${SITE_URL}/producto/${product.slug}`,
     ].filter(Boolean);
 
     return `${base}?text=${encodeURIComponent(lines.join("\n"))}`;

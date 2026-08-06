@@ -5,8 +5,8 @@ import type { QuoteDocumentData } from "./types";
 
 const COMPANY = {
   name: "LockerStore",
-  legalName: "Mundo Lockers SpA",
-  rut: "76.580.205-9",
+  legalName: "Roco Import SpA",
+  rut: "78.124.096-6",
   activity: "Fabricación y comercialización de lockers metálicos y plásticos",
   address: "Quinta Normal, Santiago",
   email: "lockerstore2@gmail.com",
@@ -14,11 +14,11 @@ const COMPANY = {
 };
 
 const BANK = {
-  banco: "Scotiabank",
+  banco: "Banco Santander",
   tipoCuenta: "Cuenta Corriente",
-  numero: "980707059",
-  titular: "Mundo Lockers SpA",
-  rut: "76.580.205-9",
+  numero: "000097545618",
+  titular: "Roco Import SpA",
+  rut: "78.124.096-6",
   email: "lockerstore2@gmail.com",
 };
 

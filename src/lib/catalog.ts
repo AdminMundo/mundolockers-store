@@ -70,6 +70,56 @@ export async function getCatalog(params: CatalogQuery) {
   };
 }
 
+export type CategoryNav = {
+  id: string;
+  name: string;
+  slug: string;
+  description: string | null;
+  productCount: number;
+};
+
+export async function getCategoriesWithCounts(): Promise<CategoryNav[]> {
+  const supabase = createSupabasePublicServer();
+
+  const [{ data: categories, error: catError }, { data: products, error: prodError }] =
+    await Promise.all([
+      supabase.from("categories").select("id,name,slug,description").order("name", { ascending: true }),
+      supabase.from("catalog_products").select("category_slug").eq("is_active", true),
+    ]);
+
+  if (catError) throw new Error(catError.message);
+  if (prodError) throw new Error(prodError.message);
+
+  const counts = new Map<string, number>();
+  for (const p of products ?? []) {
+    if (!p.category_slug) continue;
+    counts.set(p.category_slug, (counts.get(p.category_slug) ?? 0) + 1);
+  }
+
+  return (categories ?? []).map((c) => ({
+    id: c.id,
+    name: c.name,
+    slug: c.slug,
+    description: c.description ?? null,
+    productCount: counts.get(c.slug) ?? 0,
+  }));
+}
+
+export async function getCategoryBySlug(
+  slug: string,
+): Promise<Omit<CategoryNav, "productCount"> | null> {
+  const supabase = createSupabasePublicServer();
+
+  const { data, error } = await supabase
+    .from("categories")
+    .select("id,name,slug,description")
+    .eq("slug", slug)
+    .maybeSingle();
+
+  if (error) throw new Error(error.message);
+  return data ?? null;
+}
+
 export type FeaturedProduct = {
   productId: string;
   slug: string;

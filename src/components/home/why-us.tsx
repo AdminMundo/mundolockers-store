@@ -33,7 +33,7 @@ const ITEMS = [
 
 export default function WhyUsSection() {
   return (
-    <section className="bg-[#F5F5F7] text-zinc-900">
+    <section className="bg-[#EEEDEB] text-zinc-900">
       <div className="mx-auto max-w-6xl px-4 py-14">
         <div className="flex items-end justify-between gap-4">
           <div>

@@ -14,7 +14,7 @@ function waLink() {
 
 export default function SchoolCampaignSection() {
   return (
-    <section className="relative overflow-hidden bg-[#F5F5F7] text-zinc-900">
+    <section className="relative overflow-hidden bg-[#EEEDEB] text-zinc-900">
       <div className="mx-auto max-w-6xl px-4 py-14">
         <div className="relative overflow-hidden rounded-3xl border border-black/10 bg-white/55 backdrop-blur-2xl shadow-[0_18px_45px_rgba(0,0,0,0.12)]">
           <div className="pointer-events-none absolute inset-0">

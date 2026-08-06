@@ -95,7 +95,7 @@ export function CartPageClient({ initialState }: Props) {
 
   if (items.length === 0) {
     return (
-      <main className="relative z-0 bg-neutral-50">
+      <main className="relative z-0 bg-[#EEEDEB]">
         <CartHero
           title="Carrito"
           description="Revisa tus productos, organiza tu compra y continúa con compra directa o cotización según el tipo de proyecto."
@@ -110,7 +110,7 @@ export function CartPageClient({ initialState }: Props) {
 
   return (
     <>
-      <main className="relative z-0 bg-neutral-50">
+      <main className="relative z-0 bg-[#EEEDEB]">
         <CartHero
           title="Carrito"
           description="Revisa tus productos, ajusta cantidades y continúa con compra directa o solicitud de cotización."

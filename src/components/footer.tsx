@@ -10,7 +10,7 @@ const WHATSAPP_TEXT = encodeURIComponent(
 
 export default function Footer() {
   return (
-    <footer className="bg-[#F5F5F7]">
+    <footer className="bg-[#EEEDEB]">
       <div className="mx-auto max-w-6xl px-4 pb-10 pt-14">
         <div
           className={[
@@ -85,7 +85,7 @@ export default function Footer() {
                   <li>
                     <Link
                       className="transition-colors hover:text-white"
-                      href="/tienda?cat=lockers-metalicos"
+                      href="/tienda/lockers-metalicos"
                     >
                       Lockers Metálicos
                     </Link>
@@ -93,7 +93,7 @@ export default function Footer() {
                   <li>
                     <Link
                       className="transition-colors hover:text-white"
-                      href="/tienda?cat=lockers-kids"
+                      href="/tienda/lockers-kids"
                     >
                       Lockers Kids
                     </Link>
@@ -101,15 +101,15 @@ export default function Footer() {
                   <li>
                     <Link
                       className="transition-colors hover:text-white"
-                      href="/tienda?cat=lockers-escolares"
+                      href="/tienda/bancas"
                     >
-                      Lockers Escolares
+                      Bancas
                     </Link>
                   </li>
                   <li>
                     <Link
                       className="transition-colors hover:text-white"
-                      href="/tienda?cat=lockers-mineros"
+                      href="/tienda/lockers-mineros"
                     >
                       Lockers Mineros
                     </Link>
@@ -117,7 +117,7 @@ export default function Footer() {
                   <li>
                     <Link
                       className="transition-colors hover:text-white"
-                      href="/tienda?cat=lockers-phone&page=1"
+                      href="/tienda/lockers-phone"
                     >
                       Lockers Para Telefonos
                     </Link>
@@ -125,7 +125,7 @@ export default function Footer() {
                   <li>
                     <Link
                       className="transition-colors hover:text-white"
-                      href="/tienda?cat=kardex-y-cajoneras"
+                      href="/tienda/kardex-y-cajoneras"
                     >
                       Kardex &amp; Cajoneras
                     </Link>
