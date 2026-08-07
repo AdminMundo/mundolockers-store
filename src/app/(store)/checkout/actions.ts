@@ -48,14 +48,27 @@ export async function createFlowPaymentAction(
       ? `#${String(pedido.numero).padStart(4, "0")}`
       : pedido.id.slice(0, 8).toUpperCase();
 
-    const { url, token } = await createFlowPayment({
+    const { url, token, flowOrder } = await createFlowPayment({
       commerceOrder: pedido.id,
       subject: `Pedido LockerStore ${label}`,
       amount: pedido.total,
       email,
       urlConfirmation: `${SITE_URL}/api/flow/webhook`,
       urlReturn: `${SITE_URL}/api/flow/return`,
+      optional: { folio: label },
     });
+
+    // Guarda el número de orden de Flow en el pedido para poder cruzarlos
+    // desde el panel admin. No bloquea el pago si la columna aún no existe.
+    await supabase
+      .from("pedidos")
+      .update({ flow_order: flowOrder })
+      .eq("id", pedido.id)
+      .then(({ error: flowOrderError }) => {
+        if (flowOrderError) {
+          console.error("No se pudo guardar flow_order:", flowOrderError.message);
+        }
+      });
 
     return { success: true, redirectUrl: `${url}?token=${token}` };
   } catch (err) {

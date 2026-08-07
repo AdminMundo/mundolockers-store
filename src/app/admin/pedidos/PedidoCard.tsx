@@ -40,6 +40,7 @@ export type Pedido = {
   estado: string;
   notas: string | null;
   created_at: string;
+  flow_order: number | null;
 };
 
 const ESTADOS: { value: EstadoPedido; label: string }[] = [
@@ -290,7 +291,14 @@ export function PedidoCard({ p }: { p: Pedido }) {
             <p className="text-[10px] font-semibold uppercase tracking-widest text-black/35">
               Medio de pago
             </p>
-            <p className="mt-1 text-sm font-medium capitalize text-black/80">{p.tipo_pago}</p>
+            <p className="mt-1 text-sm font-medium capitalize text-black/80">
+              {p.tipo_pago}
+              {p.flow_order != null && (
+                <span className="ml-2 font-mono text-xs font-normal normal-case text-black/40">
+                  · Orden Flow #{p.flow_order}
+                </span>
+              )}
+            </p>
           </div>
         )}
         {(p.ciudad || p.region) && (

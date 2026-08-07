@@ -123,6 +123,19 @@ export async function POST(req: NextRequest) {
         .eq("id", payment.commerceOrder);
     }
 
+    // Best-effort: guarda el número de orden de Flow para cruzarlo con el
+    // pedido desde el panel admin. Separado del update anterior para que un
+    // error acá (ej. columna flow_order inexistente) no afecte lo crítico.
+    await supabase
+      .from("pedidos")
+      .update({ flow_order: payment.flowOrder })
+      .eq("id", payment.commerceOrder)
+      .then(({ error: flowOrderError }) => {
+        if (flowOrderError) {
+          console.error("[flow/webhook] no se pudo guardar flow_order:", flowOrderError.message);
+        }
+      });
+
     return NextResponse.json({ ok: true });
   } catch (err) {
     console.error("[flow/webhook] error procesando pago:", err);

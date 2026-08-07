@@ -38,6 +38,7 @@ export async function createFlowPayment(params: {
   email: string;
   urlConfirmation: string;
   urlReturn: string;
+  optional?: Record<string, string>;
 }): Promise<FlowPaymentResult> {
   const apiKey = process.env.FLOW_API_KEY;
   const secretKey = process.env.FLOW_SECRET_KEY;
@@ -56,6 +57,10 @@ export async function createFlowPayment(params: {
     urlConfirmation: params.urlConfirmation,
     urlReturn: params.urlReturn,
   };
+
+  if (params.optional) {
+    p.optional = JSON.stringify(params.optional);
+  }
 
   p.s = sign(p, secretKey);
 

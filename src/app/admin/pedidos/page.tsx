@@ -48,7 +48,7 @@ export default async function AdminPedidosPage({
   let query = supabase
     .from("pedidos")
     .select(
-      "id, numero, nombre, correo, telefono, rut, empresa, tipo_entrega, direccion, ciudad, region, productos, subtotal, descuento, costo_despacho, total, tipo_pago, estado_pago, estado, notas, created_at",
+      "id, numero, nombre, correo, telefono, rut, empresa, tipo_entrega, direccion, ciudad, region, productos, subtotal, descuento, costo_despacho, total, tipo_pago, estado_pago, estado, notas, created_at, flow_order",
       { count: "exact" },
     )
     .order("created_at", { ascending: false })
