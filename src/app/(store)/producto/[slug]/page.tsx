@@ -1,5 +1,6 @@
 import { notFound } from "next/navigation";
 import { getProductBySlug } from "@/lib/product";
+import { createSupabasePublicServer } from "@/lib/supabase/supabasePublicServer";
 import ProductGallery from "./_components/ProductGallery";
 import ProductPanel from "./_components/ProductPanel";
 import TechSheetSection from "./_components/TechSheetSection";
@@ -8,6 +9,19 @@ import TechSheetSection from "./_components/TechSheetSection";
 // invalida esta ruta al instante vía revalidatePath en cada cambio, así que
 // este revalidate solo actúa como red de seguridad.
 export const revalidate = 300;
+
+// Sin generateStaticParams, Next trata una ruta con segmento dinámico como
+// 100% dinámica (ignora revalidate). Prerenderizamos todos los slugs para
+// que sí quede como ISR real.
+export async function generateStaticParams() {
+  const supabase = createSupabasePublicServer();
+  const { data } = await supabase
+    .from("products")
+    .select("slug")
+    .eq("is_active", true);
+
+  return (data ?? []).map((p) => ({ slug: p.slug }));
+}
 
 type PageProps = {
   params: Promise<{ slug: string }>;
