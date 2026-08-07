@@ -1,26 +1,18 @@
 import type { ReactNode } from "react";
 import Navbar from "@/components/navbar";
 import Footer from "@/components/footer";
-import { createSupabaseServerAuthClient } from "@/lib/supabase/auth-server";
-import { isAdminEmailAsync } from "@/lib/auth/roles";
 
 type StoreLayoutProps = {
   children: ReactNode;
 };
 
-export default async function StoreLayout({ children }: StoreLayoutProps) {
-  const supabase = await createSupabaseServerAuthClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-
-  const navUser = user
-    ? { email: user.email ?? null, isAdmin: await isAdminEmailAsync(user.email) }
-    : null;
-
+// Layout sin cookies()/auth: el Navbar resuelve la sesión del lado del
+// cliente (vía /api/auth/me) para que las páginas de la tienda puedan
+// cachearse con ISR en vez de forzarse a dynamic por el estado de login.
+export default function StoreLayout({ children }: StoreLayoutProps) {
   return (
     <>
-      <Navbar user={navUser} />
+      <Navbar />
       {children}
       <Footer />
     </>

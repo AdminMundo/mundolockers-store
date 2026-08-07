@@ -3,7 +3,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -11,7 +11,8 @@ import { Search, X, User } from "lucide-react";
 
 type NavUser = { email: string | null; isAdmin: boolean } | null;
 
-export default function Navbar({ user = null }: { user?: NavUser }) {
+export default function Navbar() {
+  const [user, setUser] = useState<NavUser>(null);
   const accountHref = user ? (user.isAdmin ? "/admin" : "/mi-cuenta") : "/login";
   const accountLabel = user ? (user.isAdmin ? "Admin" : "Mi cuenta") : "Iniciar sesión";
 
@@ -19,6 +20,7 @@ export default function Navbar({ user = null }: { user?: NavUser }) {
   const [query, setQuery] = useState("");
   const [mobileSearchOpen, setMobileSearchOpen] = useState(false);
   const router = useRouter();
+  const pathname = usePathname();
 
   useEffect(() => {
     const onScroll = () => {
@@ -29,6 +31,24 @@ export default function Navbar({ user = null }: { user?: NavUser }) {
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
+
+  // Se resuelve en el cliente (no en el layout) para que las páginas de la
+  // tienda puedan cachearse; se re-consulta en cada navegación para no
+  // quedar desincronizado después de iniciar/cerrar sesión.
+  useEffect(() => {
+    let cancelled = false;
+    fetch("/api/auth/me")
+      .then((res) => (res.ok ? res.json() : { user: null }))
+      .then((data) => {
+        if (!cancelled) setUser(data.user ?? null);
+      })
+      .catch(() => {
+        if (!cancelled) setUser(null);
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [pathname]);
 
   function goSearch() {
     const q = query.trim();
