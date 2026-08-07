@@ -34,7 +34,7 @@ export async function updateProductAction(formData: FormData) {
   const description = descriptionRaw.length > 0 ? descriptionRaw : null;
 
   const specsRaw = String(formData.get("specs") ?? "").trim();
-  let specs: unknown = null;
+  let specs: unknown = {};
   if (specsRaw.length > 0) {
     try {
       specs = JSON.parse(specsRaw);
@@ -141,7 +141,7 @@ export async function createProductAction(formData: FormData) {
   const description = descriptionRaw.length > 0 ? descriptionRaw : null;
 
   const specsRaw = String(formData.get("specs") ?? "").trim();
-  let specs: unknown = null;
+  let specs: unknown = {};
   if (specsRaw.length > 0) {
     try {
       specs = JSON.parse(specsRaw);
