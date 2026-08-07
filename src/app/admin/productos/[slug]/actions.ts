@@ -126,6 +126,7 @@ export async function updateProductAction(formData: FormData) {
   revalidatePath(`/admin/productos/${originalKey}`);
   revalidatePath(`/admin/productos/${sku ?? slug}`);
   revalidatePath("/tienda");
+  revalidatePath("/tienda/[categoria]", "page");
   revalidatePath(`/producto/${slug}`);
 
   redirect(`/admin/productos/${sku ?? slug}?saved=1`);
@@ -231,6 +232,7 @@ export async function createProductAction(formData: FormData) {
 
   revalidatePath("/admin/productos");
   revalidatePath("/tienda");
+  revalidatePath("/tienda/[categoria]", "page");
   revalidatePath(`/admin/productos/${data.slug}`);
   revalidatePath(`/producto/${data.slug}`);
 
@@ -275,6 +277,7 @@ export async function deleteProductAction(formData: FormData) {
 
   revalidatePath("/admin/productos");
   revalidatePath("/tienda");
+  revalidatePath("/tienda/[categoria]", "page");
   revalidatePath(`/admin/productos/${product.slug}`);
   revalidatePath(`/producto/${product.slug}`);
 

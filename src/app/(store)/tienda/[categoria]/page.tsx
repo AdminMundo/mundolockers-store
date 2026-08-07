@@ -6,7 +6,10 @@ import CatalogClient from "../CatalogClient";
 import { getCatalog, getCategoryBySlug, getCategoriesWithCounts } from "@/lib/catalog";
 import { truncateAtWord } from "@/lib/utils";
 
-export const dynamic = "force-dynamic";
+// ISR: la data (Supabase anon, sin cookies) es cacheable; admin/productos
+// invalida esta ruta al instante vía revalidatePath en cada cambio, así que
+// este revalidate solo actúa como red de seguridad.
+export const revalidate = 300;
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.lockersstore.cl";
 

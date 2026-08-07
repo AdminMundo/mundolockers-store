@@ -3,7 +3,10 @@ import HeroBanner from "@/components/site/hero-banner";
 import CatalogClient from "./CatalogClient";
 import { getCatalog, getCategoriesWithCounts } from "@/lib/catalog";
 
-export const dynamic = "force-dynamic";
+// ISR: la data (Supabase anon, sin cookies) es cacheable; admin/productos
+// invalida esta ruta al instante vía revalidatePath en cada cambio, así que
+// este revalidate solo actúa como red de seguridad.
+export const revalidate = 300;
 
 type SP = Record<string, string | string[] | undefined>;
 

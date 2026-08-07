@@ -4,7 +4,10 @@ import ProductGallery from "./_components/ProductGallery";
 import ProductPanel from "./_components/ProductPanel";
 import TechSheetSection from "./_components/TechSheetSection";
 
-export const dynamic = "force-dynamic";
+// ISR: la data (Supabase anon, sin cookies) es cacheable; admin/productos
+// invalida esta ruta al instante vía revalidatePath en cada cambio, así que
+// este revalidate solo actúa como red de seguridad.
+export const revalidate = 300;
 
 type PageProps = {
   params: Promise<{ slug: string }>;
