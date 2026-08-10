@@ -12,7 +12,7 @@ export default function ProductPanel({ product }: { product: ProductDetail }) {
         </h2>
 
         {product.description ? (
-          <p className="line-clamp-3 text-sm leading-6 text-zinc-600">
+          <p className="line-clamp-6 text-sm leading-6 text-zinc-600">
             {product.description}
           </p>
         ) : (
