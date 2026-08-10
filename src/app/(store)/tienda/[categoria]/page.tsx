@@ -39,7 +39,9 @@ export async function generateMetadata({
     : `Compra ${category.name} en LockerStore. Despacho a todo Chile.`;
 
   return {
-    title: `${category.name} | LockerStore`,
+    // El layout raíz ya aplica el template "%s | LockerStore" — devolver
+    // solo el nombre evita "Bancas | LockerStore | LockerStore".
+    title: category.name,
     description,
     alternates: { canonical: canonicalUrl },
     openGraph: {

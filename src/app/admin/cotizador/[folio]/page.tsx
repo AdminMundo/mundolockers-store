@@ -6,7 +6,7 @@ import { QuoteViewClient } from "./QuoteViewClient";
 import type { QuoteItemInput } from "@/app/admin/cotizador/actions";
 
 export const metadata: Metadata = {
-  title: "Cotización | Admin | LockerStore",
+  title: "Cotización | Admin",
   robots: { index: false, follow: false },
 };
 

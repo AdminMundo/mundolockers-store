@@ -5,7 +5,7 @@ import { createSupabaseServer } from "@/lib/supabase/server";
 import DeleteProductButton from "@/components/admin/delete-product-button";
 
 export const metadata: Metadata = {
-  title: "Productos | Admin | LockerStore",
+  title: "Productos | Admin",
   description: "Gestión de productos del panel admin.",
   robots: {
     index: false,

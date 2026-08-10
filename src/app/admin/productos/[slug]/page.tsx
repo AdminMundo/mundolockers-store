@@ -7,7 +7,7 @@ import { updateProductAction } from "@/app/admin/productos/[slug]/actions";
 import ProductImageUpload from "@/components/admin/product-image-upload";
 
 export const metadata: Metadata = {
-  title: "Editar producto | Admin |  LockerStore ",
+  title: "Editar producto | Admin",
   description: "Edición base de producto en el panel admin.",
   robots: {
     index: false,

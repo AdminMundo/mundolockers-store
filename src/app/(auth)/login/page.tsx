@@ -3,7 +3,7 @@ import Link from "next/link";
 import { LoginForm } from "@/components/auth/login-form";
 
 export const metadata: Metadata = {
-  title: "Iniciar sesión | LockerStore",
+  title: "Iniciar sesión",
   description: "Inicia sesión en tu cuenta LockerStore.",
   robots: {
     index: false,

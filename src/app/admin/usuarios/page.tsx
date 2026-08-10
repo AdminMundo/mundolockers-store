@@ -6,7 +6,7 @@ import { ResetPasswordControl } from "./reset-password-form";
 import { EditEmailControl } from "./edit-email-form";
 
 export const metadata: Metadata = {
-  title: "Usuarios | Admin | LockerStore",
+  title: "Usuarios | Admin",
   description: "Cuentas de clientes registradas en la tienda.",
   robots: { index: false, follow: false },
 };

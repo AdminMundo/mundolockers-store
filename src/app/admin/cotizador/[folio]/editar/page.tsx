@@ -6,7 +6,7 @@ import { QuoteBuilder, type QuoteBuilderInitial } from "@/app/admin/cotizador/Qu
 import type { QuoteItemInput } from "@/app/admin/cotizador/actions";
 
 export const metadata: Metadata = {
-  title: "Editar cotización | Admin | LockerStore",
+  title: "Editar cotización | Admin",
   robots: { index: false, follow: false },
 };
 

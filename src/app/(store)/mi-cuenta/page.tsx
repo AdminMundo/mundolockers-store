@@ -6,7 +6,7 @@ import { logoutAction } from "@/app/(auth)/actions";
 import { ChangePasswordForm } from "./change-password-form";
 
 export const metadata: Metadata = {
-  title: "Mi cuenta | LockerStore",
+  title: "Mi cuenta",
   description: "Revisa tus pedidos y cotizaciones.",
   robots: { index: false, follow: false },
 };

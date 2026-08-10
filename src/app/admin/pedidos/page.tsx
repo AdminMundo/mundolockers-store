@@ -4,7 +4,7 @@ import { createSupabaseServer } from "@/lib/supabase/server";
 import { PedidoCard, type Pedido } from "@/app/admin/pedidos/PedidoCard";
 
 export const metadata: Metadata = {
-  title: "Pedidos | Admin | LockerStore",
+  title: "Pedidos | Admin",
   description: "Gestión de pedidos del panel admin.",
   robots: { index: false, follow: false },
 };

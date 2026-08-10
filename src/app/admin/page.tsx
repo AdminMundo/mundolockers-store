@@ -6,7 +6,7 @@ import { requireAdmin } from "@/lib/auth/admin";
 import { createSupabaseServer } from "@/lib/supabase/server";
 
 export const metadata: Metadata = {
-  title: "Admin | LockerStore",
+  title: "Admin",
   description: "Panel administrativo de LockerStore.",
   robots: { index: false, follow: false },
 };

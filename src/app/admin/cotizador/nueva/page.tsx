@@ -3,7 +3,7 @@ import { requireAdmin } from "@/lib/auth/admin";
 import { QuoteBuilder } from "@/app/admin/cotizador/QuoteBuilder";
 
 export const metadata: Metadata = {
-  title: "Nueva cotización | Admin | LockerStore",
+  title: "Nueva cotización | Admin",
   robots: { index: false, follow: false },
 };
 

@@ -3,7 +3,7 @@ import Link from "next/link";
 import { createSupabaseServer } from "@/lib/supabase/server";
 
 export const metadata: Metadata = {
-  title: "Pedido confirmado | LockerStore",
+  title: "Pedido confirmado",
   robots: { index: false, follow: false },
 };
 

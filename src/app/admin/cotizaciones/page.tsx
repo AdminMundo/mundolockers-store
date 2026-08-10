@@ -4,7 +4,7 @@ import { createSupabaseServer } from "@/lib/supabase/server";
 import { CotizacionCard } from "@/app/admin/cotizaciones/CotizacionCard";
 
 export const metadata: Metadata = {
-  title: "Cotizaciones | Admin | LockerStore",
+  title: "Cotizaciones | Admin",
   description: "Gestión de cotizaciones del panel admin.",
   robots: { index: false, follow: false },
 };

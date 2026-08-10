@@ -4,7 +4,7 @@ import { createSupabaseServer } from "@/lib/supabase/server";
 import { CotizacionFormalRow } from "./CotizacionFormalRow";
 
 export const metadata: Metadata = {
-  title: "Cotizador | Admin | LockerStore",
+  title: "Cotizador | Admin",
   description: "Cotizaciones formales creadas por el equipo de ventas.",
   robots: { index: false, follow: false },
 };

@@ -5,7 +5,7 @@ import { createProductAction } from "@/app/admin/productos/[slug]/actions";
 import ProductImageUpload from "@/components/admin/product-image-upload";
 
 export const metadata: Metadata = {
-  title: "Nuevo producto | Admin | LockerStore",
+  title: "Nuevo producto | Admin",
   description: "Crear producto en el panel admin.",
   robots: {
     index: false,

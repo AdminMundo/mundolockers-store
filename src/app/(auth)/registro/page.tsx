@@ -3,7 +3,7 @@ import Link from "next/link";
 import { RegisterForm } from "@/components/auth/register-form";
 
 export const metadata: Metadata = {
-  title: "Crear cuenta | LockerStore",
+  title: "Crear cuenta",
   description: "Crea tu cuenta LockerStore para ver tus pedidos y cotizaciones.",
   robots: {
     index: false,
