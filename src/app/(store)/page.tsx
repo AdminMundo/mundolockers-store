@@ -1,7 +1,7 @@
 import Link from "next/link";
 import Script from "next/script";
 import { Button } from "@/components/ui/button";
-import HeroBanner from "@/components/site/hero-banner";
+import VideoHero from "@/components/site/video-hero";
 import CategoriesSection from "@/components/home/categories";
 import CategoryIntroSection from "@/components/home/category-intro";
 import BrandsSection from "@/components/home/brands";
@@ -45,18 +45,19 @@ export default function HomePage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
 
-      <HeroBanner
+      <VideoHero
+        eyebrow="Fabricación 100% nacional"
         title={
           <>
-            Lockers para <br /> Cada Espacio
+            Hecho en Chile, <br /> Hecho para Durar
           </>
         }
-        description="Seguridad y orden para tu industria, oficina o institución."
+        description="Acero soldado, pintado y armado en nuestra propia planta. Así nace cada locker que despachamos a todo el país."
         actions={
           <>
             <Button
               asChild
-              className="h-12 rounded-xl bg-black px-7 text-base font-semibold text-white transition-colors duration-200 hover:bg-[#0477BF] hover:text-white"
+              className="h-12 rounded-xl bg-white px-7 text-base font-semibold text-zinc-900 transition-colors duration-200 hover:bg-[#0477BF] hover:text-white"
             >
               <Link href="/cotizar">Cotizar Ahora</Link>
             </Button>
@@ -64,7 +65,7 @@ export default function HomePage() {
             <Button
               asChild
               variant="outline"
-              className="h-12 rounded-xl border border-[#0477BF]/40 bg-white px-7 text-base font-semibold text-zinc-900 transition-colors duration-200 hover:border-[#0477BF] hover:shadow-[0_0_0_3px_rgba(4,119,191,0.15)]"
+              className="h-12 rounded-xl border border-white/40 bg-white/10 px-7 text-base font-semibold text-white backdrop-blur-sm transition-colors duration-200 hover:border-white hover:bg-white/20"
             >
               <Link href="/tienda">Ver Productos</Link>
             </Button>
