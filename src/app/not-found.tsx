@@ -9,12 +9,12 @@ export default function NotFound() {
       {/* Logo */}
       <Link href="/" className="mb-10 inline-block">
         <Image
-          src="/brand/logometalico2.webp"
+          src="/brand/logo-white.webp"
           alt="LockerStore"
           width={200}
-          height={56}
+          height={61}
           priority
-          className="h-10 w-auto opacity-90 brightness-110 contrast-125 drop-shadow-[0_4px_18px_rgba(0,0,0,0.28)]"
+          className="h-10 w-auto drop-shadow-[0_4px_18px_rgba(0,0,0,0.28)]"
         />
       </Link>
 

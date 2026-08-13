@@ -19,7 +19,7 @@ const jsonLd = {
       "@type": "Organization",
       name: "LockerStore",
       url: SITE,
-      logo: `${SITE}/brand/logometalico2.webp`,
+      logo: `${SITE}/brand/logo-color.webp`,
     },
     {
       "@type": "WebSite",

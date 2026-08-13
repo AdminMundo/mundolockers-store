@@ -45,7 +45,7 @@ export const QuoteDocument = forwardRef<HTMLDivElement, { data: QuoteDocumentDat
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 24 }}>
           <div>
             {/* eslint-disable-next-line @next/next/no-img-element -- necesita ser un <img> plano para que html2canvas lo capture al generar el PDF */}
-            <img src="/brand/logometalico2.webp" alt={COMPANY.name} style={{ height: 44, width: "auto", display: "block", marginBottom: 8 }} />
+            <img src="/brand/logo-color.webp" alt={COMPANY.name} style={{ height: 44, width: "auto", display: "block", marginBottom: 8 }} />
             <div style={{ fontSize: 11, color: "#64748b", marginTop: 3, fontWeight: 600 }}>R.U.T.: {COMPANY.rut}</div>
             <div style={{ fontSize: 10, color: "#94a3b8", fontStyle: "italic", marginTop: 1 }}>{COMPANY.activity.toUpperCase()}</div>
             <div style={{ fontSize: 11, color: "#64748b", marginTop: 8 }}>{COMPANY.address}</div>

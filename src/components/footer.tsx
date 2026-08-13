@@ -31,16 +31,15 @@ export default function Footer() {
               <div className="md:col-span-1">
                 <Link href="/" className="group flex items-center shrink-0">
                   <Image
-                    src="/brand/logometalico2.webp"
+                    src="/brand/logo-white.webp"
                     alt="LockerStore"
                     width={320}
-                    height={90}
+                    height={97}
                     priority
                     sizes="(max-width: 768px) 180px, 320px"
                     className="
                       logo-float
                       h-10 md:h-9 w-auto
-                      opacity-95 brightness-110 contrast-125
                       drop-shadow-[0_4px_18px_rgba(0,0,0,0.28)]
                       transition-all duration-500 ease-out
                       group-hover:scale-[1.04]
