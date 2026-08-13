@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { createSupabaseServer } from "@/lib/supabase/server";
+import PurchaseConversion from "@/components/analytics/purchase-conversion";
 
 export const metadata: Metadata = {
   title: "Pedido confirmado",
@@ -81,6 +82,9 @@ export default async function GraciasPage({ searchParams }: GraciasPageProps) {
 
   return (
     <main className="min-h-screen bg-neutral-50">
+      {pedido && pedido.total != null && (
+        <PurchaseConversion orderId={pedido.id} value={pedido.total} />
+      )}
       <div className="mx-auto max-w-2xl px-4 pb-24 pt-12 sm:px-6">
 
         {/* Checkmark header */}
