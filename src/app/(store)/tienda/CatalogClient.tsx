@@ -239,10 +239,10 @@ export default function CatalogClient({
           return (
             <article
               key={p.product_id}
-              className="rounded-2xl border border-zinc-200 bg-white p-4 shadow-sm transition hover:border-zinc-300"
+              className="flex h-full flex-col rounded-2xl border border-zinc-200 bg-white p-4 shadow-sm transition hover:border-zinc-300"
             >
-              <Link href={`/producto/${p.slug}`} className="group block">
-                <div className="relative aspect-[4/3] w-full overflow-hidden rounded-xl bg-zinc-100">
+              <Link href={`/producto/${p.slug}`} className="group flex flex-1 flex-col">
+                <div className="relative aspect-[4/3] w-full shrink-0 overflow-hidden rounded-xl bg-zinc-100">
                   {p.image_url && p.image_url.trim().length > 0 ? (
                     <ProductImage src={p.image_url} alt={p.name} />
                   ) : (
@@ -265,7 +265,7 @@ export default function CatalogClient({
                   ) : null}
                 </div>
 
-                <div className="mt-3 flex items-start justify-between gap-3">
+                <div className="mt-3 flex flex-1 items-start justify-between gap-3">
                   <div className="min-w-0">
                     <div className="line-clamp-2 text-sm font-medium text-zinc-900">
                       {p.name}
