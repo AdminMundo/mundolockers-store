@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 import Navbar from "@/components/navbar";
 import Footer from "@/components/footer";
+import WhatsAppFloatingButton from "@/components/whatsapp-floating-button";
 
 type StoreLayoutProps = {
   children: ReactNode;
@@ -15,6 +16,7 @@ export default function StoreLayout({ children }: StoreLayoutProps) {
       <Navbar />
       {children}
       <Footer />
+      <WhatsAppFloatingButton />
     </>
   );
 }
