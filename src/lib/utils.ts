@@ -23,6 +23,15 @@ export function sanitizeHeaderText(value: string): string {
   return String(value).replace(/[\r\n]+/g, " ").trim()
 }
 
+/** Parsea una lista de correos separados por coma (variables de entorno de notificación). */
+export function parseEmailList(raw: string | undefined | null): string[] {
+  if (!raw) return []
+  return raw
+    .split(",")
+    .map((email) => email.trim())
+    .filter((email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email))
+}
+
 /**
  * Corta un texto a un largo máximo sin partir palabras (útil para meta
  * descriptions: Google recomienda ~140-155 caracteres). Si corta, agrega "…".

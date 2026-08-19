@@ -3,7 +3,7 @@
 import { createSupabaseServer } from "@/lib/supabase/server";
 import { createSupabaseServerAuthClient } from "@/lib/supabase/auth-server";
 import { createFlowPayment } from "@/lib/flow";
-import { escapeHtml, sanitizeHeaderText } from "@/lib/utils";
+import { escapeHtml, sanitizeHeaderText, parseEmailList } from "@/lib/utils";
 import { sendTransactionalEmail } from "@/lib/resend";
 
 export type CreatePedidoResult =
@@ -294,8 +294,8 @@ export async function createPedidoAction(
 
     // Notificación por email — cada envío es independiente y queda logueado si falla
     try {
-      const notifyEmail = process.env.QUOTE_NOTIFICATION_EMAIL;
-      if (notifyEmail) {
+      const notifyEmails = parseEmailList(process.env.QUOTE_NOTIFICATION_EMAIL);
+      if (notifyEmails.length > 0) {
         const numeroLabel = data.numero
           ? `#${String(data.numero).padStart(4, "0")}`
           : data.id.slice(0, 8).toUpperCase();
@@ -311,7 +311,7 @@ export async function createPedidoAction(
 
         const emails = [
           sendTransactionalEmail({
-            to: notifyEmail,
+            to: notifyEmails,
             from: "LockerStore <pedidos@lockersstore.cl>",
             subject: `Nuevo pedido ${numeroLabel} — ${nombreSubject}`,
             html: `

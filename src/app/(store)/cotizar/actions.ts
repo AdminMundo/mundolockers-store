@@ -3,7 +3,7 @@
 import { Resend } from "resend";
 import { createSupabaseServer } from "@/lib/supabase/server";
 import { createSupabaseServerAuthClient } from "@/lib/supabase/auth-server";
-import { escapeHtml, sanitizeHeaderText } from "@/lib/utils";
+import { escapeHtml, sanitizeHeaderText, parseEmailList } from "@/lib/utils";
 
 export type QuoteActionState = {
   success: boolean;
@@ -223,9 +223,9 @@ export async function submitQuoteAction(
 
   // Notificación por email (no bloquea si falla)
   const resendKey = process.env.RESEND_API_KEY;
-  const notifyTo = process.env.QUOTE_NOTIFICATION_EMAIL;
+  const notifyTo = parseEmailList(process.env.QUOTE_NOTIFICATION_EMAIL);
 
-  if (resendKey && notifyTo) {
+  if (resendKey && notifyTo.length > 0) {
     try {
       const resend = new Resend(resendKey);
       const nombreSubject = sanitizeHeaderText(nombre);
@@ -233,7 +233,7 @@ export async function submitQuoteAction(
 
       const { error: sendError } = await resend.emails.send({
         from: "LockerStore <cotizaciones@lockersstore.cl>",
-        to: [notifyTo],
+        to: notifyTo,
         replyTo: correo,
         subject: `Nueva cotización de ${nombreSubject}${empresaSubject ? ` – ${empresaSubject}` : ""}`,
         html: buildNotificationHtml({

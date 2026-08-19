@@ -1,7 +1,7 @@
 import "server-only";
 
 type SendEmailInput = {
-  to: string;
+  to: string | string[];
   from: string;
   subject: string;
   html: string;
@@ -25,7 +25,7 @@ export async function sendTransactionalEmail(input: SendEmailInput): Promise<boo
       },
       body: JSON.stringify({
         from: input.from,
-        to: [input.to],
+        to: Array.isArray(input.to) ? input.to : [input.to],
         subject: input.subject,
         html: input.html,
       }),
