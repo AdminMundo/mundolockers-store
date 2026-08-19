@@ -82,6 +82,18 @@ const nextConfig: NextConfig = {
         destination: "/tienda/:cat",
         permanent: true,
       },
+      {
+        // Slugs de categoría previos a la limpieza (terminaban en "-1")
+        source: "/tienda/:slug-1",
+        destination: "/tienda/:slug",
+        permanent: true,
+      },
+      {
+        // Slugs de producto previos a la limpieza (terminaban en "-2")
+        source: "/producto/:slug-2",
+        destination: "/producto/:slug",
+        permanent: true,
+      },
     ];
   },
 };
