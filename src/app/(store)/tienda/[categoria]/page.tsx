@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import Script from "next/script";
 import { notFound, permanentRedirect } from "next/navigation";
 import HeroBanner from "@/components/site/hero-banner";
 import CatalogClient from "../CatalogClient";
@@ -105,8 +104,7 @@ export default async function TiendaCategoriaPage({
 
   return (
     <main className="min-h-screen bg-[#EEEDEB] text-zinc-900">
-      <Script
-        id="jsonld-category-breadcrumb"
+      <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
       />

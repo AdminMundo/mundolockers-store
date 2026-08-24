@@ -13,6 +13,34 @@ const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.lockersstore.c
 const OG_IMAGE = "/images/home/Encabezadoprincipal.webp";
 const GOOGLE_ADS_ID = process.env.NEXT_PUBLIC_GOOGLE_ADS_ID;
 
+// Datos de la empresa: mismos que ya se mostraban en /contacto. Se publica en
+// el layout raíz (no en next/script) para que aparezca en el HTML de cada
+// página sin depender de que el cliente hidrate.
+const ORGANIZATION_SCHEMA = {
+  "@context": "https://schema.org",
+  "@type": "LocalBusiness",
+  name: "LockerStore",
+  description: "Fabricante y comercializador de lockers metálicos y plásticos en Chile.",
+  url: SITE_URL,
+  logo: `${SITE_URL}/brand/logo-color.webp`,
+  telephone: "+56994131814",
+  email: "lockerstore2@gmail.com",
+  address: {
+    "@type": "PostalAddress",
+    addressLocality: "Quinta Normal",
+    addressRegion: "Región Metropolitana",
+    addressCountry: "CL",
+  },
+  openingHoursSpecification: [
+    {
+      "@type": "OpeningHoursSpecification",
+      dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+      opens: "08:30",
+      closes: "17:30",
+    },
+  ],
+};
+
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
@@ -86,6 +114,10 @@ export default function RootLayout({
   return (
     <html lang="es" className={inter.variable}>
       <body className={`${inter.className} ${inter.variable}`}>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(ORGANIZATION_SCHEMA) }}
+        />
         {GOOGLE_ADS_ID && (
           <>
             <Script

@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import Script from "next/script";
 import { Mail, MessageCircle, MapPin, Clock, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
@@ -59,40 +58,11 @@ const CHANNELS = [
   },
 ];
 
-const localBusinessSchema = {
-  "@context": "https://schema.org",
-  "@type": "LocalBusiness",
-  name: "LockerStore",
-  description: "Fabricante y comercializador de lockers metálicos y plásticos en Chile.",
-  url: "https://www.lockersstore.cl",
-  telephone: "+56994131814",
-  email: "lockerstore2@gmail.com",
-  address: {
-    "@type": "PostalAddress",
-    addressLocality: "Quinta Normal",
-    addressRegion: "Región Metropolitana",
-    addressCountry: "CL",
-  },
-  openingHoursSpecification: [
-    {
-      "@type": "OpeningHoursSpecification",
-      dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
-      opens: "08:30",
-      closes: "17:30",
-    },
-  ],
-  sameAs: ["https://wa.me/56994131814"],
-};
+// LocalBusiness ya se publica sitewide desde el layout raíz (src/app/layout.tsx).
 
 export default function ContactoPage() {
   return (
     <main className="min-h-screen bg-[#EEEDEB]">
-      <Script
-        id="local-business-schema"
-        type="application/ld+json"
-        strategy="afterInteractive"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusinessSchema) }}
-      />
       {/* Hero */}
       <section className="bg-[#0F172A] pt-28 pb-14">
         <div className="mx-auto max-w-3xl px-4 sm:px-6">

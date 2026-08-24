@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import Script from "next/script";
 import { PolicyPage } from "@/components/legal/PolicyPage";
 
 export const metadata: Metadata = {
@@ -53,10 +52,8 @@ const faqSchema = {
 export default function GarantiaPage() {
   return (
     <>
-      <Script
-        id="faq-schema"
+      <script
         type="application/ld+json"
-        strategy="afterInteractive"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
       />
       <PolicyPage

@@ -1,4 +1,3 @@
-import Script from "next/script";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -80,8 +79,7 @@ const faqSchema = {
 export default function ProcessFaqSection() {
   return (
     <section className="bg-[#EEEDEB] text-zinc-900">
-      <Script
-        id="jsonld-faq"
+      <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
       />
