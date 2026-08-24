@@ -13,6 +13,7 @@ const navItems = [
   { href: "/admin/pedidos", label: "Pedidos" },
   { href: "/admin/cotizaciones", label: "Cotizaciones" },
   { href: "/admin/cotizador", label: "Cotizador" },
+  { href: "/admin/clientes", label: "Clientes" },
   { href: "/admin/usuarios", label: "Usuarios" },
 ];
 
