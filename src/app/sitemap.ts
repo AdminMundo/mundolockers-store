@@ -2,7 +2,32 @@ import type { MetadataRoute } from "next";
 import { createSupabaseServer } from "@/lib/supabase/server";
 import { getCategoriesWithCounts } from "@/lib/catalog";
 
-const SITE_URL = "https://www.lockersstore.cl";
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.lockersstore.cl";
+
+// Rutas que jamás deben aparecer en el sitemap aunque algún día se agreguen
+// por error a alguna de las listas de abajo (checkout, cuenta, búsqueda, etc.).
+const EXCLUDED_PATH_PREFIXES = [
+  "/checkout",
+  "/carrito",
+  "/mi-cuenta",
+  "/login",
+  "/registro",
+  "/admin",
+  "/api",
+  "/buscar",
+  "/gracias",
+  "/pago-fallido",
+];
+
+function isExcludedUrl(url: string): boolean {
+  const path = url.replace(SITE_URL, "");
+  return EXCLUDED_PATH_PREFIXES.some((prefix) => path === prefix || path.startsWith(`${prefix}/`));
+}
+
+// Se regenera cada hora en vez de quedar fijo hasta el próximo deploy: si no,
+// un producto renombrado/desactivado desde el admin queda "congelado" en el
+// sitemap (con su URL vieja, que ya no resuelve) hasta el siguiente `git push`.
+export const revalidate = 3600;
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   // Páginas estáticas
@@ -107,5 +132,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     }));
   } catch {}
 
-  return [...staticRoutes, ...categoryRoutes, ...productRoutes];
+  const allRoutes = [...staticRoutes, ...categoryRoutes, ...productRoutes];
+  return allRoutes.filter((route) => !isExcludedUrl(route.url));
 }
