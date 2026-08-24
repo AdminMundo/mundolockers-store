@@ -6,16 +6,16 @@ const securityHeaders = [
     key: "Content-Security-Policy",
     value: [
       "default-src 'self'",
-      // Scripts: propio sitio + Next.js inline + Flow + Google Analytics (si se agrega)
-      "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.flow.cl https://sandbox.flow.cl",
+      // Scripts: propio sitio + Next.js inline + Flow + Google Ads (gtag.js)
+      "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.flow.cl https://sandbox.flow.cl https://www.googletagmanager.com",
       // Estilos: propio sitio + inline (Tailwind necesita esto)
       "style-src 'self' 'unsafe-inline'",
-      // Imágenes: propio sitio + Supabase Storage + data URIs
-      "img-src 'self' data: blob: https://mnoybuethuabjzlmxmmo.supabase.co",
+      // Imágenes: propio sitio + Supabase Storage + data URIs + píxeles de Google Ads
+      "img-src 'self' data: blob: https://mnoybuethuabjzlmxmmo.supabase.co https://www.google.com https://www.googletagmanager.com",
       // Fuentes
       "font-src 'self' data:",
-      // Conexiones fetch/XHR: propio sitio + Supabase + Flow
-      "connect-src 'self' https://mnoybuethuabjzlmxmmo.supabase.co https://www.flow.cl https://sandbox.flow.cl",
+      // Conexiones fetch/XHR: propio sitio + Supabase + Flow + Google Ads (conversión)
+      "connect-src 'self' https://mnoybuethuabjzlmxmmo.supabase.co https://www.flow.cl https://sandbox.flow.cl https://www.googletagmanager.com https://www.google-analytics.com https://analytics.google.com https://www.google.com https://googleads.g.doubleclick.net",
       // Frames: solo Flow para el proceso de pago
       "frame-src 'self' https://www.flow.cl https://sandbox.flow.cl",
       // Forms solo al mismo origen
