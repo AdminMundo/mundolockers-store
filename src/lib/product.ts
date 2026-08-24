@@ -1,5 +1,6 @@
 import "server-only";
 import { createSupabasePublicServer } from "@/lib/supabase/supabasePublicServer";
+import { truncateAtWord } from "@/lib/utils";
 
 /** JSON seguro para specs */
 export type Json =
@@ -144,6 +145,63 @@ export async function getProductBySlug(slug: string): Promise<ProductDetail | nu
       variant_sku: x.variant_sku ?? null,
     })),
   };
+}
+
+/**
+ * Extrae el atributo que distingue a esta variante dentro de su familia de
+ * producto (mismo nombre base, distinto tamaño o capacidad) — ej. "9 puertas,
+ * 3 cuerpos triples" o "150x45x45 cm". Se lee del nombre/slug (nunca se
+ * inventa): capacidad primero (puertas/compartimientos/cajones/bandejas +
+ * cuerpos), medida en cm como respaldo. Devuelve null si el producto no
+ * tiene ninguno de estos patrones (típicamente porque es un producto único,
+ * sin variantes de tamaño/capacidad con las que pueda confundirse).
+ */
+function extractProductDifferentiator(name: string, slug: string): string | null {
+  const capacidad = name.match(/(\d+)\s*(puertas?|compartimientos?|cajones?|bandejas?)/i);
+  if (capacidad) {
+    const cantidad = parseInt(capacidad[1], 10);
+    let text = `${cantidad} ${capacidad[2].toLowerCase()}`;
+
+    const cuerpos = name.match(/(\d+)\s*cuerpos?\s*([a-záéíóúñ]+)?/i);
+    if (cuerpos) {
+      const cuerposCantidad = parseInt(cuerpos[1], 10);
+      text += `, ${cuerposCantidad} cuerpos${cuerpos[2] ? ` ${cuerpos[2].toLowerCase()}` : ""}`;
+    }
+    return text;
+  }
+
+  const medida = slug.match(/(\d+)x(\d+)x(\d+)/i);
+  if (medida) return `${medida[1]}x${medida[2]}x${medida[3]} cm`;
+
+  // Algunos productos solo difieren en un largo (cm) al final del nombre,
+  // ej. "Bancas Dobles Madera con Perchero - 120" vs "... - 200".
+  const largo = name.match(/-\s*(\d{2,4})\s*$/);
+  if (largo) return `${largo[1]} cm`;
+
+  return null;
+}
+
+/**
+ * Meta description de la ficha de producto. Antepone el atributo que
+ * diferencia a esta variante (medida/capacidad) para que no se trunque antes
+ * de llegar a él — esa era la causa de que varios tamaños/capacidades de un
+ * mismo producto generaran la misma metadescription.
+ */
+export function buildProductMetaDescription(product: {
+  name: string;
+  slug: string;
+  description: string | null;
+}): string {
+  const base = product.description?.trim()
+    ? product.description.trim()
+    : `Compra y cotiza ${product.name} en LockerStore. Despacho a todo Chile.`;
+
+  const differentiator = extractProductDifferentiator(product.name, product.slug);
+  const combined = differentiator
+    ? `${differentiator.charAt(0).toUpperCase()}${differentiator.slice(1)}. ${base}`
+    : base;
+
+  return truncateAtWord(combined, 155);
 }
 
 function safeNumber(n: number | null | undefined): number {

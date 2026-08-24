@@ -1,9 +1,7 @@
 import type { Metadata } from "next";
-import Script from "next/script";
 import { notFound } from "next/navigation";
-import { getProductBySlug } from "@/lib/product";
+import { getProductBySlug, buildProductMetaDescription } from "@/lib/product";
 import HeroBanner from "@/components/site/hero-banner";
-import { truncateAtWord } from "@/lib/utils";
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.lockersstore.cl";
 
@@ -28,9 +26,7 @@ export async function generateMetadata({
   }
 
   const title = product.name;
-  const description = product.description?.trim()
-    ? truncateAtWord(product.description, 155)
-    : `Compra y cotiza ${product.name} en LockerStore. Despacho a todo Chile.`;
+  const description = buildProductMetaDescription(product);
 
   const ogImage = product.image_url ?? "/images/home/Encabezadoprincipal.webp";
   const canonicalUrl = `/producto/${product.slug}`;
@@ -124,8 +120,7 @@ export default async function ProductLayout({ children, params }: Props) {
 
   return (
     <>
-      <Script
-        id="jsonld-product"
+      <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(productSchema) }}
       />

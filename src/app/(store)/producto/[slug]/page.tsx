@@ -1,9 +1,11 @@
 import { notFound } from "next/navigation";
 import { getProductBySlug } from "@/lib/product";
+import { getCategoryBySlug } from "@/lib/catalog";
 import { createSupabasePublicServer } from "@/lib/supabase/supabasePublicServer";
 import ProductGallery from "./_components/ProductGallery";
 import ProductPanel from "./_components/ProductPanel";
 import TechSheetSection from "./_components/TechSheetSection";
+import CategoryInfoSection from "./_components/CategoryInfoSection";
 
 // ISR: la data (Supabase anon, sin cookies) es cacheable; admin/productos
 // invalida esta ruta al instante vía revalidatePath en cada cambio, así que
@@ -35,6 +37,9 @@ export default async function ProductPage({ params }: PageProps) {
   if (!product) return notFound();
 
   const detailDots = getDetailDots(product.category_slug, product.name);
+  const category = product.category_slug
+    ? await getCategoryBySlug(product.category_slug)
+    : null;
 
   return (
     <main className="bg-[#EEEDEB]">
@@ -59,9 +64,16 @@ export default async function ProductPage({ params }: PageProps) {
             <ProductPanel product={product} />
           </div>
 
-          {/* Tech sheet: bottom-left on desktop, last on mobile */}
-          <div className="lg:col-start-1 lg:row-start-2">
+          {/* Tech sheet + info de categoría: bottom-left on desktop, last on mobile */}
+          <div className="space-y-8 lg:col-start-1 lg:row-start-2">
             <TechSheetSection slug={product.slug} categorySlug={product.category_slug} productName={product.name} />
+            {category?.description ? (
+              <CategoryInfoSection
+                categoryName={category.name}
+                categorySlug={category.slug}
+                description={category.description}
+              />
+            ) : null}
           </div>
         </div>
       </div>

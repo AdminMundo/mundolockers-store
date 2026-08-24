@@ -11,6 +11,10 @@ export default function ProductPanel({ product }: { product: ProductDetail }) {
           {product.name}
         </h2>
 
+        {product.sku ? (
+          <p className="text-xs text-zinc-400">SKU: {product.sku}</p>
+        ) : null}
+
         {product.description ? (
           <p className="line-clamp-6 text-sm leading-6 text-zinc-600">
             {product.description}
