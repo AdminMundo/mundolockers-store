@@ -1,5 +1,4 @@
 import Link from "next/link";
-import Script from "next/script";
 import { Button } from "@/components/ui/button";
 import VideoHero from "@/components/site/video-hero";
 import CategoriesSection from "@/components/home/categories";
@@ -12,41 +11,31 @@ import ProcessFaqSection from "@/components/home/process-faq";
 
 const SITE = process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.lockersstore.cl";
 
+// Organization/LocalBusiness ya se publica sitewide desde el layout raíz.
 const jsonLd = {
   "@context": "https://schema.org",
-  "@graph": [
-    {
-      "@type": "Organization",
-      name: "LockerStore",
-      url: SITE,
-      logo: `${SITE}/brand/logo-color.webp`,
-    },
-    {
-      "@type": "WebSite",
-      name: "LockerStore",
-      url: SITE,
-      potentialAction: {
-        "@type": "SearchAction",
-        target: `${SITE}/tienda?q={search_term_string}`,
-        "query-input": "required name=search_term_string",
-      },
-    },
-  ],
+  "@type": "WebSite",
+  name: "LockerStore",
+  url: SITE,
+  potentialAction: {
+    "@type": "SearchAction",
+    target: `${SITE}/tienda?q={search_term_string}`,
+    "query-input": "required name=search_term_string",
+  },
 };
 
 export default function HomePage() {
   return (
     <main className="bg-[#EEEDEB] text-zinc-900">
       {/* Schema JSON-LD */}
-      <Script
-        id="jsonld-home"
+      <script
         type="application/ld+json"
-        strategy="afterInteractive"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
 
       <VideoHero
         eyebrow="Fabricación 100% nacional"
+        kicker="Fabricante de lockers metálicos y plásticos en Chile"
         title={
           <>
             Hecho en Chile, <br /> Hecho para Durar

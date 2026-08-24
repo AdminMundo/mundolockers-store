@@ -3,11 +3,13 @@ import Image from "next/image";
 
 export default function VideoHero({
   eyebrow,
+  kicker,
   title,
   description,
   actions,
 }: {
   eyebrow?: string;
+  kicker?: string;
   title: ReactNode;
   description?: ReactNode;
   actions?: ReactNode;
@@ -46,6 +48,12 @@ export default function VideoHero({
           {eyebrow ? (
             <p className="text-xs font-semibold uppercase tracking-widest text-white/70">
               {eyebrow}
+            </p>
+          ) : null}
+
+          {kicker ? (
+            <p className="mt-2 text-lg font-medium tracking-tight text-white/90 md:text-xl">
+              {kicker}
             </p>
           ) : null}
 
