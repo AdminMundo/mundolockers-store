@@ -343,20 +343,29 @@ export function QuoteBuilder({
       // Esperar a que React confirme el re-render con el folio real antes de capturar el PDF.
       await new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve)));
       if (docRef.current) {
-        const html2pdfModule = await import("html2pdf.js");
-        const html2pdf = html2pdfModule.default;
-        const folioStr = String(folio).padStart(4, "0");
-        await document.fonts?.ready;
-        await new Promise((resolve) => setTimeout(resolve, 200));
-        await html2pdf()
-          .set({
-            margin: 0,
-            filename: `COT_${folioStr}_LockerStore_${clienteNombre.replace(/[^a-z0-9]/gi, "_").slice(0, 20) || "cliente"}.pdf`,
-            html2canvas: { scale: 2, useCORS: true },
-            jsPDF: { unit: "px", format: [816, 1056] as [number, number], orientation: "portrait" },
-          })
-          .from(docRef.current)
-          .save();
+        try {
+          const html2pdfModule = await import("html2pdf.js");
+          const html2pdf = html2pdfModule.default;
+          const folioStr = String(folio).padStart(4, "0");
+          await document.fonts?.ready;
+          await new Promise((resolve) => setTimeout(resolve, 200));
+          await html2pdf()
+            .set({
+              margin: 0,
+              filename: `COT_${folioStr}_LockerStore_${clienteNombre.replace(/[^a-z0-9]/gi, "_").slice(0, 20) || "cliente"}.pdf`,
+              html2canvas: { scale: 2, useCORS: true },
+              jsPDF: { unit: "px", format: [816, 1056] as [number, number], orientation: "portrait" },
+            })
+            .from(docRef.current)
+            .save();
+        } catch (pdfErr) {
+          console.error("[handleSaveAndDownload] error generando PDF:", pdfErr);
+          // La cotización ya se guardó; avisamos y la navegación de abajo la lleva
+          // al detalle, donde puede reintentar la descarga sin duplicar el registro.
+          window.alert(
+            "La cotización se guardó, pero no se pudo generar el PDF. Puedes reintentar la descarga desde el detalle de la cotización.",
+          );
+        }
       }
 
       router.push(`/admin/cotizador/${folio}`);

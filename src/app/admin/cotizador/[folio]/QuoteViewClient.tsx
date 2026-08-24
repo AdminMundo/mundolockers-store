@@ -126,6 +126,9 @@ export function QuoteViewClient({ cotizacion: c }: { cotizacion: CotizacionForma
         })
         .from(docRef.current)
         .save();
+    } catch (pdfErr) {
+      console.error("[handleDownload] error generando PDF:", pdfErr);
+      window.alert("No se pudo generar el PDF. Intenta de nuevo o avisa si el problema sigue.");
     } finally {
       setDownloading(false);
     }
