@@ -8,9 +8,9 @@ export function CartEmptyState() {
           🛒
         </div>
 
-        <h1 className="mt-6 text-3xl font-semibold tracking-tight text-neutral-950 sm:text-4xl">
+        <h2 className="mt-6 text-3xl font-semibold tracking-tight text-neutral-950 sm:text-4xl">
           Tu carrito está vacío
-        </h1>
+        </h2>
 
         <p className="mt-4 text-base leading-7 text-neutral-600">
           Agrega productos desde la tienda o solicita cotización para proyectos

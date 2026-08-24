@@ -158,9 +158,9 @@ export function QuotePageClient({ initialState }: Props) {
                     <p className="text-sm font-medium text-neutral-500">
                       Solicitud comercial
                     </p>
-                    <h1 className="mt-2 text-3xl font-semibold tracking-tight text-neutral-950 sm:text-4xl">
+                    <h2 className="mt-2 text-3xl font-semibold tracking-tight text-neutral-950 sm:text-4xl">
                       Cuéntanos tu proyecto
-                    </h1>
+                    </h2>
                     <p className="mt-4 text-sm leading-7 text-neutral-600 sm:text-base">
                       Completa los datos de tu requerimiento y nuestro equipo te
                       ayudará con una propuesta según cantidad, medidas, despacho,

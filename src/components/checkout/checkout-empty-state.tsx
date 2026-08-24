@@ -8,9 +8,9 @@ export function CheckoutEmptyState() {
           📦
         </div>
 
-        <h1 className="mt-5 text-2xl font-semibold tracking-tight text-neutral-950 sm:text-3xl">
+        <h2 className="mt-5 text-2xl font-semibold tracking-tight text-neutral-950 sm:text-3xl">
           No hay productos para comprar
-        </h1>
+        </h2>
 
         <p className="mt-3 text-sm leading-6 text-neutral-600 sm:text-base">
           Tu checkout solo procesa productos de compra directa. Si necesitas una
