@@ -52,12 +52,12 @@ export function PolicyPage({ badge, title, subtitle, updatedAt, sections }: Prop
           <div className="rounded-b-[32px] border-t border-black/8 bg-zinc-50 px-8 py-6">
             <p className="text-sm text-zinc-500">
               ¿Tienes preguntas?{" "}
-              <a href="mailto:lockerstore2@gmail.com" className="font-medium text-zinc-800 underline underline-offset-2">
-                lockerstore2@gmail.com
+              <a href="mailto:ventas@lockersstore.cl" className="font-medium text-zinc-800 underline underline-offset-2">
+                ventas@lockersstore.cl
               </a>{" "}
               o{" "}
-              <a href="https://wa.me/56994131814" target="_blank" rel="noopener noreferrer" className="font-medium text-zinc-800 underline underline-offset-2">
-                WhatsApp +56 9 9413 1814
+              <a href="https://wa.me/56936289818" target="_blank" rel="noopener noreferrer" className="font-medium text-zinc-800 underline underline-offset-2">
+                WhatsApp +56 9 3628 9818
               </a>
             </p>
             <div className="mt-4 flex flex-wrap gap-3">

@@ -39,7 +39,7 @@ const faqSchema = {
     {
       "@type": "Question",
       name: "¿Cómo hago efectiva la garantía?",
-      acceptedAnswer: { "@type": "Answer", text: "Contáctanos a lockerstore2@gmail.com o por WhatsApp +56 9 9413 1814 con tu número de pedido y fotos del defecto. Respondemos en 2 días hábiles." },
+      acceptedAnswer: { "@type": "Answer", text: "Contáctanos a ventas@lockersstore.cl o por WhatsApp +56 9 3628 9818 con tu número de pedido y fotos del defecto. Respondemos en 2 días hábiles." },
     },
     {
       "@type": "Question",
@@ -107,13 +107,13 @@ export default function GarantiaPage() {
               <ul>
                 <li>
                   Contáctanos a{" "}
-                  <a href="mailto:lockerstore2@gmail.com">lockerstore2@gmail.com</a> o por{" "}
+                  <a href="mailto:ventas@lockersstore.cl">ventas@lockersstore.cl</a> o por{" "}
                   <a
-                    href="https://wa.me/56994131814"
+                    href="https://wa.me/56936289818"
                     target="_blank"
                     rel="noopener noreferrer"
                   >
-                    WhatsApp +56 9 9413 1814
+                    WhatsApp +56 9 3628 9818
                   </a>
                   .
                 </li>

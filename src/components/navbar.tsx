@@ -175,7 +175,7 @@ export default function Navbar() {
           {/* Desktop CTA */}
           <div className="hidden md:flex items-center gap-2">
             <a
-              href="https://wa.me/56994131814?text=Hola!%20Quiero%20cotizar%20lockers."
+              href="https://wa.me/56936289818?text=Hola!%20Quiero%20cotizar%20lockers."
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex h-10 items-center gap-2 rounded-full bg-[#0477BF] px-5 text-sm font-semibold text-white shadow-[0_2px_12px_rgba(4,119,191,0.35)] transition-all duration-200 hover:brightness-110 hover:shadow-[0_4px_18px_rgba(4,119,191,0.45)] hover:scale-[1.03] active:scale-[0.98]"

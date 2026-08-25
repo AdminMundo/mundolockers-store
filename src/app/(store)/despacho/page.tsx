@@ -66,11 +66,11 @@ export default function DespachoPage() {
               confirmar la cotización. Para pedidos de gran volumen — proyectos institucionales,
               colegios, industrias — ofrecemos{" "}
               <strong>despacho a costo especial o incluido</strong> según acuerdo. Escríbenos por{" "}
-              <a href="https://wa.me/56994131814" target="_blank" rel="noopener noreferrer">
+              <a href="https://wa.me/56936289818" target="_blank" rel="noopener noreferrer">
                 WhatsApp
               </a>{" "}
               o a{" "}
-              <a href="mailto:lockerstore2@gmail.com">lockerstore2@gmail.com</a> para
+              <a href="mailto:ventas@lockersstore.cl">ventas@lockersstore.cl</a> para
               coordinar.
             </p>
           ),
@@ -136,9 +136,9 @@ export default function DespachoPage() {
               Para proyectos institucionales, colegios, industrias y licitaciones públicas
               ofrecemos condiciones especiales de despacho, instalación y facturación. Contáctanos
               a{" "}
-              <a href="mailto:lockerstore2@gmail.com">lockerstore2@gmail.com</a> o
+              <a href="mailto:ventas@lockersstore.cl">ventas@lockersstore.cl</a> o
               por{" "}
-              <a href="https://wa.me/56994131814" target="_blank" rel="noopener noreferrer">
+              <a href="https://wa.me/56936289818" target="_blank" rel="noopener noreferrer">
                 WhatsApp
               </a>{" "}
               para coordinar una visita técnica sin costo.

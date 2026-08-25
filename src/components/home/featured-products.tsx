@@ -25,7 +25,7 @@ function waLink(productName: string) {
     `Hola! Quiero cotizar ${productName}. ¿Me ayudas con disponibilidad y despacho?`,
   );
 
-  return `https://wa.me/56994131814?text=${msg}`;
+  return `https://wa.me/56936289818?text=${msg}`;
 }
 
 function ProductCard({ p }: { p: CardProduct }) {
@@ -154,7 +154,7 @@ export default async function FeaturedProductsSection() {
               className="h-10 rounded-xl bg-black text-white transition-colors duration-200 hover:bg-[#0477BF] hover:text-white"
             >
               <a
-                href="https://wa.me/56994131814"
+                href="https://wa.me/56936289818"
                 target="_blank"
                 rel="noreferrer"
               >

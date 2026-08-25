@@ -63,7 +63,7 @@ export default function NotFound() {
       <p className="mt-12 text-xs text-white/25">
         ¿Necesitas ayuda?{" "}
         <a
-          href="https://wa.me/56994131814"
+          href="https://wa.me/56936289818"
           target="_blank"
           rel="noopener noreferrer"
           className="underline underline-offset-2 hover:text-white/50"

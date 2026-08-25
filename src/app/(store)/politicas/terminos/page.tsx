@@ -23,7 +23,7 @@ export default function TerminosPage() {
               El sitio web <a href="https://www.lockersstore.cl">lockersstore.cl</a> es operado por{" "}
               <strong>Roco Import SpA</strong>, RUT 78.124.096-6, domiciliada en Comandante
               Chacón #5720, Quinta Normal, Santiago, Chile. Contacto:{" "}
-              <a href="mailto:lockerstore2@gmail.com">lockerstore2@gmail.com</a> /{" "}
+              <a href="mailto:ventas@lockersstore.cl">ventas@lockersstore.cl</a> /{" "}
               <a href="tel:+56224354519">+56 2 243 54 519</a>.
             </p>
           ),

@@ -3,7 +3,7 @@ import Image from "next/image";
 import { ArrowRight, Phone, Mail, MapPin, MessageCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
-const WHATSAPP_NUMBER = "56994131814";
+const WHATSAPP_NUMBER = "56936289818";
 const WHATSAPP_TEXT = encodeURIComponent(
   "Hola LockerStore, necesito cotizar. ¿Me ayudas?",
 );
@@ -188,9 +188,9 @@ export default function Footer() {
                     <Mail className="mt-0.5 h-4 w-4 text-white/50" />
                     <a
                       className="transition-colors hover:text-white"
-                      href="mailto:lockerstore2@gmail.com"
+                      href="mailto:ventas@lockersstore.cl"
                     >
-                      lockerstore2@gmail.com
+                      ventas@lockersstore.cl
                     </a>
                   </li>
 
@@ -202,7 +202,7 @@ export default function Footer() {
                       target="_blank"
                       rel="noopener noreferrer"
                     >
-                      +56 9 94131814
+                      +56 9 3628 9818
                     </a>
                   </li>
                 </ul>

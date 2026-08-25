@@ -24,7 +24,7 @@ export default function PrivacidadPage() {
               Chacón #5720, Quinta Normal, Santiago, Chile, es responsable del tratamiento de los
               datos personales recabados a través de{" "}
               <a href="https://www.lockersstore.cl">lockersstore.cl</a>. Para consultas, escríbenos a{" "}
-              <a href="mailto:lockerstore2@gmail.com">lockerstore2@gmail.com</a>.
+              <a href="mailto:ventas@lockersstore.cl">ventas@lockersstore.cl</a>.
             </p>
           ),
         },
@@ -114,7 +114,7 @@ export default function PrivacidadPage() {
               <ul>
                 <li>
                   Envía un correo a{" "}
-                  <a href="mailto:lockerstore2@gmail.com">lockerstore2@gmail.com</a> indicando el
+                  <a href="mailto:ventas@lockersstore.cl">ventas@lockersstore.cl</a> indicando el
                   derecho que deseas ejercer y adjuntando una copia de tu cédula de identidad.
                 </li>
                 <li>Responderemos en un plazo máximo de 15 días hábiles.</li>

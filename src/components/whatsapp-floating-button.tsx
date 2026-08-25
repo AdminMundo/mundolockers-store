@@ -1,4 +1,4 @@
-const WHATSAPP_NUMBER = "56994131814";
+const WHATSAPP_NUMBER = "56936289818";
 const WHATSAPP_TEXT = encodeURIComponent("Hola! Quiero cotizar lockers.");
 
 export default function WhatsAppFloatingButton() {

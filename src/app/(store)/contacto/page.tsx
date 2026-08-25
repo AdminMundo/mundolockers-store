@@ -24,15 +24,15 @@ export const metadata: Metadata = {
   },
 };
 
-const WHATSAPP = "56994131814";
+const WHATSAPP = "56936289818";
 const WHATSAPP_TEXT = encodeURIComponent("Hola LockerStore, necesito cotizar. ¿Me ayudas?");
-const EMAIL = "lockerstore2@gmail.com";
+const EMAIL = "ventas@lockersstore.cl";
 
 const CHANNELS = [
   {
     icon: MessageCircle,
     title: "WhatsApp",
-    value: "+56 9 9413 1814",
+    value: "+56 9 3628 9818",
     desc: "Respuesta rápida para cotizaciones y consultas.",
     href: `https://wa.me/${WHATSAPP}?text=${WHATSAPP_TEXT}`,
     cta: "Escribir por WhatsApp",

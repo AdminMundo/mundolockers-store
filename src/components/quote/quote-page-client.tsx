@@ -246,7 +246,7 @@ export function QuotePageClient({ initialState }: Props) {
                       <input
                         type="tel"
                         name="telefono"
-                        placeholder="+56 9 9413 1814"
+                        placeholder="+56 9 3628 9818"
                         className="min-h-12 w-full rounded-2xl border border-black/10 bg-white px-4 text-sm text-neutral-950 outline-none transition placeholder:text-neutral-400 focus:border-neutral-900"
                       />
                     </label>
@@ -291,7 +291,7 @@ export function QuotePageClient({ initialState }: Props) {
                       </button>
 
                       <a
-                        href="https://wa.me/56994131814"
+                        href="https://wa.me/56936289818"
                         target="_blank"
                         rel="noreferrer"
                         className="inline-flex min-h-12 items-center justify-center rounded-2xl border border-black/10 bg-white px-6 py-3 text-sm font-medium text-neutral-900 transition duration-200 hover:border-[#0477BF] hover:bg-white hover:shadow-[0_0_0_3px_rgba(4,119,191,0.15)]"

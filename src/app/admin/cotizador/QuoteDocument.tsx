@@ -9,8 +9,8 @@ const COMPANY = {
   rut: "78.124.096-6",
   activity: "Fabricación y comercialización de lockers metálicos y plásticos",
   address: "Quinta Normal, Santiago",
-  email: "lockerstore2@gmail.com",
-  phone: "+56 9 9413 1814",
+  email: "ventas@lockersstore.cl",
+  phone: "+56 9 3628 9818",
 };
 
 const BANK = {
@@ -19,7 +19,7 @@ const BANK = {
   numero: "000097545618",
   titular: "Roco Import SpA",
   rut: "78.124.096-6",
-  email: "lockerstore2@gmail.com",
+  email: "ventas@lockersstore.cl",
 };
 
 function clp(value: number): string {

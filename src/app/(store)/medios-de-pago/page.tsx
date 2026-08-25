@@ -42,13 +42,13 @@ export default function MediosDePagoPage() {
                 </li>
                 <li>
                   <strong>Email para comprobante:</strong>{" "}
-                  <a href="mailto:lockerstore2@gmail.com">lockerstore2@gmail.com</a>
+                  <a href="mailto:ventas@lockersstore.cl">ventas@lockersstore.cl</a>
                 </li>
               </ul>
               <p className="mt-2">
                 Una vez realizada la transferencia, envíanos el comprobante por correo o{" "}
                 <a
-                  href="https://wa.me/56994131814"
+                  href="https://wa.me/56936289818"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
@@ -143,7 +143,7 @@ export default function MediosDePagoPage() {
               Nunca solicitamos datos de tarjetas de crédito ni claves bancarias. Si recibes una
               comunicación sospechosa solicitando datos bancarios en nombre de LockerStore, no
               respondas y repórtalo a{" "}
-              <a href="mailto:lockerstore2@gmail.com">lockerstore2@gmail.com</a>.
+              <a href="mailto:ventas@lockersstore.cl">ventas@lockersstore.cl</a>.
             </p>
           ),
         },
@@ -152,14 +152,14 @@ export default function MediosDePagoPage() {
           content: (
             <p>
               Escríbenos a{" "}
-              <a href="mailto:lockerstore2@gmail.com">lockerstore2@gmail.com</a> o contacta a
+              <a href="mailto:ventas@lockersstore.cl">ventas@lockersstore.cl</a> o contacta a
               nuestro equipo por{" "}
               <a
-                href="https://wa.me/56994131814"
+                href="https://wa.me/56936289818"
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                WhatsApp +56 9 9413 1814
+                WhatsApp +56 9 3628 9818
               </a>{" "}
               indicando tu nombre y número de pedido. Te responderemos a la brevedad.
             </p>

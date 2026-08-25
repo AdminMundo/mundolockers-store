@@ -23,8 +23,8 @@ const ORGANIZATION_SCHEMA = {
   description: "Fabricante y comercializador de lockers metálicos y plásticos en Chile.",
   url: SITE_URL,
   logo: `${SITE_URL}/brand/logo-color.webp`,
-  telephone: "+56994131814",
-  email: "lockerstore2@gmail.com",
+  telephone: "+56936289818",
+  email: "ventas@lockersstore.cl",
   address: {
     "@type": "PostalAddress",
     addressLocality: "Quinta Normal",
