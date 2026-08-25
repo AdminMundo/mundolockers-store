@@ -6,6 +6,8 @@ import ProductGallery from "./_components/ProductGallery";
 import ProductPanel from "./_components/ProductPanel";
 import TechSheetSection from "./_components/TechSheetSection";
 import CategoryInfoSection from "./_components/CategoryInfoSection";
+import RelatedProducts from "./_components/RelatedProducts";
+import { getRelatedProducts } from "@/lib/catalog";
 
 // ISR: la data (Supabase anon, sin cookies) es cacheable; admin/productos
 // invalida esta ruta al instante vía revalidatePath en cada cambio, así que
@@ -40,6 +42,9 @@ export default async function ProductPage({ params }: PageProps) {
   const category = product.category_slug
     ? await getCategoryBySlug(product.category_slug)
     : null;
+  const relatedProducts = product.category_slug
+    ? await getRelatedProducts(product.category_slug, product.id, 4)
+    : [];
 
   return (
     <main className="bg-[#EEEDEB]">
@@ -76,6 +81,12 @@ export default async function ProductPage({ params }: PageProps) {
             ) : null}
           </div>
         </div>
+
+        {category && relatedProducts.length > 0 ? (
+          <div className="mt-8">
+            <RelatedProducts products={relatedProducts} categoryName={category.name} />
+          </div>
+        ) : null}
       </div>
     </main>
   );

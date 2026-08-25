@@ -133,6 +133,7 @@ export default async function ProductLayout({ children, params }: Props) {
           "Consulta variantes, especificaciones y cotiza por WhatsApp."
         }
         breadcrumb={[
+          { label: "Inicio", href: "/" },
           { label: "Tienda", href: "/tienda" },
           ...(product.category_slug
             ? [

@@ -153,3 +153,48 @@ export async function getFeaturedProducts(limit = 8): Promise<FeaturedProduct[]>
     priceFromClp: p.price_from_clp,
   }));
 }
+
+export type RelatedProduct = {
+  productId: string;
+  slug: string;
+  name: string;
+  imageUrl: string | null;
+  priceFromClp: number | null;
+};
+
+/**
+ * Productos de la misma categoría, elegidos al azar (no siempre los mismos 4)
+ * para que con las regeneraciones de ISR los productos que no entran en la
+ * página 1 del listado también terminen recibiendo enlaces internos desde
+ * las fichas de sus vecinos de categoría.
+ */
+export async function getRelatedProducts(
+  categorySlug: string,
+  excludeProductId: string,
+  limit = 4,
+): Promise<RelatedProduct[]> {
+  const supabase = createSupabasePublicServer();
+
+  const { data, error } = await supabase
+    .from("catalog_products")
+    .select("product_id,slug,name,image_url,price_from_clp")
+    .eq("is_active", true)
+    .eq("category_slug", categorySlug)
+    .neq("product_id", excludeProductId);
+
+  if (error) throw new Error(error.message);
+
+  const all = data ?? [];
+  for (let i = all.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [all[i], all[j]] = [all[j], all[i]];
+  }
+
+  return all.slice(0, limit).map((p) => ({
+    productId: p.product_id,
+    slug: p.slug,
+    name: p.name,
+    imageUrl: p.image_url,
+    priceFromClp: p.price_from_clp,
+  }));
+}
