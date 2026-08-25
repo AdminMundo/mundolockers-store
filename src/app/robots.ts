@@ -16,6 +16,8 @@ export default function robots(): MetadataRoute.Robots {
           "/gracias",
           "/pago-fallido",
           "/login",
+          "/mi-cuenta",
+          "/registro",
         ],
       },
     ],
