@@ -137,6 +137,11 @@ export default function Footer() {
                 <h3 className="text-sm font-semibold tracking-tight text-white">Ayuda</h3>
                 <ul className="mt-4 space-y-3 text-sm text-white/70">
                   <li>
+                    <Link className="transition-colors hover:text-white" href="/guia-de-lockers">
+                      Guía de Lockers
+                    </Link>
+                  </li>
+                  <li>
                     <Link className="transition-colors hover:text-white" href="/nosotros">
                       Quiénes somos
                     </Link>

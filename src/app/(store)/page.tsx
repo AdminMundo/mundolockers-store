@@ -7,6 +7,7 @@ import BrandsSection from "@/components/home/brands";
 import FeaturedProductsSection from "@/components/home/featured-products";
 import SchoolCampaignSection from "@/components/home/school-campaign";
 import WhyUsSection from "@/components/home/why-us";
+import GuideBannerSection from "@/components/home/guide-banner";
 import ProcessFaqSection from "@/components/home/process-faq";
 
 const SITE = process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.lockersstore.cl";
@@ -74,7 +75,9 @@ export default function HomePage() {
       <WhyUsSection />
       {/* MARCAS */}
       <BrandsSection />
-      {/* PROCESO Y FAQ */} 
+      {/* GUÍA DE LOCKERS */}
+      <GuideBannerSection />
+      {/* PROCESO Y FAQ */}
       <ProcessFaqSection />
       
     </main>
