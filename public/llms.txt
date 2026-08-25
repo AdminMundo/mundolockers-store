@@ -1,0 +1,24 @@
+# LockerStore
+
+> Fabricante nacional de lockers metálicos y plásticos en Chile, con despacho a todo el país. Soluciones para industria, colegios, minería y hogar, con venta online directa y cotización para proyectos institucionales o por volumen.
+
+## Categorías
+
+- [Lockers Metálicos](https://www.lockersstore.cl/tienda/lockers-metalicos)
+- [Lockers para Celulares](https://www.lockersstore.cl/tienda/lockers-phone)
+- [Lockers Kids](https://www.lockersstore.cl/tienda/lockers-kids)
+- [Lockers Mineros](https://www.lockersstore.cl/tienda/lockers-mineros)
+- [Estanterías Mecano](https://www.lockersstore.cl/tienda/estantes-mecano)
+- [Storages & Roperillos](https://www.lockersstore.cl/tienda/storages-roperillos)
+- [Kardex & Cajoneras](https://www.lockersstore.cl/tienda/kardex-y-cajoneras)
+- [Bancas Metálicas](https://www.lockersstore.cl/tienda/bancas)
+
+## Páginas principales
+
+- [Tienda completa](https://www.lockersstore.cl/tienda)
+- [Cotizar](https://www.lockersstore.cl/cotizar)
+- [Nosotros](https://www.lockersstore.cl/nosotros)
+- [Contacto](https://www.lockersstore.cl/contacto)
+- [Despacho](https://www.lockersstore.cl/despacho)
+- [Garantía](https://www.lockersstore.cl/garantia)
+- [Medios de pago](https://www.lockersstore.cl/medios-de-pago)
