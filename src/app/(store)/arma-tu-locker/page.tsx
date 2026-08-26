@@ -3,6 +3,7 @@ import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 
 import LockerConfigurator from "./_components/LockerConfigurator";
+import ConfiguratorBannerFluid from "@/components/home/configurator-banner-fluid";
 
 export const metadata: Metadata = {
   title: "Arma tu Locker: Configurador Visual",
@@ -31,11 +32,13 @@ export const metadata: Metadata = {
 export default function ArmaTuLockerPage() {
   return (
     <main className="min-h-screen bg-[#EEEDEB]">
-      <section className="relative overflow-hidden bg-[#0F172A] pt-28 pb-16">
+      <section className="relative overflow-hidden bg-[#0a0e1a] pt-28 pb-16">
         <div className="pointer-events-none absolute inset-0 opacity-60 [background-image:linear-gradient(to_right,rgba(4,119,191,0.08)_1px,transparent_1px),linear-gradient(to_bottom,rgba(4,119,191,0.08)_1px,transparent_1px)] [background-size:32px_32px]" />
         <div className="pointer-events-none absolute -right-40 top-0 h-96 w-96 rounded-full bg-[#0477BF]/20 blur-3xl" />
 
-        <div className="relative mx-auto max-w-4xl px-4 sm:px-6">
+        <ConfiguratorBannerFluid />
+
+        <div className="relative pointer-events-none mx-auto max-w-4xl px-4 sm:px-6">
           <span className="inline-flex rounded-full border border-white/15 bg-white/8 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.18em] text-white/60">
             Configurador
           </span>

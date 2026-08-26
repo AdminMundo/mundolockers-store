@@ -38,10 +38,18 @@ export default function ConfiguratorBannerFluid() {
     });
 
     return () => {
+      // En dev, React (StrictMode) invoca el efecto dos veces para
+      // detectar bugs: monta, limpia y vuelve a montar sin sacar el
+      // <canvas> del DOM. Si en esa limpieza matamos el contexto WebGL,
+      // la segunda inicialización revienta sobre un contexto muerto.
+      // isConnected sigue en true en ese caso — solo lo destruimos si el
+      // <canvas> realmente salió del documento (desmontaje real).
+      if (canvas.isConnected) return;
+
       // La librería no expone un método de limpieza (su loop de
-      // requestAnimationFrame nunca se cancela solo). Al desmontar,
-      // perdemos el contexto WebGL a propósito para que las llamadas
-      // gl.* siguientes queden como no-op y el costo caiga casi a cero.
+      // requestAnimationFrame nunca se cancela solo). Perdemos el
+      // contexto WebGL a propósito para que las llamadas gl.* siguientes
+      // queden como no-op y el costo caiga casi a cero.
       const gl =
         canvas.getContext("webgl2") ?? canvas.getContext("webgl");
       gl?.getExtension("WEBGL_lose_context")?.loseContext();
