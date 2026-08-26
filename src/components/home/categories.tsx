@@ -104,7 +104,7 @@ function CategoryCard({ c }: { c: Category }) {
         className={[
           "relative overflow-hidden rounded-3xl",
           "min-h-[420px] pb-[135px] h-full", // un poco menos espacio reservado
-          "border border-zinc-200 bg-white",
+          "border border-zinc-200 bg-white dark:border-white/10 dark:bg-[#1E293B]",
           "shadow-[0_1px_2px_rgba(0,0,0,0.04)]",
           "transition-all duration-300",
           "hover:-translate-y-0.5 hover:border-[#0477BF]/30 hover:shadow-[0_24px_60px_rgba(4,119,191,0.14)]",
@@ -116,7 +116,7 @@ function CategoryCard({ c }: { c: Category }) {
         {/* top content */}
         <div className="p-5">
           {c.tag && (
-            <Badge className="gap-1.5 border-zinc-200 bg-white text-zinc-600 hover:bg-white">
+            <Badge className="gap-1.5 border-zinc-200 bg-white text-zinc-600 hover:bg-white dark:border-white/10 dark:bg-[#1E293B] dark:text-zinc-400 dark:hover:bg-[#1E293B]">
               <span className="h-1.5 w-1.5 rounded-full bg-[#0477BF]" />
               {c.tag}
             </Badge>
@@ -125,8 +125,8 @@ function CategoryCard({ c }: { c: Category }) {
           {/* Imagen */}
           <div className="mt-4 relative h-[170px] w-full">
             {/* Backdrop tipo "blueprint": grid fino + esquineros */}
-            <div className="absolute inset-3 overflow-hidden rounded-2xl bg-gradient-to-b from-zinc-50 to-white">
-              <div className="absolute inset-0 opacity-70 [background-image:linear-gradient(to_right,rgba(0,0,0,0.035)_1px,transparent_1px),linear-gradient(to_bottom,rgba(0,0,0,0.035)_1px,transparent_1px)] [background-size:20px_20px]" />
+            <div className="absolute inset-3 overflow-hidden rounded-2xl bg-gradient-to-b from-zinc-50 to-white dark:from-white/[0.06] dark:to-white/[0.02]">
+              <div className="absolute inset-0 opacity-70 [background-image:linear-gradient(to_right,rgba(0,0,0,0.035)_1px,transparent_1px),linear-gradient(to_bottom,rgba(0,0,0,0.035)_1px,transparent_1px)] [background-size:20px_20px] dark:[background-image:linear-gradient(to_right,rgba(255,255,255,0.06)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.06)_1px,transparent_1px)]" />
             </div>
             {[
               "left-0 top-0 border-l-2 border-t-2",
@@ -136,7 +136,7 @@ function CategoryCard({ c }: { c: Category }) {
             ].map((pos) => (
               <span
                 key={pos}
-                className={`pointer-events-none absolute h-3 w-3 rounded-[2px] border-zinc-300 transition-colors duration-300 group-hover:border-[#0477BF] ${pos}`}
+                className={`pointer-events-none absolute h-3 w-3 rounded-[2px] border-zinc-300 transition-colors duration-300 group-hover:border-[#0477BF] dark:border-white/15 ${pos}`}
               />
             ))}
 
@@ -152,11 +152,11 @@ function CategoryCard({ c }: { c: Category }) {
 
         {/* INFO BAR (más baja) */}
         <div className="absolute inset-x-0 bottom-0">
-          <div className="pointer-events-none h-14 bg-gradient-to-b from-transparent to-white" />
+          <div className="pointer-events-none h-14 bg-gradient-to-b from-transparent to-white dark:to-[#1E293B]" />
 
-          <div className="relative z-10 flex items-end justify-between gap-4 px-5 pb-4 pt-3 bg-white border-t border-zinc-100 h-[150px]">
+          <div className="relative z-10 flex items-end justify-between gap-4 px-5 pb-4 pt-3 bg-white border-t border-zinc-100 h-[150px] dark:bg-[#1E293B] dark:border-white/10">
             <div className="min-w-0">
-              <h3 className="text-lg font-semibold text-zinc-900 leading-tight line-clamp-2 min-h-[48px]">
+              <h3 className="text-lg font-semibold text-zinc-900 leading-tight line-clamp-2 min-h-[48px] dark:text-zinc-50">
                 {c.title}
               </h3>
 
@@ -170,15 +170,15 @@ function CategoryCard({ c }: { c: Category }) {
             <div className="hidden sm:block text-right shrink-0">
               {c.priceFrom ? (
                 <>
-                  <div className="text-xs text-zinc-500">Desde</div>
-                  <div className="text-lg font-semibold text-zinc-900">
+                  <div className="text-xs text-zinc-500 dark:text-zinc-400">Desde</div>
+                  <div className="text-lg font-semibold text-zinc-900 dark:text-zinc-50">
                     {c.priceFrom}
                   </div>
                 </>
               ) : (
                 <>
-                  <div className="text-xs text-zinc-500">Precio</div>
-                  <div className="text-sm font-semibold text-zinc-900">
+                  <div className="text-xs text-zinc-500 dark:text-zinc-400">Precio</div>
+                  <div className="text-sm font-semibold text-zinc-900 dark:text-zinc-50">
                     Consultar
                   </div>
                 </>
@@ -234,9 +234,9 @@ export default function CategoriesSection() {
   }, [api]);
 
   return (
-    <section className="relative bg-[#EEEDEB] text-zinc-900">
-      <div className="pointer-events-none absolute inset-x-0 top-0 h-10 bg-gradient-to-b from-[#EEEDEB] to-transparent" />
-      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-10 bg-gradient-to-t from-[#EEEDEB] to-transparent" />
+    <section className="relative bg-[#EEEDEB] text-zinc-900 dark:bg-[#0F172A] dark:text-zinc-50">
+      <div className="pointer-events-none absolute inset-x-0 top-0 h-10 bg-gradient-to-b from-[#EEEDEB] to-transparent dark:from-[#0F172A]" />
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-10 bg-gradient-to-t from-[#EEEDEB] to-transparent dark:from-[#0F172A]" />
 
       <div className="relative mx-auto max-w-6xl px-4 py-16">
         <div className="flex items-end justify-between gap-4">
@@ -244,7 +244,7 @@ export default function CategoriesSection() {
             <h2 className="text-3xl font-semibold tracking-tight">
               Nuestras Categorías
             </h2>
-            <p className="mt-2 text-sm text-zinc-600">
+            <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-400">
               Explora por tipo de uso: industria, colegios, minería y hogar.
             </p>
           </div>
@@ -252,7 +252,7 @@ export default function CategoriesSection() {
           <Button
             asChild
             variant="outline"
-            className="mt-3 h-9 rounded-xl border border-[#0477BF]/40 bg-white text-zinc-900 transition-colors duration-200 hover:border-[#0477BF] hover:shadow-[0_0_0_3px_rgba(4,119,191,0.15)]"
+            className="mt-3 h-9 rounded-xl border border-[#0477BF]/40 bg-white text-zinc-900 transition-colors duration-200 hover:border-[#0477BF] hover:shadow-[0_0_0_3px_rgba(4,119,191,0.15)] dark:bg-[#1E293B] dark:text-zinc-50"
           >
             <Link href="/tienda">Ver todo</Link>
           </Button>
@@ -282,12 +282,12 @@ export default function CategoriesSection() {
 
               <CarouselPrevious
                 className="hidden md:flex left-3 top-1/2 -translate-y-1/2
-               border-black/10 bg-white/70 hover:bg-white shadow-md"
+               border-black/10 bg-white/70 hover:bg-white shadow-md dark:border-white/10 dark:bg-[#1E293B]/80 dark:hover:bg-[#1E293B]"
               />
 
               <CarouselNext
                 className="hidden md:flex right-3 top-1/2 -translate-y-1/2
-               border-black/10 bg-white/70 hover:bg-white shadow-md"
+               border-black/10 bg-white/70 hover:bg-white shadow-md dark:border-white/10 dark:bg-[#1E293B]/80 dark:hover:bg-[#1E293B]"
               />
             </Carousel>
           </div>
@@ -304,8 +304,8 @@ export default function CategoriesSection() {
                   className={[
                     "h-1.5 w-6 rounded-full transition-all",
                     i === current
-                      ? "bg-zinc-900/70"
-                      : "bg-zinc-900/20 hover:bg-zinc-900/30",
+                      ? "bg-zinc-900/70 dark:bg-white/80"
+                      : "bg-zinc-900/20 hover:bg-zinc-900/30 dark:bg-white/20 dark:hover:bg-white/30",
                   ].join(" ")}
                 />
               ))}

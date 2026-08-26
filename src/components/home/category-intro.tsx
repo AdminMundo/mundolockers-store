@@ -66,13 +66,13 @@ const ITEMS = [
 
 export default function CategoryIntroSection() {
   return (
-    <section className="bg-[#EEEDEB] text-zinc-900">
+    <section className="bg-[#EEEDEB] text-zinc-900 dark:bg-[#0F172A] dark:text-zinc-50">
       <div className="mx-auto max-w-6xl px-4 py-16">
         <div className="max-w-2xl">
           <h2 className="text-3xl font-semibold tracking-tight">
             Lockers y almacenamiento para cada necesidad
           </h2>
-          <p className="mt-2 text-sm text-zinc-600 md:text-base">
+          <p className="mt-2 text-sm text-zinc-600 md:text-base dark:text-zinc-400">
             Fabricación en acero resistente, con despacho a todo Chile y
             opciones de personalización por proyecto.
           </p>
@@ -84,20 +84,20 @@ export default function CategoryIntroSection() {
               key={item.slug}
               href={`/tienda/${item.slug}`}
               className={[
-                "group flex flex-col justify-between gap-4 rounded-3xl border border-black/10",
-                "bg-white/70 p-5 backdrop-blur-xl",
+                "group flex flex-col justify-between gap-4 rounded-3xl border border-black/10 dark:border-white/10",
+                "bg-white/70 p-5 backdrop-blur-xl dark:bg-white/5",
                 "shadow-[0_18px_45px_rgba(0,0,0,0.06)] transition-all duration-300",
                 "hover:-translate-y-0.5 hover:border-[#0477BF] hover:shadow-[0_28px_80px_rgba(4,119,191,0.18)]",
               ].join(" ")}
             >
               <div>
-                <div className="grid h-11 w-11 place-items-center rounded-2xl bg-black/5 transition-colors group-hover:bg-[#0477BF]/10">
-                  <item.icon className="h-5 w-5 text-zinc-900 transition-colors group-hover:text-[#0477BF]" />
+                <div className="grid h-11 w-11 place-items-center rounded-2xl bg-black/5 transition-colors group-hover:bg-[#0477BF]/10 dark:bg-white/10">
+                  <item.icon className="h-5 w-5 text-zinc-900 transition-colors group-hover:text-[#0477BF] dark:text-zinc-200" />
                 </div>
                 <h3 className="mt-4 text-base font-semibold leading-tight">
                   {item.name}
                 </h3>
-                <p className="mt-1.5 text-sm text-zinc-600">{item.desc}</p>
+                <p className="mt-1.5 text-sm text-zinc-600 dark:text-zinc-400">{item.desc}</p>
               </div>
 
               <span className="inline-flex items-center gap-1 text-xs font-medium text-[#0477BF]">

@@ -14,9 +14,9 @@ function waLink() {
 
 export default function SchoolCampaignSection() {
   return (
-    <section className="relative overflow-hidden bg-[#EEEDEB] text-zinc-900">
+    <section className="relative overflow-hidden bg-[#EEEDEB] text-zinc-900 dark:bg-[#0F172A] dark:text-zinc-50">
       <div className="mx-auto max-w-6xl px-4 py-14">
-        <div className="relative overflow-hidden rounded-3xl border border-black/10 bg-white/55 backdrop-blur-2xl shadow-[0_18px_45px_rgba(0,0,0,0.12)]">
+        <div className="relative overflow-hidden rounded-3xl border border-black/10 bg-white/55 backdrop-blur-2xl shadow-[0_18px_45px_rgba(0,0,0,0.12)] dark:border-white/10 dark:bg-white/5">
           <div className="pointer-events-none absolute inset-0">
             {/* wash de color muy suave */}
             <div className="absolute -top-28 -left-28 h-[520px] w-[520px] rounded-full bg-[#0477BF]/65 blur-3xl" />
@@ -45,7 +45,7 @@ export default function SchoolCampaignSection() {
                   Campaña Escolar
                 </Badge>
 
-                <span className="inline-flex items-center gap-2 rounded-full border border-black/10 bg-white/60 px-3 py-1 text-xs text-zinc-800 backdrop-blur-xl">
+                <span className="inline-flex items-center gap-2 rounded-full border border-black/10 bg-white/60 px-3 py-1 text-xs text-zinc-800 backdrop-blur-xl dark:border-white/10 dark:bg-white/10 dark:text-zinc-200">
                   <GraduationCap className="h-4 w-4" aria-hidden="true"/>
                   Colegios · Liceos · Universidades
                 </span>
@@ -55,21 +55,21 @@ export default function SchoolCampaignSection() {
                 Lockers escolares para resguardo de celulares
               </h2>
 
-              <p className="mt-3 text-sm text-zinc-600 md:text-base">
+              <p className="mt-3 text-sm text-zinc-600 md:text-base dark:text-zinc-400">
                 Orden y seguridad en salas de clase. Elige formatos listos para
                 compra o cotiza proyectos a medida con instalación y despacho.
               </p>
 
               <div className="mt-5 flex flex-wrap gap-2">
-                <span className="inline-flex items-center gap-2 rounded-full border border-black/10 bg-white/60 px-3 py-1 text-xs text-zinc-800 backdrop-blur-xl">
+                <span className="inline-flex items-center gap-2 rounded-full border border-black/10 bg-white/60 px-3 py-1 text-xs text-zinc-800 backdrop-blur-xl dark:border-white/10 dark:bg-white/10 dark:text-zinc-200">
                   <ShieldCheck className="h-4 w-4" aria-hidden="true" />
                   Cerradura con chapa y llave
                 </span>
-                <span className="inline-flex items-center gap-2 rounded-full border border-black/10 bg-white/60 px-3 py-1 text-xs text-zinc-800 backdrop-blur-xl">
+                <span className="inline-flex items-center gap-2 rounded-full border border-black/10 bg-white/60 px-3 py-1 text-xs text-zinc-800 backdrop-blur-xl dark:border-white/10 dark:bg-white/10 dark:text-zinc-200">
                   <ShieldCheck className="h-4 w-4" aria-hidden="true"/>
                   Numeración y personalización
                 </span>
-                <span className="inline-flex items-center gap-2 rounded-full border border-black/10 bg-white/60 px-3 py-1 text-xs text-zinc-800 backdrop-blur-xl">
+                <span className="inline-flex items-center gap-2 rounded-full border border-black/10 bg-white/60 px-3 py-1 text-xs text-zinc-800 backdrop-blur-xl dark:border-white/10 dark:bg-white/10 dark:text-zinc-200">
                   <ShieldCheck className="h-4 w-4" aria-hidden="true" />
                   Despacho a todo Chile
                 </span>
@@ -89,7 +89,7 @@ export default function SchoolCampaignSection() {
                 <Button
                   asChild
                   variant="outline"
-                  className="h-11 rounded-xl border border-[#0477BF]/40 bg-white text-zinc-900 transition-colors duration-200 hover:border-[#0477BF] hover:shadow-[0_0_0_3px_rgba(4,119,191,0.15)]"
+                  className="h-11 rounded-xl border border-[#0477BF]/40 bg-white text-zinc-900 transition-colors duration-200 hover:border-[#0477BF] hover:shadow-[0_0_0_3px_rgba(4,119,191,0.15)] dark:bg-[#1E293B] dark:text-zinc-50"
                 >
                   <a href={waLink()} target="_blank" rel="noopener noreferrer">
                     Cotizar WhatsApp
@@ -97,7 +97,7 @@ export default function SchoolCampaignSection() {
                 </Button>
               </div>
 
-              <p className="mt-3 text-xs text-zinc-500">
+              <p className="mt-3 text-xs text-zinc-500 dark:text-zinc-400">
                 ¿Necesitas un diseño por curso / sala? Te ayudamos con capacidad
                 y distribución.
               </p>
@@ -118,7 +118,7 @@ export default function SchoolCampaignSection() {
               </div>
 
               {/* mini card flotante (opcional) */}
-              <div className="mx-auto mt-2 w-fit rounded-2xl border border-black/10 bg-white/60 px-4 py-2 text-xs text-zinc-700 backdrop-blur-xl shadow-[0_10px_30px_rgba(0,0,0,0.08)]">
+              <div className="mx-auto mt-2 w-fit rounded-2xl border border-black/10 bg-white/60 px-4 py-2 text-xs text-zinc-700 backdrop-blur-xl shadow-[0_10px_30px_rgba(0,0,0,0.08)] dark:border-white/10 dark:bg-white/10 dark:text-zinc-200">
                 Compra rápida o proyecto institucional
               </div>
             </div>

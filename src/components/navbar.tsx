@@ -8,6 +8,7 @@ import { useRouter, usePathname } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Search, X, User } from "lucide-react";
+import DarkModeToggle from "@/components/dark-mode-toggle";
 
 type NavUser = { email: string | null; isAdmin: boolean } | null;
 
@@ -164,6 +165,8 @@ export default function Navbar() {
               )}
             </Button>
 
+            {pathname === "/" && <DarkModeToggle variant="onDark" />}
+
             <Link
               href="/cotizar"
               className="inline-flex h-10 items-center rounded-full bg-[#0477BF] px-4 text-sm font-semibold text-white shadow-[0_2px_10px_rgba(4,119,191,0.3)] transition-all hover:brightness-110"
@@ -187,7 +190,7 @@ export default function Navbar() {
               Cotizar
             </a>
 
-
+            {pathname === "/" && <DarkModeToggle variant="onDark" />}
           </div>
 
           {/* Mobile Search Panel */}

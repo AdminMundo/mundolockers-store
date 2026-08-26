@@ -10,7 +10,7 @@ const WHATSAPP_TEXT = encodeURIComponent(
 
 export default function Footer() {
   return (
-    <footer className="bg-[#EEEDEB]">
+    <footer className="bg-[#EEEDEB] dark:bg-[#0F172A]">
       <div className="mx-auto max-w-6xl px-4 pb-10 pt-14">
         <div
           className={[

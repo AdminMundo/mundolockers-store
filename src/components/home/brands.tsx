@@ -27,30 +27,30 @@ const LOOP = [...BRANDS, ...BRANDS];
 
 export default function BrandsSection() {
   return (
-    <section className="bg-[#EEEDEB] text-zinc-900">
+    <section className="bg-[#EEEDEB] text-zinc-900 dark:bg-[#0F172A] dark:text-zinc-50">
       <div className="mx-auto max-w-6xl px-4 py-14">
         <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
           <div>
             <h2 className="text-3xl font-semibold tracking-tight">
               Marcas e instituciones que confían en nosotros
             </h2>
-            <p className="mt-2 text-sm text-zinc-600">
+            <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-400">
               Proyectos para industria, minería, educación e instituciones.
             </p>
 
             <div className="mt-4 flex flex-wrap gap-2">
-              <span className="inline-flex items-center gap-2 rounded-full border border-black/10 bg-white/60 px-3 py-1 text-xs text-zinc-800 backdrop-blur-xl shadow-[0_10px_30px_rgba(0,0,0,0.08)]">
+              <span className="inline-flex items-center gap-2 rounded-full border border-black/10 bg-white/60 px-3 py-1 text-xs text-zinc-800 backdrop-blur-xl shadow-[0_10px_30px_rgba(0,0,0,0.08)] dark:border-white/10 dark:bg-white/10 dark:text-zinc-200">
                 <ShieldCheck className="h-4 w-4" />
                 Garantía y postventa
               </span>
 
-              <span className="inline-flex items-center gap-2 rounded-full border border-black/10 bg-white/60 px-3 py-1 text-xs text-zinc-800 backdrop-blur-xl shadow-[0_10px_30px_rgba(0,0,0,0.08)]">
+              <span className="inline-flex items-center gap-2 rounded-full border border-black/10 bg-white/60 px-3 py-1 text-xs text-zinc-800 backdrop-blur-xl shadow-[0_10px_30px_rgba(0,0,0,0.08)] dark:border-white/10 dark:bg-white/10 dark:text-zinc-200">
                 <BadgeCheck className="h-4 w-4" />
                 Despacho a todo Chile
               </span>
 
               {/* Convenio Marco */}
-              <span className="inline-flex items-center gap-2 rounded-full border border-black/10 bg-white/60 px-3 py-1 text-xs text-zinc-800 backdrop-blur-xl shadow-[0_10px_30px_rgba(0,0,0,0.08)]">
+              <span className="inline-flex items-center gap-2 rounded-full border border-black/10 bg-white/60 px-3 py-1 text-xs text-zinc-800 backdrop-blur-xl shadow-[0_10px_30px_rgba(0,0,0,0.08)] dark:border-white/10 dark:bg-white/10 dark:text-zinc-200">
                 <BadgeCheck className="h-4 w-4" />
                 Convenio Marco
               </span>
@@ -64,7 +64,8 @@ export default function BrandsSection() {
               className="h-10 rounded-xl border-black/10 bg-white/60 text-zinc-900
                           transition-colors duration-200
                           hover:bg-white hover:text-zinc-900
-                          hover:border-[#0477BF] hover:shadow-[0_10px_25px_rgba(4,119,191,0.18)]"
+                          hover:border-[#0477BF] hover:shadow-[0_10px_25px_rgba(4,119,191,0.18)]
+                          dark:bg-[#1E293B] dark:text-zinc-50"
             >
               <Link href="/nosotros">Ver proyectos</Link>
             </Button>
@@ -80,15 +81,15 @@ export default function BrandsSection() {
         </div>
 
         {/* Contenedor glass flotante */}
-        <div className="mt-8 rounded-3xl border border-black/10 bg-white/55 backdrop-blur-2xl shadow-[0_18px_45px_rgba(0,0,0,0.12)] overflow-hidden">
+        <div className="mt-8 rounded-3xl border border-black/10 bg-white/55 backdrop-blur-2xl shadow-[0_18px_45px_rgba(0,0,0,0.12)] overflow-hidden dark:border-white/10 dark:bg-white/5">
           {/* línea sutil tipo navbar */}
-          <div className="h-px w-full bg-gradient-to-r from-transparent via-black/15 to-transparent" />
+          <div className="h-px w-full bg-gradient-to-r from-transparent via-black/15 to-transparent dark:via-white/15" />
 
           {/* carrusel infinito */}
           <div className="relative">
             {/* fades laterales */}
-            <div className="pointer-events-none absolute inset-y-0 left-0 w-16 bg-gradient-to-r from-white/80 to-transparent" />
-            <div className="pointer-events-none absolute inset-y-0 right-0 w-16 bg-gradient-to-l from-white/80 to-transparent" />
+            <div className="pointer-events-none absolute inset-y-0 left-0 w-16 bg-gradient-to-r from-white/80 to-transparent dark:from-[#0F172A]/80" />
+            <div className="pointer-events-none absolute inset-y-0 right-0 w-16 bg-gradient-to-l from-white/80 to-transparent dark:from-[#0F172A]/80" />
 
             <div className="py-6">
               <div className="brands-marquee flex gap-10 px-6">

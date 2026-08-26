@@ -27,7 +27,7 @@ const jsonLd = {
 
 export default function HomePage() {
   return (
-    <main className="bg-[#EEEDEB] text-zinc-900">
+    <main className="bg-[#EEEDEB] text-zinc-900 dark:bg-[#0F172A] dark:text-zinc-50">
       {/* Schema JSON-LD */}
       <script
         type="application/ld+json"

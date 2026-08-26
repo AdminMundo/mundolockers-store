@@ -78,7 +78,7 @@ const faqSchema = {
 
 export default function ProcessFaqSection() {
   return (
-    <section className="bg-[#EEEDEB] text-zinc-900">
+    <section className="bg-[#EEEDEB] text-zinc-900 dark:bg-[#0F172A] dark:text-zinc-50">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
@@ -91,17 +91,17 @@ export default function ProcessFaqSection() {
             <h2 className="text-3xl font-semibold tracking-tight">
               Cómo funciona
             </h2>
-            <p className="mt-2 text-sm text-zinc-600">
+            <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-400">
               Compra rápida o proyecto institucional en pocos pasos.
             </p>
             <div className="mt-3 flex flex-wrap gap-2">
-              <Badge className="bg-black/10 text-zinc-800 hover:bg-black/10">
+              <Badge className="bg-black/10 text-zinc-800 hover:bg-black/10 dark:bg-white/10 dark:text-zinc-200 dark:hover:bg-white/10">
                 Garantía y postventa
               </Badge>
-              <Badge className="bg-black/10 text-zinc-800 hover:bg-black/10">
+              <Badge className="bg-black/10 text-zinc-800 hover:bg-black/10 dark:bg-white/10 dark:text-zinc-200 dark:hover:bg-white/10">
                 Despacho a todo Chile
               </Badge>
-              <Badge className="bg-black/10 text-zinc-800 hover:bg-black/10">
+              <Badge className="bg-black/10 text-zinc-800 hover:bg-black/10 dark:bg-white/10 dark:text-zinc-200 dark:hover:bg-white/10">
                 Convenio Marco
               </Badge>
             </div>
@@ -111,7 +111,7 @@ export default function ProcessFaqSection() {
             <Button
               asChild
               variant="outline"
-              className="h-10 rounded-xl border border-[#0477BF]/40 bg-white text-zinc-900 transition-colors duration-200 hover:border-[#0477BF] hover:shadow-[0_0_0_3px_rgba(4,119,191,0.15)]"
+              className="h-10 rounded-xl border border-[#0477BF]/40 bg-white text-zinc-900 transition-colors duration-200 hover:border-[#0477BF] hover:shadow-[0_0_0_3px_rgba(4,119,191,0.15)] dark:bg-[#1E293B] dark:text-zinc-50"
             >
               <Link href="/tienda">
                 Ver tienda <ArrowRight className="ml-2 h-4 w-4" />
@@ -138,8 +138,8 @@ export default function ProcessFaqSection() {
             <div
               key={s.title}
               className={[
-                "rounded-3xl border border-black/10",
-                "bg-white/60 backdrop-blur-xl",
+                "rounded-3xl border border-black/10 dark:border-white/10",
+                "bg-white/60 backdrop-blur-xl dark:bg-white/5",
                 "shadow-[0_18px_45px_rgba(0,0,0,0.08)]",
                 "p-6 transition-all duration-300",
                 "hover:-translate-y-0.5",
@@ -148,14 +148,14 @@ export default function ProcessFaqSection() {
               ].join(" ")}
             >
               <div className="flex items-start gap-3">
-                <div className="grid h-11 w-11 place-items-center rounded-2xl bg-black/5">
-                  <s.icon className="h-5 w-5 text-zinc-900" />
+                <div className="grid h-11 w-11 place-items-center rounded-2xl bg-black/5 dark:bg-white/10">
+                  <s.icon className="h-5 w-5 text-zinc-900 dark:text-zinc-200" />
                 </div>
                 <div>
                   <h3 className="text-base font-semibold leading-tight">
                     {s.title}
                   </h3>
-                  <p className="mt-2 text-sm text-zinc-600">{s.desc}</p>
+                  <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-400">{s.desc}</p>
                 </div>
               </div>
             </div>
@@ -166,8 +166,8 @@ export default function ProcessFaqSection() {
         <div id="faq" className="mt-12 grid gap-6 lg:grid-cols-[1.05fr_.95fr] scroll-mt-28">
           <div
             className={[
-              "rounded-3xl border border-black/10",
-              "bg-white/60 backdrop-blur-xl",
+              "rounded-3xl border border-black/10 dark:border-white/10",
+              "bg-white/60 backdrop-blur-xl dark:bg-white/5",
               "shadow-[0_18px_45px_rgba(0,0,0,0.08)]",
               "p-6",
             ].join(" ")}
@@ -175,7 +175,7 @@ export default function ProcessFaqSection() {
             <h3 className="text-xl font-semibold tracking-tight">
               Preguntas frecuentes
             </h3>
-            <p className="mt-2 text-sm text-zinc-600">
+            <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-400">
               Respuestas rápidas para comprar o cotizar sin fricción.
             </p>
 
@@ -186,7 +186,7 @@ export default function ProcessFaqSection() {
                     <AccordionTrigger className="text-left text-sm font-medium">
                       {f.q}
                     </AccordionTrigger>
-                    <AccordionContent className="text-sm text-zinc-600">
+                    <AccordionContent className="text-sm text-zinc-600 dark:text-zinc-400">
                       {f.a}
                     </AccordionContent>
                   </AccordionItem>
@@ -198,8 +198,8 @@ export default function ProcessFaqSection() {
           {/* Side card: garantía / confianza */}
           <div
             className={[
-              "rounded-3xl border border-black/10",
-              "bg-white/60 backdrop-blur-xl",
+              "rounded-3xl border border-black/10 dark:border-white/10",
+              "bg-white/60 backdrop-blur-xl dark:bg-white/5",
               "shadow-[0_18px_45px_rgba(0,0,0,0.08)]",
               "p-6",
               "flex flex-col justify-between",
@@ -207,17 +207,17 @@ export default function ProcessFaqSection() {
           >
             <div>
               <div className="flex items-center gap-2">
-                <ShieldCheck className="h-5 w-5 text-zinc-900" />
+                <ShieldCheck className="h-5 w-5 text-zinc-900 dark:text-zinc-200" />
                 <h3 className="text-xl font-semibold tracking-tight">
                   Compra segura
                 </h3>
               </div>
-              <p className="mt-2 text-sm text-zinc-600">
+              <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-400">
                 Diseñado para empresas e instituciones: flujo simple, soporte y
                 postventa.
               </p>
 
-              <ul className="mt-5 space-y-3 text-sm text-zinc-700">
+              <ul className="mt-5 space-y-3 text-sm text-zinc-700 dark:text-zinc-300">
                 <li className="flex gap-2">
                   <span className="mt-0.5 h-2 w-2 rounded-full bg-[#0477BF]" />
                   Stock o fabricación según modelo
@@ -237,7 +237,7 @@ export default function ProcessFaqSection() {
               <Button
                 asChild
                 variant="outline"
-                className="h-11 flex-1 rounded-xl border border-[#0477BF]/40 bg-white text-zinc-900 transition-colors duration-200 hover:border-[#0477BF] hover:shadow-[0_0_0_3px_rgba(4,119,191,0.15)]"
+                className="h-11 flex-1 rounded-xl border border-[#0477BF]/40 bg-white text-zinc-900 transition-colors duration-200 hover:border-[#0477BF] hover:shadow-[0_0_0_3px_rgba(4,119,191,0.15)] dark:bg-[#1E293B] dark:text-zinc-50"
               >
                 <Link href="/nosotros">Ver proyectos</Link>
               </Button>
