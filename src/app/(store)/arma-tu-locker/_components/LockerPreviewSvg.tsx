@@ -160,13 +160,12 @@ export default function LockerPreviewSvg({
   const legHeightCm = baseHeightCm;
   const legTopHalfWidth = 2.1;
   const legBottomHalfWidth = 1.1;
-  // Siempre 4 patas, parejas en todo el ancho, sin importar cuántos
-  // cuerpos/columnas tenga el locker.
-  const LEG_COUNT = 4;
-  const legXsCm = Array.from(
-    { length: LEG_COUNT },
-    (_, i) => (viewBoxW * (i + 0.5)) / LEG_COUNT,
-  );
+  // El producto real tiene 4 patas (2 delanteras + 2 traseras), pero en
+  // esta vista de frente las traseras quedan ocultas detrás de las
+  // delanteras — por eso siempre se dibujan 2, cerca de cada borde,
+  // sin importar cuántos cuerpos/columnas tenga el locker.
+  const legEdgeInsetCm = Math.min(3, viewBoxW * 0.12);
+  const legXsCm = [legEdgeInsetCm, viewBoxW - legEdgeInsetCm];
 
   // Escala de los glifos de chapa: el espacio local de LockGlyph es de
   // -6..6 (12cm); se reduce para que la "placa" quede a escala de puerta.
