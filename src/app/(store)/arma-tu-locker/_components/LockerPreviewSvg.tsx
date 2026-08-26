@@ -32,48 +32,65 @@ export function LockGlyph({ type }: { type: LockType }) {
 
   switch (type) {
     case "codigo":
+      // Dos ruedas de combinación lado a lado, como en la foto de referencia.
       return (
-        <g fill="none" stroke={stroke} strokeWidth="0.9" strokeLinecap="round">
-          <circle cx="0" cy="0" r="3.6" />
-          <line x1="0" y1="-3.6" x2="0" y2="-5" />
-          <line x1="3.6" y1="0" x2="5" y2="0" />
-          <line x1="0" y1="3.6" x2="0" y2="5" />
-          <line x1="-3.6" y1="0" x2="-5" y2="0" />
-          <line x1="0" y1="0" x2="1.8" y2="-2.8" strokeWidth="1.1" />
+        <g fill="none" stroke={stroke} strokeWidth="0.7" strokeLinecap="round">
+          {[-2.3, 2.3].map((cx) => (
+            <g key={cx}>
+              <circle cx={cx} cy="0" r="2.1" fill="#fff" />
+              <line x1={cx} y1="-2.1" x2={cx} y2="-3.1" strokeWidth="1" />
+            </g>
+          ))}
+          <line x1="-2.3" y1="2.7" x2="2.3" y2="2.7" strokeWidth="0.6" />
         </g>
       );
     case "candado":
+      // Candado cerrado clásico: arco + cuerpo + ojo de cerradura.
       return (
-        <g fill="none" stroke={stroke} strokeWidth="0.9" strokeLinecap="round">
-          <rect x="-5" y="-1.5" width="4" height="3" rx="0.6" />
-          <rect x="-1" y="-2.6" width="4.4" height="5.2" rx="0.8" fill={stroke} fillOpacity="0.12" />
-          <path d="M -0.2 -2.6 v-1.6 a1.8 1.8 0 0 1 3.6 0 v1.6" />
+        <g fill="none" stroke={stroke} strokeWidth="0.8" strokeLinecap="round">
+          <path d="M -1.7 -1.4 v-1.3 a1.7 1.7 0 0 1 3.4 0 v1.3" />
+          <rect x="-2.3" y="-1.4" width="4.6" height="4.4" rx="0.9" fill={stroke} fillOpacity="0.12" />
+          <circle cx="0" cy="0.5" r="0.55" fill={stroke} stroke="none" />
+          <line x1="0" y1="1" x2="0" y2="2" strokeWidth="0.8" />
         </g>
       );
     case "llave":
+      // Ojo de cerradura (círculo + cuña), pictograma clásico de "llave".
       return (
-        <g fill="none" stroke={stroke} strokeWidth="0.9" strokeLinecap="round">
-          <circle cx="0" cy="-1.4" r="2.3" />
-          <path d="M 0 0.9 L 0 5 M -1.4 3.2 L 1.4 3.2 M -1.4 4.2 L 1.4 4.2" />
+        <g stroke={stroke} strokeWidth="0.7">
+          <circle cx="0" cy="-1.7" r="1.6" fill="#fff" />
+          <path d="M -0.9 -0.3 L 0.9 -0.3 L 0 3.2 Z" fill={stroke} stroke="none" />
         </g>
       );
     case "electronica":
+      // Teclado numérico: cuerpo, pantalla y grilla 3x3 de botones.
       return (
-        <g fill="none" stroke={stroke} strokeWidth="0.8" strokeLinecap="round">
-          <rect x="-4.5" y="-6" width="9" height="12" rx="1.2" />
-          <line x1="-3" y1="-3.6" x2="3" y2="-3.6" />
-          {[-2.5, 0, 2.5].map((cx) =>
-            [-1, 2].map((cy) => (
-              <circle key={`${cx}-${cy}`} cx={cx} cy={cy} r="0.55" fill={stroke} stroke="none" />
+        <g fill="none" stroke={stroke} strokeWidth="0.6" strokeLinecap="round">
+          <rect x="-3.6" y="-5.2" width="7.2" height="10.4" rx="1" />
+          <rect x="-2.6" y="-4.2" width="5.2" height="1.3" rx="0.3" fill={stroke} fillOpacity="0.15" strokeWidth="0.4" />
+          {[-2, 0, 2].map((cx) =>
+            [-1.3, 0.7, 2.7].map((cy) => (
+              <rect
+                key={`${cx}-${cy}`}
+                x={cx - 0.55}
+                y={cy - 0.45}
+                width="1.1"
+                height="0.9"
+                rx="0.2"
+                fill={stroke}
+                stroke="none"
+              />
             )),
           )}
         </g>
       );
     case "moneda":
+      // Ranura + moneda entrando, para la cerradura de moneda.
       return (
-        <g fill="none" stroke={stroke} strokeWidth="0.9" strokeLinecap="round">
-          <circle cx="0" cy="0" r="4" />
-          <rect x="-0.6" y="-2.6" width="1.2" height="5.2" fill={stroke} stroke="none" />
+        <g fill="none" stroke={stroke} strokeWidth="0.7" strokeLinecap="round">
+          <rect x="-2.6" y="-1" width="5.2" height="2" rx="1" />
+          <circle cx="0" cy="-2.6" r="1.7" fill="#fff" strokeWidth="0.7" />
+          <line x1="0" y1="-3.4" x2="0" y2="-1.8" strokeWidth="0.4" />
         </g>
       );
     default:
@@ -226,7 +243,7 @@ export default function LockerPreviewSvg({
 
       {/* Base: patas o zócalo (ocupa el espacio real sobrante bajo las puertas) */}
       {base === "patas" ? (
-        <g fill="#27272a">
+        <g fill={FRAME_COLOR}>
           {legXsCm.map((x, i) => (
             <polygon
               key={i}
@@ -239,7 +256,7 @@ export default function LockerPreviewSvg({
           x={viewBoxW * 0.03}
           y={frameBottomY}
           width={viewBoxW * 0.94}
-          height={legHeightCm}
+          height={legHeightCm / 2}
           rx="1"
           fill={FRAME_COLOR}
         />
