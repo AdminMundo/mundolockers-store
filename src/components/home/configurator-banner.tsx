@@ -1,65 +1,82 @@
 import Link from "next/link";
-import { ArrowRight, Sparkles } from "lucide-react";
+import { ArrowRight, LayoutGrid, Palette, KeyRound, Sparkles } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
-import LockerPreviewSvg from "@/app/(store)/arma-tu-locker/_components/LockerPreviewSvg";
-import { LOCKER_COLORS } from "@/app/(store)/arma-tu-locker/_lib/locker-options";
+import ConfiguratorBannerPreview from "./configurator-banner-preview";
+import ConfiguratorBannerFluid from "./configurator-banner-fluid";
 
 export default function ConfiguratorBannerSection() {
   return (
     <section className="bg-[#EEEDEB] text-zinc-900 dark:bg-[#0F172A] dark:text-zinc-50">
       <div className="mx-auto max-w-6xl px-4 py-10">
-        <Link
-          href="/arma-tu-locker"
-          className="group relative flex flex-col items-center gap-6 overflow-hidden rounded-3xl border border-black/10 bg-gradient-to-br from-[#0477BF] to-[#04395c] p-7 text-white shadow-[0_20px_50px_rgba(4,119,191,0.25)] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_28px_70px_rgba(4,119,191,0.35)] sm:flex-row sm:justify-between md:p-9 dark:border-white/10"
-        >
-          {/* Glow decorativo */}
-          <div className="pointer-events-none absolute -left-24 -top-24 h-72 w-72 rounded-full bg-white/10 blur-3xl" />
-          <div className="pointer-events-none absolute -right-16 bottom-0 h-56 w-56 rounded-full bg-white/10 blur-3xl" />
-          <div className="pointer-events-none absolute inset-0 opacity-40 [background-image:linear-gradient(to_right,rgba(255,255,255,0.06)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.06)_1px,transparent_1px)] [background-size:22px_22px]" />
-
-          <div className="relative flex items-center gap-5">
-            <div className="hidden h-24 w-20 shrink-0 items-end justify-center rounded-2xl bg-white/10 p-2 backdrop-blur-sm sm:flex">
-              <LockerPreviewSvg
-                columns={2}
-                rows={2}
-                colorHex="#CC0605"
-                base="patas"
-                doorStyle="celosia"
-                lockType="candado"
-                className="h-full w-auto"
-              />
-            </div>
-
-            <div>
-              <span className="inline-flex items-center gap-1.5 rounded-full border border-white/25 bg-white/10 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.14em] text-white/85">
-                <Sparkles className="h-3 w-3" />
-                Nuevo
-              </span>
-              <h2 className="mt-2 text-lg font-semibold tracking-tight text-white md:text-2xl">
-                Arma tu locker a tu manera
-              </h2>
-              <p className="mt-1 max-w-md text-sm text-white/75">
-                Elige puertas, color, base y chapa, y visualiza tu locker
-                antes de cotizarlo.
-              </p>
-              <div className="mt-3 flex items-center gap-1.5">
-                {LOCKER_COLORS.slice(1, 7).map((c) => (
-                  <span
-                    key={c.id}
-                    className="h-4 w-4 rounded-full border border-white/40"
-                    style={{ backgroundColor: c.hex }}
-                  />
-                ))}
-                <span className="ml-1 text-xs text-white/60">+ colores</span>
-              </div>
-            </div>
+        <div className="relative overflow-hidden rounded-3xl bg-[#0a0e1a] text-white shadow-[0_24px_60px_rgba(0,0,0,0.35)]">
+          {/* Respaldo estático (siempre visible, incluso en celular/reduced
+              motion) + la simulación de fluido encima en desktop. */}
+          <div className="pointer-events-none absolute inset-0 opacity-70 [background-image:linear-gradient(to_right,rgba(255,255,255,0.05)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.05)_1px,transparent_1px)] [background-size:28px_28px]" />
+          <div className="pointer-events-none absolute inset-0 overflow-hidden">
+            <div className="absolute -left-1/4 -top-1/4 h-[70%] w-[60%] rounded-[45%] bg-[#6D1439]/60 mix-blend-screen blur-3xl" />
+            <div className="absolute -bottom-1/4 -right-1/4 h-[60%] w-[55%] rounded-[45%] bg-[#0477BF]/60 mix-blend-screen blur-3xl" />
           </div>
 
-          <span className="relative inline-flex shrink-0 items-center gap-2 rounded-xl bg-white px-5 py-3 text-sm font-semibold text-[#0477BF] transition-colors duration-200 group-hover:bg-white/90">
-            Probar configurador
-            <ArrowRight className="h-4 w-4 transition group-hover:translate-x-0.5" />
-          </span>
-        </Link>
+          <ConfiguratorBannerFluid />
+
+          <div className="relative z-10 grid gap-8 p-8 pointer-events-none md:grid-cols-2 md:items-center md:p-12">
+            {/* Copy */}
+            <div>
+              <div className="flex flex-wrap items-center gap-2">
+                <span className="inline-flex items-center gap-1.5 rounded-full border border-white/25 bg-white/10 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.14em] text-white/85 backdrop-blur-xl">
+                  <Sparkles className="h-3 w-3" aria-hidden="true" />
+                  Nuevo
+                </span>
+                <span className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-3 py-1 text-xs text-white/70 backdrop-blur-xl">
+                  Configurador visual
+                </span>
+              </div>
+
+              <h2 className="mt-4 text-3xl font-bold tracking-tight md:text-4xl">
+                Arma tu locker a tu manera
+              </h2>
+
+              <p className="mt-3 text-sm text-white/70 md:text-base">
+                Juega con puertas, cuerpos, colores, base y chapa, y mira tu
+                locker cobrar vida antes de cotizarlo. Tu diseño, tus reglas.
+              </p>
+
+              <div className="mt-5 flex flex-wrap gap-2">
+                <span className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-3 py-1 text-xs text-white/75 backdrop-blur-xl">
+                  <Palette className="h-4 w-4" aria-hidden="true" />
+                  9 colores
+                </span>
+                <span className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-3 py-1 text-xs text-white/75 backdrop-blur-xl">
+                  <LayoutGrid className="h-4 w-4" aria-hidden="true" />
+                  Puertas a medida
+                </span>
+                <span className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-3 py-1 text-xs text-white/75 backdrop-blur-xl">
+                  <KeyRound className="h-4 w-4" aria-hidden="true" />5 tipos de chapa
+                </span>
+              </div>
+
+              <div className="mt-7">
+                <Button
+                  asChild
+                  className="pointer-events-auto h-12 rounded-xl bg-white px-7 text-base font-semibold text-[#0F172A] transition-all duration-200 hover:bg-[#0477BF] hover:text-white hover:shadow-[0_10px_30px_rgba(4,119,191,0.35)]"
+                >
+                  <Link href="/arma-tu-locker">
+                    Pruébalo tú mismo
+                    <ArrowRight className="h-4 w-4" aria-hidden="true" />
+                  </Link>
+                </Button>
+              </div>
+
+              <p className="mt-3 text-xs text-white/45">
+                Diseño referencial: el detalle final se confirma al cotizar.
+              </p>
+            </div>
+
+            {/* Preview interactivo */}
+            <ConfiguratorBannerPreview />
+          </div>
+        </div>
       </div>
     </section>
   );
