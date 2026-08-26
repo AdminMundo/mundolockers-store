@@ -3,7 +3,13 @@ import PriceLine from "./PriceLine";
 import SpecsBox from "./SpecsBox";
 import ProductPurchaseBox from "./ProductPurchaseBox";
 
-export default function ProductPanel({ product }: { product: ProductDetail }) {
+export default function ProductPanel({
+  product,
+  hideSpecs = false,
+}: {
+  product: ProductDetail;
+  hideSpecs?: boolean;
+}) {
   return (
     <section className="space-y-6">
       <header className="space-y-2">
@@ -28,7 +34,7 @@ export default function ProductPanel({ product }: { product: ProductDetail }) {
 
       <ProductPurchaseBox product={product} />
 
-      <SpecsBox specs={product.specs} />
+      {hideSpecs ? null : <SpecsBox specs={product.specs} />}
     </section>
   );
 }

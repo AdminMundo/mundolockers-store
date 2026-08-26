@@ -294,3 +294,30 @@ export function getTechSheetForProduct(args: {
 export function getTechSheetBySlug(slug: string): TechSheetImage | null {
   return TECH_SHEETS_BY_SLUG[slug] ?? null;
 }
+
+/**
+ * Resuelve qué ficha técnica (si alguna) le corresponde a un producto,
+ * combinando el campo de la base de datos con el respaldo estático de este
+ * archivo. Es la misma regla que usa <TechSheetSection>, centralizada acá
+ * para que la página del producto pueda usarla también (ej. para no mostrar
+ * la tabla de especificaciones cruda cuando ya hay una ficha técnica).
+ *
+ * null/undefined = nunca se tocó desde el admin -> respaldo estático.
+ * ""             = se guardó explícitamente sin ficha (botón "Quitar").
+ * string         = URL real guardada desde el admin.
+ */
+export function resolveTechSheet(args: {
+  slug: string;
+  categorySlug: string | null;
+  productName: string;
+  techSheetImageUrl?: string | null;
+}): TechSheetImage | null {
+  if (args.techSheetImageUrl == null) {
+    return getTechSheetForProduct(args);
+  }
+  if (!args.techSheetImageUrl) return null;
+  return {
+    src: args.techSheetImageUrl,
+    alt: `Ficha técnica y medidas de ${args.productName}`,
+  };
+}

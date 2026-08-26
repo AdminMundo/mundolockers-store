@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 import { getProductBySlug } from "@/lib/product";
 import { getCategoryBySlug } from "@/lib/catalog";
+import { resolveTechSheet } from "@/lib/techSheets";
 import { createSupabasePublicServer } from "@/lib/supabase/supabasePublicServer";
 import ProductGallery from "./_components/ProductGallery";
 import ProductPanel from "./_components/ProductPanel";
@@ -45,6 +46,14 @@ export default async function ProductPage({ params }: PageProps) {
   const relatedProducts = product.category_slug
     ? await getRelatedProducts(product.category_slug, product.id, 4)
     : [];
+  const hasTechSheet = Boolean(
+    resolveTechSheet({
+      slug: product.slug,
+      categorySlug: product.category_slug,
+      productName: product.name,
+      techSheetImageUrl: product.tech_sheet_image_url,
+    }),
+  );
 
   return (
     <main className="bg-[#EEEDEB]">
@@ -66,7 +75,7 @@ export default async function ProductPage({ params }: PageProps) {
           {/* Purchase panel: right column on desktop, right after the gallery on mobile
               (price/CTA must be reachable before the tech sheet, not after it) */}
           <div className="rounded-3xl bg-white p-7 shadow-sm border border-zinc-100 lg:col-start-2 lg:row-start-1 lg:row-span-2 lg:sticky lg:top-36">
-            <ProductPanel product={product} />
+            <ProductPanel product={product} hideSpecs={hasTechSheet} />
           </div>
 
           {/* Tech sheet + info de categoría: bottom-left on desktop, last on mobile */}

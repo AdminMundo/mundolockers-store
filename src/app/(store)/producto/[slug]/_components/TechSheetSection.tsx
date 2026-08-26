@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { getTechSheetForProduct } from "@/lib/techSheets";
+import { resolveTechSheet } from "@/lib/techSheets";
 
 export default function TechSheetSection({
   slug,
@@ -12,19 +12,11 @@ export default function TechSheetSection({
   productName: string;
   techSheetImageUrl?: string | null;
 }) {
-  // null/undefined = nunca se tocó desde el admin -> respaldo del mapa estático.
-  // "" (string vacío) = se guardó explícitamente sin ficha desde el admin -> no mostrar nada.
-  // cualquier otro string = URL real desde la base de datos.
-  const sheet =
-    techSheetImageUrl == null
-      ? getTechSheetForProduct({ slug, categorySlug, productName })
-      : techSheetImageUrl
-        ? { src: techSheetImageUrl, alt: `Ficha técnica y medidas de ${productName}` }
-        : null;
+  const sheet = resolveTechSheet({ slug, categorySlug, productName, techSheetImageUrl });
   if (!sheet) return null;
 
   return (
-    <section className="rounded-3xl bg-white p-6 shadow-sm border border-zinc-100">
+    <section id="especificaciones" className="rounded-3xl bg-white p-6 shadow-sm border border-zinc-100">
       <div className="flex items-center justify-between gap-4">
         <h2 className="text-lg font-semibold text-zinc-900">Ficha técnica</h2>
         <span className="text-xs text-zinc-500"> Imagen referencial</span>
