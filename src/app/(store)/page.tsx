@@ -8,6 +8,7 @@ import FeaturedProductsSection from "@/components/home/featured-products";
 import SchoolCampaignSection from "@/components/home/school-campaign";
 import WhyUsSection from "@/components/home/why-us";
 import GuideBannerSection from "@/components/home/guide-banner";
+import ConfiguratorBannerSection from "@/components/home/configurator-banner";
 import ProcessFaqSection from "@/components/home/process-faq";
 
 const SITE = process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.lockersstore.cl";
@@ -65,6 +66,8 @@ export default function HomePage() {
 
       {/* CATEGORÍAS */}
       <CategoriesSection />
+      {/* ARMA TU LOCKER (configurador) */}
+      <ConfiguratorBannerSection />
       {/* CONTENIDO DESCRIPTIVO (SEO) */}
       <CategoryIntroSection />
       {/* CAMPAÑA ESCOLAR */}

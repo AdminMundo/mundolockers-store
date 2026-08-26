@@ -142,6 +142,11 @@ export default function Footer() {
                     </Link>
                   </li>
                   <li>
+                    <Link className="transition-colors hover:text-white" href="/arma-tu-locker">
+                      Arma tu Locker
+                    </Link>
+                  </li>
+                  <li>
                     <Link className="transition-colors hover:text-white" href="/nosotros">
                       Quiénes somos
                     </Link>
