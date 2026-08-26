@@ -5,6 +5,7 @@ import { notFound } from "next/navigation";
 import { createSupabaseServer } from "@/lib/supabase/server";
 import { updateProductAction } from "@/app/admin/productos/[slug]/actions";
 import ProductImageUpload from "@/components/admin/product-image-upload";
+import { getTechSheetForProduct } from "@/lib/techSheets";
 
 export const metadata: Metadata = {
   title: "Editar producto | Admin",
@@ -53,7 +54,7 @@ export default async function AdminProductoDetallePage({
 
   const supabase = createSupabaseServer();
 
-  const SELECT = "id, sku, slug, name, description, specs, category_id, price_clp, has_in_stock, is_active, is_featured, image_url, hover_image_url, gallery_urls";
+  const SELECT = "id, sku, slug, name, description, specs, category_id, price_clp, has_in_stock, is_active, is_featured, image_url, hover_image_url, tech_sheet_image_url, gallery_urls";
 
   // Buscar por SKU primero (más estable), luego por slug como fallback
   let { data, error } = await supabase
@@ -82,6 +83,20 @@ export default async function AdminProductoDetallePage({
   const categories = (categoriesData ?? []) as CategoryRow[];
 
   const galleryUrls = Array.isArray(data.gallery_urls) ? data.gallery_urls : [];
+
+  // Si nunca se guardó nada desde este campo, la ficha del producto está
+  // usando el respaldo del código (techSheets.ts) — se precarga acá para que
+  // el admin vea la misma imagen que ya se muestra en la web, en vez de un
+  // campo vacío engañoso. Al guardar (la toque o no) queda migrado a la BD.
+  const categorySlug = categories.find((c) => c.id === data.category_id)?.slug ?? null;
+  const techSheetFallback =
+    data.tech_sheet_image_url ??
+    getTechSheetForProduct({
+      slug: data.slug,
+      categorySlug,
+      productName: data.name,
+    })?.src ??
+    "";
 
   return (
     <div className="space-y-6">
@@ -336,6 +351,18 @@ export default async function AdminProductoDetallePage({
                   defaultValue={data.hover_image_url ?? ""}
                   label="Imagen hover"
                 />
+              </div>
+
+              <div className="space-y-2 md:col-span-2">
+                <ProductImageUpload
+                  name="tech_sheet_image_url"
+                  defaultValue={techSheetFallback}
+                  folder="tech-sheets"
+                  label="Ficha técnica"
+                />
+                <p className="text-xs text-black/45">
+                  Se muestra en la sección "Ficha técnica" de la página del producto. Usa "Quitar" para eliminarla.
+                </p>
               </div>
 
               <div className="space-y-2 md:col-span-2">

@@ -261,6 +261,14 @@ export default async function AdminNuevoProductoPage({
             </div>
 
             <div className="space-y-2 md:col-span-2">
+              <ProductImageUpload
+                name="tech_sheet_image_url"
+                folder="tech-sheets"
+                label="Ficha técnica"
+              />
+            </div>
+
+            <div className="space-y-2 md:col-span-2">
               <label
                 htmlFor="gallery_urls"
                 className="text-sm font-medium text-black/70"

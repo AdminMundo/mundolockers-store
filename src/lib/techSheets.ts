@@ -45,10 +45,10 @@ const TECH_SHEETS_BY_SLUG: Record<string, TechSheetImage> = {
   alt: "Ficha técnica y medidas del Locker Metálico 2 puertas, 2 cuerpos simples",
 },
 
-"locker-metalico-20-puertas-5-cuerpos-cuadruples": {
-  src: "/images/tech-sheets/lockers-metalicos/locker-metalico-20-puertas-5-cuerpos-cuadruples.webp",
-  alt: "Ficha técnica y medidas del Locker Metálico 20 puertas, 5 cuerpos cuádruples",
-},
+// "locker-metalico-20-puertas-5-cuerpos-cuadruples": sin ficha técnica real
+// subida todavía — se omite a propósito para no mostrar una imagen rota
+// (ver TechSheetSection: sin entrada acá, la sección simplemente no se
+// renderiza para este producto).
 
 "locker-metalico-10-puertas-5-cuerpos-dobles": {
   src: "/images/tech-sheets/lockers-metalicos/locker-metalico-10-puertas-5-cuerpos-dobles.webp",
@@ -95,10 +95,8 @@ const TECH_SHEETS_BY_SLUG: Record<string, TechSheetImage> = {
   alt: "Ficha técnica y medidas del Locker Metálico 3 puertas, 1 cuerpo triple",
 },
 
-"locker-metalico-12-puertas-3-cuerpos-cuadruples": {
-  src: "/images/tech-sheets/lockers-metalicos/locker-metalico-12-puertas-3-cuerpos-cuadruples.webp",
-  alt: "Ficha técnica y medidas del Locker Metálico 12 puertas, 3 cuerpos cuádruples",
-},
+// "locker-metalico-12-puertas-3-cuerpos-cuadruples": mismo caso, sin ficha
+// técnica real subida todavía — se omite a propósito.
 
 "locker-metalico-casillero-16-puertas-4-cuerpos-cuadruples": {
   src: "/images/tech-sheets/lockers-metalicos/locker-metalico-casillero-16-puertas-4-cuerpos-cuadruples.webp",

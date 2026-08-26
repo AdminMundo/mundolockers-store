@@ -5,12 +5,22 @@ export default function TechSheetSection({
   slug,
   categorySlug,
   productName,
+  techSheetImageUrl,
 }: {
   slug: string;
   categorySlug: string | null;
   productName: string;
+  techSheetImageUrl?: string | null;
 }) {
-  const sheet = getTechSheetForProduct({ slug, categorySlug, productName });
+  // null/undefined = nunca se tocó desde el admin -> respaldo del mapa estático.
+  // "" (string vacío) = se guardó explícitamente sin ficha desde el admin -> no mostrar nada.
+  // cualquier otro string = URL real desde la base de datos.
+  const sheet =
+    techSheetImageUrl == null
+      ? getTechSheetForProduct({ slug, categorySlug, productName })
+      : techSheetImageUrl
+        ? { src: techSheetImageUrl, alt: `Ficha técnica y medidas de ${productName}` }
+        : null;
   if (!sheet) return null;
 
   return (

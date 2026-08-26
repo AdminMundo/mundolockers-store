@@ -71,7 +71,12 @@ export default async function ProductPage({ params }: PageProps) {
 
           {/* Tech sheet + info de categoría: bottom-left on desktop, last on mobile */}
           <div className="space-y-8 lg:col-start-1 lg:row-start-2">
-            <TechSheetSection slug={product.slug} categorySlug={product.category_slug} productName={product.name} />
+            <TechSheetSection
+              slug={product.slug}
+              categorySlug={product.category_slug}
+              productName={product.name}
+              techSheetImageUrl={product.tech_sheet_image_url}
+            />
             {category?.description ? (
               <CategoryInfoSection
                 categoryName={category.name}

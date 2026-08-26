@@ -49,6 +49,10 @@ export async function updateProductAction(formData: FormData) {
   const hoverImageUrlRaw = String(formData.get("hover_image_url") ?? "").trim();
   const hover_image_url = hoverImageUrlRaw.length > 0 ? hoverImageUrlRaw : null;
 
+  // Sin coerción a null: "" es "se guardó explícitamente sin ficha" (Quitar),
+  // distinto de null = "nunca se tocó este campo" (ver TechSheetSection).
+  const tech_sheet_image_url = String(formData.get("tech_sheet_image_url") ?? "").trim();
+
   const galleryRaw = String(formData.get("gallery_urls") ?? "").trim();
   const gallery_urls = galleryRaw
     .split("\n")
@@ -110,6 +114,7 @@ export async function updateProductAction(formData: FormData) {
       price_clp,
       image_url,
       hover_image_url,
+      tech_sheet_image_url,
       gallery_urls,
       category_id,
       is_active: isActive,
@@ -156,6 +161,9 @@ export async function createProductAction(formData: FormData) {
 
   const hoverImageUrlRaw = String(formData.get("hover_image_url") ?? "").trim();
   const hover_image_url = hoverImageUrlRaw.length > 0 ? hoverImageUrlRaw : null;
+
+  const techSheetImageUrlRaw = String(formData.get("tech_sheet_image_url") ?? "").trim();
+  const tech_sheet_image_url = techSheetImageUrlRaw.length > 0 ? techSheetImageUrlRaw : null;
 
   const galleryRaw = String(formData.get("gallery_urls") ?? "").trim();
   const gallery_urls = galleryRaw
@@ -216,6 +224,7 @@ export async function createProductAction(formData: FormData) {
       price_clp,
       image_url,
       hover_image_url,
+      tech_sheet_image_url,
       gallery_urls,
       category_id,
       has_in_stock: hasInStock,
