@@ -6,7 +6,6 @@ import { Trash2 } from "lucide-react";
 import {
   deleteCotizacionFormalAction,
   updateEstadoFormalAction,
-  setTrasladadoKameAction,
   type EstadoCotizacionFormal,
 } from "./actions";
 import { useFormattedDateTime } from "./useFormattedDateTime";
@@ -45,14 +44,7 @@ export function CotizacionFormalRow({ c }: { c: Row }) {
   const [isPending, startTransition] = useTransition();
   const [deleting, setDeleting] = useState(false);
 
-  const [kame, setKame] = useState({
-    trasladado: c.trasladado_kame,
-    por: c.trasladado_kame_por,
-    en: c.trasladado_kame_en,
-    numeroPedido: c.trasladado_kame_numero_pedido,
-  });
-  const [kamePending, startKameTransition] = useTransition();
-  const kameEn = useFormattedDateTime(kame.en);
+  const kameEn = useFormattedDateTime(c.trasladado_kame_en);
 
   function handleEstadoChange(next: EstadoCotizacionFormal) {
     setEstado(next);
@@ -69,27 +61,11 @@ export function CotizacionFormalRow({ c }: { c: Row }) {
     });
   }
 
-  function handleToggleKame() {
-    const next = !kame.trasladado;
-    setKame((prev) => ({ ...prev, trasladado: next }));
-    startKameTransition(async () => {
-      const result = await setTrasladadoKameAction(c.id, next);
-      if (result.success) {
-        setKame({
-          trasladado: next,
-          por: result.trasladadoPor,
-          en: result.trasladadoEn,
-          numeroPedido: result.numeroPedido,
-        });
-      }
-    });
-  }
-
   const estadoUI = ESTADOS.find((e) => e.value === estado) ?? ESTADOS[0];
 
-  const kameTooltip = kame.trasladado
-    ? `Trasladado por ${kame.por ?? "—"}${kameEn ? ` el ${kameEn}` : ""}${kame.numeroPedido ? ` — Pedido #${kame.numeroPedido}` : ""}. Click para desmarcar.`
-    : "Aún no se ha subido a Kame. Click para marcarlo.";
+  const kameTooltip = c.trasladado_kame
+    ? `Trasladado por ${c.trasladado_kame_por ?? "—"}${kameEn ? ` el ${kameEn}` : ""}${c.trasladado_kame_numero_pedido ? ` — Pedido #${c.trasladado_kame_numero_pedido}` : ""}. Abre la cotización para editarlo.`
+    : "Aún no se ha subido a Kame. Abre la cotización para marcarlo.";
 
   return (
     <tr className="border-b border-black/5 transition hover:bg-black/[0.02] last:border-b-0">
@@ -120,20 +96,18 @@ export function CotizacionFormalRow({ c }: { c: Row }) {
         </select>
       </td>
       <td className="px-4 py-3 text-center">
-        <button
-          type="button"
-          onClick={handleToggleKame}
-          disabled={kamePending}
+        <Link
+          href={`/admin/cotizador/${c.folio}`}
           title={kameTooltip}
           className={[
-            "rounded-full border px-2.5 py-1 text-xs font-semibold transition disabled:opacity-50",
-            kame.trasladado
+            "inline-block rounded-full border px-2.5 py-1 text-xs font-semibold transition",
+            c.trasladado_kame
               ? "border-green-200 bg-green-50 text-green-700 hover:bg-green-100"
               : "border-amber-200 bg-amber-50 text-amber-700 hover:bg-amber-100",
           ].join(" ")}
         >
-          {kame.trasladado ? "✓ Kame" : "Marcar Kame"}
-        </button>
+          {c.trasladado_kame ? "✓ Kame" : "Marcar Kame"}
+        </Link>
       </td>
       <td className="px-4 py-3">
         <div className="flex items-center justify-center gap-1.5">
