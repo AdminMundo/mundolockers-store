@@ -200,11 +200,18 @@ export function buildProductMetaDescription(product: {
     : `Compra y cotiza ${product.name} en LockerStore. Despacho a todo Chile.`;
 
   const differentiator = extractProductDifferentiator(product.name, product.slug);
-  const combined = differentiator
+  let combined = differentiator
     ? `${differentiator.charAt(0).toUpperCase()}${differentiator.slice(1)}. ${base}`
     : base;
 
-  return truncateAtWord(combined, 155);
+  // Bing (y buscadores en general) marcan como "muy corta" cualquier
+  // descripción escueta aunque sea real; se agrega un cierre útil en vez
+  // de dejarla así cuando la ficha del producto no trae mucho texto.
+  if (combined.length < 170) {
+    combined = `${combined.replace(/\.?\s*$/, "")}. Fabricación nacional, despacho a todo Chile y cotización rápida por WhatsApp.`;
+  }
+
+  return truncateAtWord(combined, 300);
 }
 
 function safeNumber(n: number | null | undefined): number {
