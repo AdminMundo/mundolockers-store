@@ -85,10 +85,18 @@ export default function MediosDePagoPage() {
           title: "Efectivo en bodega",
           content: (
             <p>
-              Si retiras en nuestra bodega (<strong>Comandante Chacón #5720, Quinta Normal</strong>
-              ), puedes pagar en efectivo o con transferencia en el momento. Horario:{" "}
-              <strong>lunes a viernes 9:00 – 17:00 hrs</strong>, con cita previa al{" "}
-              <a href="tel:+56224354519">+56 2 243 54 519</a>.
+              También puedes retirar en persona pagando en efectivo o con transferencia en el
+              momento. Horario: <strong>lunes a viernes 9:00 – 17:00 hrs</strong>. Coordina tu
+              retiro y la dirección exacta al{" "}
+              <a href="tel:+56224354519">+56 2 243 54 519</a> o por{" "}
+              <a
+                href="https://wa.me/56936289818"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                WhatsApp
+              </a>
+              .
             </p>
           ),
         },
