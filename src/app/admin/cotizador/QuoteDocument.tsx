@@ -5,10 +5,10 @@ import type { QuoteDocumentData } from "./types";
 
 const COMPANY = {
   name: "LockerStore",
-  legalName: "Roco Import SpA",
-  rut: "78.124.096-6",
+  legalName: "Lockers Store SpA",
+  rut: "78.422.139-3",
   activity: "Fabricación y comercialización de lockers metálicos y plásticos",
-  address: "Quinta Normal, Santiago",
+  address: "San Bernardo, Santiago",
   email: "ventas@lockersstore.cl",
   phone: "+56 9 3628 9818",
 };

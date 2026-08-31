@@ -66,7 +66,7 @@ export default function GarantiaPage() {
           title: "Plazo de garantía",
           content: (
             <p>
-              Todos los productos comercializados por <strong>Roco Import SpA</strong> cuentan
+              Todos los productos comercializados por <strong>Lockers Store SpA</strong> cuentan
               con una garantía mínima de <strong>3 meses</strong> contra defectos de fabricación,
               conforme a lo establecido en la Ley N° 19.496 (Ley del Consumidor). Algunos
               productos pueden contar con garantías extendidas según se indique en su ficha

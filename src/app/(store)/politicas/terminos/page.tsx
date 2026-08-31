@@ -21,8 +21,8 @@ export default function TerminosPage() {
           content: (
             <p>
               El sitio web <a href="https://www.lockersstore.cl">lockersstore.cl</a> es operado por{" "}
-              <strong>Roco Import SpA</strong>, RUT 78.124.096-6, domiciliada en Comandante
-              Chacón #5720, Quinta Normal, Santiago, Chile. Contacto:{" "}
+              <strong>Lockers Store SpA</strong>, RUT 78.422.139-3, domiciliada en Covadonga 631,
+              Depto. C 201, San Bernardo, Santiago, Chile. Contacto:{" "}
               <a href="mailto:ventas@lockersstore.cl">ventas@lockersstore.cl</a> /{" "}
               <a href="tel:+56224354519">+56 2 243 54 519</a>.
             </p>
@@ -97,7 +97,7 @@ export default function TerminosPage() {
           content: (
             <p>
               Los plazos de entrega son aproximados y dependen de la región de destino, la
-              disponibilidad del transportista y eventuales feriados. Roco Import SpA no se
+              disponibilidad del transportista y eventuales feriados. Lockers Store SpA no se
               hace responsable de retrasos imputables a la empresa de transporte. Para más
               detalles, revisa nuestra{" "}
               <a href="/despacho">página de Despacho e Instalación</a>.
@@ -123,7 +123,7 @@ export default function TerminosPage() {
           content: (
             <p>
               Todo el contenido del sitio web (textos, imágenes, logotipos, diseño, código fuente)
-              es propiedad de Roco Import SpA o de sus licenciantes y está protegido por las
+              es propiedad de Lockers Store SpA o de sus licenciantes y está protegido por las
               leyes de propiedad intelectual vigentes en Chile. Queda prohibida su reproducción
               total o parcial sin autorización escrita previa.
             </p>
@@ -133,7 +133,7 @@ export default function TerminosPage() {
           title: "Limitación de responsabilidad",
           content: (
             <p>
-              Roco Import SpA no será responsable de daños indirectos, lucro cesante ni
+              Lockers Store SpA no será responsable de daños indirectos, lucro cesante ni
               perjuicios derivados del uso inadecuado de los productos o de circunstancias ajenas
               a nuestra voluntad (caso fortuito, fuerza mayor, fallas de terceros). Nuestra
               responsabilidad máxima se limita al valor del producto adquirido.

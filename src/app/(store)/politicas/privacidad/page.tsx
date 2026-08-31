@@ -20,8 +20,8 @@ export default function PrivacidadPage() {
           title: "Responsable del tratamiento",
           content: (
             <p>
-              <strong>Roco Import SpA</strong>, RUT 78.124.096-6, con domicilio en Comandante
-              Chacón #5720, Quinta Normal, Santiago, Chile, es responsable del tratamiento de los
+              <strong>Lockers Store SpA</strong>, RUT 78.422.139-3, con domicilio en Covadonga 631,
+              Depto. C 201, San Bernardo, Santiago, Chile, es responsable del tratamiento de los
               datos personales recabados a través de{" "}
               <a href="https://www.lockersstore.cl">lockersstore.cl</a>. Para consultas, escríbenos a{" "}
               <a href="mailto:ventas@lockersstore.cl">ventas@lockersstore.cl</a>.
