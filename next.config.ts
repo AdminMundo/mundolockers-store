@@ -61,6 +61,12 @@ const nextConfig: NextConfig = {
         pathname: "/storage/v1/object/public/**",
       },
     ],
+    // La cuota de optimización de imágenes de Vercel se agotó (402
+    // OPTIMIZED_IMAGE_REQUEST_PAYMENT_REQUIRED), lo que estaba rompiendo
+    // TODAS las fotos remotas del sitio (productos, fichas técnicas).
+    // Se desactiva la optimización para servir las imágenes originales
+    // directo, sin pasar por el pipeline pago de Vercel.
+    unoptimized: true,
   },
 
   async headers() {
