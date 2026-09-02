@@ -46,3 +46,13 @@ export function truncateAtWord(value: string, maxLength = 155): string {
 
   return `${safeCut.trimEnd()}…`
 }
+
+/** Normaliza un nombre de archivo para usarlo como parte de una URL/path. */
+export function sanitizeFileName(fileName: string): string {
+  return fileName
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[̀-ͯ]/g, "")
+    .replace(/[^a-z0-9.-]+/g, "-")
+    .replace(/-+/g, "-")
+}

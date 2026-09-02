@@ -3,6 +3,7 @@ import Link from "next/link";
 import { createSupabaseServer } from "@/lib/supabase/server";
 import { createProductAction } from "@/app/admin/productos/[slug]/actions";
 import ProductImageUpload from "@/components/admin/product-image-upload";
+import ProductPdfUpload from "@/components/admin/product-pdf-upload";
 
 export const metadata: Metadata = {
   title: "Nuevo producto | Admin",
@@ -266,6 +267,16 @@ export default async function AdminNuevoProductoPage({
                 folder="tech-sheets"
                 label="Ficha técnica"
               />
+            </div>
+
+            <div className="space-y-2 md:col-span-2">
+              <ProductPdfUpload
+                name="tech_sheet_pdf_url"
+                label="Ficha técnica (PDF descargable)"
+              />
+              <p className="text-xs text-black/45">
+                Muestra un botón para descargar el PDF en la página del producto. Opcional.
+              </p>
             </div>
 
             <div className="space-y-2 md:col-span-2">

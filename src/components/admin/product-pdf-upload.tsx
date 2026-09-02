@@ -1,8 +1,9 @@
 "use client";
 
 import { useState, useTransition, type ChangeEvent } from "react";
+import { FileText } from "lucide-react";
 
-type ProductImageUploadProps = {
+type ProductPdfUploadProps = {
   name: string;
   defaultValue?: string;
   bucket?: string;
@@ -10,13 +11,21 @@ type ProductImageUploadProps = {
   label?: string;
 };
 
-export default function ProductImageUpload({
+function fileNameFromUrl(url: string): string {
+  try {
+    return decodeURIComponent(url.split("/").pop() ?? url);
+  } catch {
+    return url;
+  }
+}
+
+export default function ProductPdfUpload({
   name,
   defaultValue = "",
-  bucket = "product-images",
-  folder = "products",
+  bucket = "product-files",
+  folder = "tech-sheets-pdf",
   label,
-}: ProductImageUploadProps) {
+}: ProductPdfUploadProps) {
   const [value, setValue] = useState(defaultValue);
   const [error, setError] = useState<string | null>(null);
   const [isPending, startTransition] = useTransition();
@@ -41,15 +50,13 @@ export default function ProductImageUpload({
         const data = await res.json();
 
         if (!res.ok) {
-          setError(data.error ?? "No se pudo subir la imagen");
+          setError(data.error ?? "No se pudo subir el PDF");
           return;
         }
 
         setValue(data.publicUrl);
       } catch (err) {
-        setError(
-          err instanceof Error ? err.message : "No se pudo subir la imagen"
-        );
+        setError(err instanceof Error ? err.message : "No se pudo subir el PDF");
       }
     });
   }
@@ -64,10 +71,10 @@ export default function ProductImageUpload({
 
       <div className="flex flex-wrap items-center gap-3">
         <label className="inline-flex cursor-pointer items-center rounded-2xl bg-black px-4 py-2.5 text-sm font-medium text-white transition hover:opacity-90">
-          {isPending ? "Subiendo..." : "Subir imagen"}
+          {isPending ? "Subiendo..." : "Subir PDF"}
           <input
             type="file"
-            accept="image/png,image/jpeg,image/jpg,image/webp"
+            accept="application/pdf"
             className="hidden"
             onChange={handleFileChange}
             disabled={isPending}
@@ -85,29 +92,26 @@ export default function ProductImageUpload({
         ) : null}
       </div>
 
-      <input
-        value={value}
-        readOnly
-        placeholder="La URL se llenará automáticamente"
-        className="w-full rounded-2xl border border-black/10 bg-white px-4 py-3 text-sm text-black/70 outline-none"
-      />
-
       {error ? (
         <div className="rounded-2xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
-          Error al subir imagen: {error}
+          Error al subir PDF: {error}
         </div>
       ) : null}
 
       <div className="overflow-hidden rounded-[24px] border border-black/10 bg-[#F8F8FA]">
         {value ? (
-          <img
-            src={value}
-            alt="Vista previa"
-            className="h-[220px] w-full object-contain p-4"
-          />
+          <a
+            href={value}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-3 p-4 text-sm text-black/70 hover:text-black"
+          >
+            <FileText className="h-5 w-5 shrink-0 text-[#0477BF]" />
+            <span className="truncate">{fileNameFromUrl(value)}</span>
+          </a>
         ) : (
-          <div className="flex h-[220px] items-center justify-center text-sm text-black/45">
-            Aún no hay imagen cargada.
+          <div className="flex h-[80px] items-center justify-center text-sm text-black/45">
+            Aún no hay PDF cargado.
           </div>
         )}
       </div>

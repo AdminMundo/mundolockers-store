@@ -52,6 +52,7 @@ export async function updateProductAction(formData: FormData) {
   // Sin coerción a null: "" es "se guardó explícitamente sin ficha" (Quitar),
   // distinto de null = "nunca se tocó este campo" (ver TechSheetSection).
   const tech_sheet_image_url = String(formData.get("tech_sheet_image_url") ?? "").trim();
+  const tech_sheet_pdf_url = String(formData.get("tech_sheet_pdf_url") ?? "").trim();
 
   const galleryRaw = String(formData.get("gallery_urls") ?? "").trim();
   const gallery_urls = galleryRaw
@@ -115,6 +116,7 @@ export async function updateProductAction(formData: FormData) {
       image_url,
       hover_image_url,
       tech_sheet_image_url,
+      tech_sheet_pdf_url,
       gallery_urls,
       category_id,
       is_active: isActive,
@@ -164,6 +166,9 @@ export async function createProductAction(formData: FormData) {
 
   const techSheetImageUrlRaw = String(formData.get("tech_sheet_image_url") ?? "").trim();
   const tech_sheet_image_url = techSheetImageUrlRaw.length > 0 ? techSheetImageUrlRaw : null;
+
+  const techSheetPdfUrlRaw = String(formData.get("tech_sheet_pdf_url") ?? "").trim();
+  const tech_sheet_pdf_url = techSheetPdfUrlRaw.length > 0 ? techSheetPdfUrlRaw : null;
 
   const galleryRaw = String(formData.get("gallery_urls") ?? "").trim();
   const gallery_urls = galleryRaw
@@ -225,6 +230,7 @@ export async function createProductAction(formData: FormData) {
       image_url,
       hover_image_url,
       tech_sheet_image_url,
+      tech_sheet_pdf_url,
       gallery_urls,
       category_id,
       has_in_stock: hasInStock,

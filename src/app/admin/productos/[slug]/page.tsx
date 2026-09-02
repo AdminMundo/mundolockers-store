@@ -5,6 +5,7 @@ import { notFound } from "next/navigation";
 import { createSupabaseServer } from "@/lib/supabase/server";
 import { updateProductAction } from "@/app/admin/productos/[slug]/actions";
 import ProductImageUpload from "@/components/admin/product-image-upload";
+import ProductPdfUpload from "@/components/admin/product-pdf-upload";
 import { getTechSheetForProduct } from "@/lib/techSheets";
 
 export const metadata: Metadata = {
@@ -54,7 +55,7 @@ export default async function AdminProductoDetallePage({
 
   const supabase = createSupabaseServer();
 
-  const SELECT = "id, sku, slug, name, description, specs, category_id, price_clp, has_in_stock, is_active, is_featured, image_url, hover_image_url, tech_sheet_image_url, gallery_urls";
+  const SELECT = "id, sku, slug, name, description, specs, category_id, price_clp, has_in_stock, is_active, is_featured, image_url, hover_image_url, tech_sheet_image_url, tech_sheet_pdf_url, gallery_urls";
 
   // Buscar por SKU primero (más estable), luego por slug como fallback
   let { data, error } = await supabase
@@ -362,6 +363,17 @@ export default async function AdminProductoDetallePage({
                 />
                 <p className="text-xs text-black/45">
                   Se muestra en la sección "Ficha técnica" de la página del producto. Usa "Quitar" para eliminarla.
+                </p>
+              </div>
+
+              <div className="space-y-2 md:col-span-2">
+                <ProductPdfUpload
+                  name="tech_sheet_pdf_url"
+                  defaultValue={data.tech_sheet_pdf_url ?? ""}
+                  label="Ficha técnica (PDF descargable)"
+                />
+                <p className="text-xs text-black/45">
+                  Muestra un botón para descargar el PDF en la página del producto. Opcional — si no se sube, el botón no aparece.
                 </p>
               </div>
 

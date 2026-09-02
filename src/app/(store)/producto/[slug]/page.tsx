@@ -85,6 +85,7 @@ export default async function ProductPage({ params }: PageProps) {
               categorySlug={product.category_slug}
               productName={product.name}
               techSheetImageUrl={product.tech_sheet_image_url}
+              techSheetPdfUrl={product.tech_sheet_pdf_url}
             />
             {category?.description ? (
               <CategoryInfoSection
