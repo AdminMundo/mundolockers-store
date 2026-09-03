@@ -16,8 +16,8 @@ const securityHeaders = [
       "font-src 'self' data:",
       // Conexiones fetch/XHR: propio sitio + Supabase + Flow + Google Ads (conversión)
       "connect-src 'self' https://mnoybuethuabjzlmxmmo.supabase.co https://www.flow.cl https://sandbox.flow.cl https://www.googletagmanager.com https://www.google-analytics.com https://analytics.google.com https://www.google.com https://googleads.g.doubleclick.net",
-      // Frames: solo Flow para el proceso de pago
-      "frame-src 'self' https://www.flow.cl https://sandbox.flow.cl",
+      // Frames: Flow (pago) + Supabase Storage (vista previa de fichas técnicas en PDF)
+      "frame-src 'self' https://www.flow.cl https://sandbox.flow.cl https://mnoybuethuabjzlmxmmo.supabase.co",
       // Forms solo al mismo origen
       "form-action 'self' https://www.flow.cl https://sandbox.flow.cl",
       // No permite embeber el sitio en iframes externos (clickjacking)

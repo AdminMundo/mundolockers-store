@@ -42,13 +42,23 @@ export default function TechSheetSection({
       ) : null}
 
       {pdfUrl ? (
-        <a
-          href={`${pdfUrl}?download`}
-          className="mt-4 inline-flex h-11 items-center gap-2 rounded-xl bg-black px-5 text-sm font-semibold text-white transition-colors duration-200 hover:bg-[#0477BF]"
-        >
-          <Download className="h-4 w-4" aria-hidden="true" />
-          Descargar ficha técnica (PDF)
-        </a>
+        <div className="mt-4 space-y-3">
+          <div className="overflow-hidden rounded-3xl border border-zinc-100 bg-zinc-50">
+            <iframe
+              src={pdfUrl}
+              title={`Vista previa: ficha técnica en PDF de ${productName}`}
+              className="h-[500px] w-full"
+            />
+          </div>
+
+          <a
+            href={`${pdfUrl}?download`}
+            className="inline-flex h-11 items-center gap-2 rounded-xl bg-black px-5 text-sm font-semibold text-white transition-colors duration-200 hover:bg-[#0477BF]"
+          >
+            <Download className="h-4 w-4" aria-hidden="true" />
+            Descargar ficha técnica (PDF)
+          </a>
+        </div>
       ) : null}
     </section>
   );
