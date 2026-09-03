@@ -52,6 +52,11 @@ const securityHeaders = [
 ];
 
 const nextConfig: NextConfig = {
+  // sharp usa un binario nativo (libvips); si el bundler intenta
+  // empaquetarlo como JS normal, ese binario no llega al deploy y falla
+  // en runtime con ERR_DLOPEN_FAILED. Se marca como paquete externo para
+  // que se resuelva tal cual desde node_modules en el servidor.
+  serverExternalPackages: ["sharp"],
   images: {
     remotePatterns: [
       {
