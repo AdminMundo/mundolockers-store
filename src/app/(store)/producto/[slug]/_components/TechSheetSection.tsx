@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { Download } from "lucide-react";
+import { Download, Eye } from "lucide-react";
 import { resolveTechSheet } from "@/lib/techSheets";
 
 export default function TechSheetSection({
@@ -42,21 +42,23 @@ export default function TechSheetSection({
       ) : null}
 
       {pdfUrl ? (
-        <div className="mt-4 space-y-3">
-          <div className="overflow-hidden rounded-3xl border border-zinc-100 bg-zinc-50">
-            <iframe
-              src={pdfUrl}
-              title={`Vista previa: ficha técnica en PDF de ${productName}`}
-              className="h-[500px] w-full"
-            />
-          </div>
+        <div className="mt-4 flex flex-wrap gap-3">
+          <a
+            href={pdfUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex h-11 items-center gap-2 rounded-xl border border-zinc-200 bg-white px-5 text-sm font-semibold text-zinc-900 transition-colors duration-200 hover:border-[#0477BF] hover:shadow-[0_0_0_3px_rgba(4,119,191,0.15)]"
+          >
+            <Eye className="h-4 w-4" aria-hidden="true" />
+            Ver ficha técnica (PDF)
+          </a>
 
           <a
             href={`${pdfUrl}?download`}
             className="inline-flex h-11 items-center gap-2 rounded-xl bg-black px-5 text-sm font-semibold text-white transition-colors duration-200 hover:bg-[#0477BF]"
           >
             <Download className="h-4 w-4" aria-hidden="true" />
-            Descargar ficha técnica (PDF)
+            Descargar
           </a>
         </div>
       ) : null}
