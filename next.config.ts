@@ -55,8 +55,15 @@ const nextConfig: NextConfig = {
   // sharp usa un binario nativo (libvips); si el bundler intenta
   // empaquetarlo como JS normal, ese binario no llega al deploy y falla
   // en runtime con ERR_DLOPEN_FAILED. Se marca como paquete externo para
-  // que se resuelva tal cual desde node_modules en el servidor.
+  // que se resuelva tal cual desde node_modules en el servidor, y se
+  // fuerza explícitamente a incluir sus binarios nativos en el bundle de
+  // la función (el tracing automático de Turbopack no los detectaba solo,
+  // ademas next trae su propia copia de sharp para next/image y eso
+  // confundia el tracing automatico).
   serverExternalPackages: ["sharp"],
+  outputFileTracingIncludes: {
+    "/api/admin/upload-image": ["./node_modules/@img/**/*"],
+  },
   images: {
     remotePatterns: [
       {
