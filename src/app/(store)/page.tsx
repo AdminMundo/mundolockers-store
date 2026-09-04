@@ -40,10 +40,10 @@ export default function HomePage() {
         kicker="Fabricante de lockers metálicos y plásticos en Chile"
         title={
           <>
-            Hecho en Chile, <br /> Hecho para Durar
+            Lockers Hechos en Chile, <br /> Hechos para Durar
           </>
         }
-        description="Acero soldado, pintado y armado en nuestra propia planta. Así nace cada locker que despachamos a todo el país."
+        description="Acero soldado, pintado y armado en nuestra propia planta. Así nace cada locker o casillero metálico que despachamos a todo el país."
         actions={
           <>
             <Button

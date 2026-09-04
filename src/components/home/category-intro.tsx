@@ -70,11 +70,14 @@ export default function CategoryIntroSection() {
       <div className="mx-auto max-w-6xl px-4 py-16">
         <div className="max-w-2xl">
           <h2 className="text-3xl font-semibold tracking-tight">
-            Lockers y almacenamiento para cada necesidad
+            Lockers y casilleros metálicos para cada necesidad
           </h2>
           <p className="mt-2 text-sm text-zinc-600 md:text-base dark:text-zinc-400">
-            Fabricación en acero resistente, con despacho a todo Chile y
-            opciones de personalización por proyecto.
+            Fabricamos lockers y casilleros metálicos resistentes para
+            industria, colegios, minería y hogar. Cada modelo se fabrica en
+            acero, con despacho a todo Chile y opciones de personalización
+            por proyecto — desde un casillero individual hasta lockers para
+            proyectos institucionales completos.
           </p>
         </div>
 
