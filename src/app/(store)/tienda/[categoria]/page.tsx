@@ -75,6 +75,21 @@ export default async function TiendaCategoriaPage({
   if (!category) notFound();
 
   const sp = await searchParams;
+
+  // Contenido duplicado: si llega ?cat= estando ya en /tienda/[categoria]
+  // (ej. link viejo /tienda/lockers-kids?cat=lockers-kids), se redirige a
+  // la URL limpia en vez de dejarla como una URL rastreable aparte de la
+  // misma página. El resto de los parámetros reales (q, sort, page) se
+  // conservan.
+  if ("cat" in sp) {
+    const clean = new URLSearchParams();
+    if (typeof sp.q === "string" && sp.q) clean.set("q", sp.q);
+    if (typeof sp.sort === "string" && sp.sort) clean.set("sort", sp.sort);
+    if (typeof sp.page === "string" && sp.page) clean.set("page", sp.page);
+    const qs = clean.toString();
+    permanentRedirect(`/tienda/${categoria}${qs ? `?${qs}` : ""}`);
+  }
+
   const q = typeof sp.q === "string" ? sp.q : "";
   const sort = (typeof sp.sort === "string" ? sp.sort : "featured") as
     | "featured"
