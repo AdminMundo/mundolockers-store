@@ -328,6 +328,29 @@ export function QuotePageClient({ initialState }: Props) {
 
             <section className="rounded-[28px] border border-black/10 bg-white p-6 shadow-sm">
               <h2 className="text-xl font-semibold tracking-tight text-neutral-950">
+                ¿Cómo funciona?
+              </h2>
+
+              <div className="mt-5 space-y-3 text-sm leading-7 text-neutral-600">
+                <p>
+                  Completa el formulario con los productos, cantidades y
+                  detalles de tu proyecto — mientras más información nos des,
+                  más precisa será la propuesta.
+                </p>
+                <p>
+                  Nuestro equipo comercial revisa tu solicitud y te contacta
+                  por correo o WhatsApp con la cotización, plazos y
+                  condiciones de despacho.
+                </p>
+                <p>
+                  Para empresas e instituciones, coordinamos factura u orden
+                  de compra según lo que necesites.
+                </p>
+              </div>
+            </section>
+
+            <section className="rounded-[28px] border border-black/10 bg-white p-6 shadow-sm">
+              <h2 className="text-xl font-semibold tracking-tight text-neutral-950">
                 Accesos rápidos
               </h2>
 

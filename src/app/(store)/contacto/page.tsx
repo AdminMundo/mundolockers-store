@@ -136,6 +136,21 @@ export default function ContactoPage() {
             </p>
           </div>
 
+          {/* Sobre LockerStore */}
+          <div className="border-t border-black/8 bg-zinc-50 px-8 py-8">
+            <h2 className="text-sm font-semibold text-zinc-900">Sobre LockerStore</h2>
+            <p className="mt-2 text-sm leading-6 text-zinc-600">
+              Fabricamos lockers y casilleros metálicos en Chile: acero soldado,
+              pintado y armado en nuestra propia planta. Trabajamos con
+              colegios, empresas, minería e instituciones, con despacho a
+              todo el país y opciones de personalización por proyecto.{" "}
+              <Link href="/nosotros" className="underline underline-offset-2 hover:text-zinc-900">
+                Conoce más sobre nosotros
+              </Link>
+              .
+            </p>
+          </div>
+
           {/* CTA */}
           <div className="rounded-b-[32px] border-t border-black/8 bg-white px-8 py-6">
             <div className="flex flex-wrap gap-3">
