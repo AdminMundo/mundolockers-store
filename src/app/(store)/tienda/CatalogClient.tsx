@@ -141,6 +141,22 @@ export default function CatalogClient({
     return qs ? `${base}?${qs}` : base;
   }
 
+  // Igual que categoryHref, pero para paginación: link real (<a href>) en vez
+  // de botón + router.push, así los rastreadores (Google, Bing, Semrush)
+  // encuentran y siguen las páginas 2, 3, etc. en vez de dejarlas huérfanas.
+  function pageHref(page: number) {
+    const params = new URLSearchParams(sp.toString());
+    if (current.q) params.set("q", current.q);
+    if (current.sort && current.sort !== "featured") params.set("sort", current.sort);
+    if (page > 1) {
+      params.set("page", String(page));
+    } else {
+      params.delete("page");
+    }
+    const qs = params.toString();
+    return qs ? `${pathname}?${qs}` : pathname;
+  }
+
   function handleAddToCart(item: CatalogItem): void {
     if (!isPurchasable(item)) {
       return;
@@ -321,27 +337,37 @@ export default function CatalogClient({
       </div>
 
       <div className="flex items-center justify-center gap-2 pt-2">
-        <button
-          type="button"
-          disabled={current.page <= 1}
-          onClick={() => setParams({ page: current.page - 1 })}
-          className="rounded-full border border-zinc-200 px-4 py-2 text-sm disabled:opacity-50"
-        >
-          ←
-        </button>
+        {current.page > 1 ? (
+          <Link
+            href={pageHref(current.page - 1)}
+            className="rounded-full border border-zinc-200 px-4 py-2 text-sm transition hover:border-[#0477BF]"
+            aria-label="Página anterior"
+          >
+            ←
+          </Link>
+        ) : (
+          <span className="rounded-full border border-zinc-200 px-4 py-2 text-sm opacity-50">
+            ←
+          </span>
+        )}
 
         <span className="text-sm text-zinc-600">
           {data.page} / {data.totalPages}
         </span>
 
-        <button
-          type="button"
-          disabled={current.page >= data.totalPages}
-          onClick={() => setParams({ page: current.page + 1 })}
-          className="rounded-full border border-zinc-200 px-4 py-2 text-sm disabled:opacity-50"
-        >
-          →
-        </button>
+        {current.page < data.totalPages ? (
+          <Link
+            href={pageHref(current.page + 1)}
+            className="rounded-full border border-zinc-200 px-4 py-2 text-sm transition hover:border-[#0477BF]"
+            aria-label="Página siguiente"
+          >
+            →
+          </Link>
+        ) : (
+          <span className="rounded-full border border-zinc-200 px-4 py-2 text-sm opacity-50">
+            →
+          </span>
+        )}
       </div>
     </div>
   );
