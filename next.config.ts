@@ -94,6 +94,27 @@ const nextConfig: NextConfig = {
   async redirects() {
     return [
       {
+        // Categoría vieja "lockers-escolares" (ya no existe, se fusionó con
+        // Lockers Kids — así la nombra el propio sitio en la home). Va
+        // antes de la regla genérica de ?cat= para no caer en /tienda/lockers-escolares (404).
+        source: "/tienda",
+        has: [{ type: "query", key: "cat", value: "lockers-escolares" }],
+        destination: "/tienda/lockers-kids",
+        permanent: true,
+      },
+      {
+        // Misma categoría vieja, en formato ruta (sin query string).
+        source: "/tienda/lockers-escolares",
+        destination: "/tienda/lockers-kids",
+        permanent: true,
+      },
+      {
+        // Página de portafolio/proyectos eliminada, sin enlaces internos vigentes.
+        source: "/proyectos",
+        destination: "/",
+        permanent: true,
+      },
+      {
         // URLs viejas de categoría (?cat=x) a las nuevas rutas /tienda/x
         source: "/tienda",
         has: [{ type: "query", key: "cat", value: "(?<cat>.+)" }],
