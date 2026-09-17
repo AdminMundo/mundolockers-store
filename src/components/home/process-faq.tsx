@@ -64,6 +64,22 @@ const FAQ = [
     q: "¿Trabajan con Convenio Marco?",
     a: "Sí. Si necesitas guía de compra institucional, te ayudamos con el proceso.",
   },
+  {
+    q: "¿Cuál es la diferencia entre un locker y un kardex o cajonera?",
+    a: "El locker tiene compartimentos con puertas para guardar objetos personales (ropa, mochilas, celulares). El kardex o cajonera tiene cajones, pensados para archivar documentos, herramientas o piezas pequeñas. Ambos son de acero, pero cumplen usos distintos.",
+  },
+  {
+    q: "¿Qué locker conviene para un colegio?",
+    a: "Para colegios recomendamos lockers kids (más bajos, pensados para niños) o lockers phone (compartimentos pequeños para guardar celulares durante la jornada). Ambos se personalizan con numeración y colores por curso o proyecto.",
+  },
+  {
+    q: "¿Cuánto cuesta un locker metálico en Chile?",
+    a: "Los precios parten desde los $48.000 CLP para un locker de 1-2 puertas, y suben según el tamaño, la cantidad de puertas y accesorios como banca incluida en los modelos de minería. Puedes ver precios exactos en la tienda o cotizar por WhatsApp.",
+  },
+  {
+    q: "¿Dónde comprar lockers metálicos en Chile con despacho a todo el país?",
+    a: "En LockerStore fabricamos y vendemos lockers metálicos con despacho a todo Chile: compra online directa o cotización por WhatsApp para proyectos de colegios, empresas y minería.",
+  },
 ];
 
 const faqSchema = {

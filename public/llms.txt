@@ -1,24 +1,38 @@
 # LockerStore
 
-> Fabricante nacional de lockers metálicos y plásticos en Chile, con despacho a todo el país. Soluciones para industria, colegios, minería y hogar, con venta online directa y cotización para proyectos institucionales o por volumen.
+> Fabricante y tienda online de lockers y casilleros metálicos en Chile, con despacho a todo el país. Atendemos colegios, empresas, minería e instituciones.
 
-## Categorías
+LockerStore (Lockers Store SpA) diseña, fabrica y vende lockers metálicos, storages, kardex, cajoneras y bancas en Chile. Ofrece compra online, cotización para proyectos institucionales, personalización (numeración, colores, señalética) y despacho a todo el país.
+
+## Categorías de productos
 
 - [Lockers Metálicos](https://www.lockersstore.cl/tienda/lockers-metalicos)
-- [Lockers para Celulares](https://www.lockersstore.cl/tienda/lockers-phone)
 - [Lockers Kids](https://www.lockersstore.cl/tienda/lockers-kids)
+- [Lockers Phone (para celulares)](https://www.lockersstore.cl/tienda/lockers-phone)
 - [Lockers Mineros](https://www.lockersstore.cl/tienda/lockers-mineros)
-- [Estanterías Mecano](https://www.lockersstore.cl/tienda/estantes-mecano)
-- [Storages & Roperillos](https://www.lockersstore.cl/tienda/storages-roperillos)
-- [Kardex & Cajoneras](https://www.lockersstore.cl/tienda/kardex-y-cajoneras)
-- [Bancas Metálicas](https://www.lockersstore.cl/tienda/bancas)
+- [Storages y Roperillos](https://www.lockersstore.cl/tienda/storages-roperillos)
+- [Estantes Mecano](https://www.lockersstore.cl/tienda/estantes-mecano)
+- [Kardex y Cajoneras](https://www.lockersstore.cl/tienda/kardex-y-cajoneras)
+- [Bancas](https://www.lockersstore.cl/tienda/bancas)
 
 ## Páginas principales
 
 - [Tienda completa](https://www.lockersstore.cl/tienda)
-- [Cotizar](https://www.lockersstore.cl/cotizar)
+- [Guía para elegir locker](https://www.lockersstore.cl/guia-de-lockers)
+- [Configurador Arma tu Locker](https://www.lockersstore.cl/arma-tu-locker)
+- [Preguntas frecuentes](https://www.lockersstore.cl/#faq)
+- [Cotizar un proyecto](https://www.lockersstore.cl/cotizar)
 - [Nosotros](https://www.lockersstore.cl/nosotros)
 - [Contacto](https://www.lockersstore.cl/contacto)
 - [Despacho](https://www.lockersstore.cl/despacho)
 - [Garantía](https://www.lockersstore.cl/garantia)
 - [Medios de pago](https://www.lockersstore.cl/medios-de-pago)
+
+## Datos de la empresa
+
+- Razón social: Lockers Store SpA
+- País: Chile, despacho a todo el territorio nacional
+- Oficina: San Bernardo, Región Metropolitana
+- Bodega / retiro: Quinta Normal, Santiago
+- Contacto: ventas@lockersstore.cl · WhatsApp +56 9 3628 9818
+- Rango de precios: desde $48.000 CLP (locker de 1-2 puertas) hasta configuraciones de mayor tamaño para minería e industria
