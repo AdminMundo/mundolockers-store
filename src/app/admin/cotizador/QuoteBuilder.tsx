@@ -180,31 +180,55 @@ export type QuoteBuilderInitial = {
   items: QuoteItemInput[];
 };
 
+// Datos trasladados desde una solicitud de cotización de un cliente (no una
+// cotización formal existente): a diferencia de `initial`, no trae id/folio
+// porque siempre crea una cotización formal nueva.
+export type QuoteBuilderPrefill = {
+  clienteRut?: string;
+  clienteNombre?: string;
+  clienteTelefono?: string;
+  clienteEmail?: string;
+  referencia?: string;
+  notaCliente?: string;
+  items?: QuoteItemInput[];
+};
+
 export function QuoteBuilder({
   vendedorInicial,
   initial,
+  prefill,
 }: {
   vendedorInicial: string;
   initial?: QuoteBuilderInitial;
+  prefill?: QuoteBuilderPrefill;
 }) {
   const router = useRouter();
   const docRef = useRef<HTMLDivElement>(null);
 
-  const [clienteRut, setClienteRut] = useState(initial?.clienteRut ?? "");
-  const [clienteNombre, setClienteNombre] = useState(initial?.clienteNombre ?? "");
+  const [clienteRut, setClienteRut] = useState(initial?.clienteRut ?? prefill?.clienteRut ?? "");
+  const [clienteNombre, setClienteNombre] = useState(initial?.clienteNombre ?? prefill?.clienteNombre ?? "");
   const [clienteDireccion, setClienteDireccion] = useState(initial?.clienteDireccion ?? "");
-  const [clienteTelefono, setClienteTelefono] = useState(initial?.clienteTelefono ?? "");
-  const [clienteEmail, setClienteEmail] = useState(initial?.clienteEmail ?? "");
-  const [referencia, setReferencia] = useState(initial?.referencia ?? "");
+  const [clienteTelefono, setClienteTelefono] = useState(initial?.clienteTelefono ?? prefill?.clienteTelefono ?? "");
+  const [clienteEmail, setClienteEmail] = useState(initial?.clienteEmail ?? prefill?.clienteEmail ?? "");
+  const [referencia, setReferencia] = useState(initial?.referencia ?? prefill?.referencia ?? "");
   const [fechaEmision, setFechaEmision] = useState(initial?.fechaEmision ?? todayIso());
   const [vendedor, setVendedor] = useState(initial?.vendedor ?? vendedorInicial);
   const [formaPago, setFormaPago] = useState(initial?.formaPago ?? FORMAS_PAGO[0]);
   const [vigenciaDias, setVigenciaDias] = useState(initial?.vigenciaDias ?? 15);
-  const [condiciones, setCondiciones] = useState(initial?.condiciones ?? DEFAULT_CONDICIONES);
+  const [condiciones, setCondiciones] = useState(
+    initial?.condiciones ??
+      (prefill?.notaCliente
+        ? `Nota del cliente: ${prefill.notaCliente}\n\n${DEFAULT_CONDICIONES}`
+        : DEFAULT_CONDICIONES),
+  );
   const [descuentoTipo, setDescuentoTipo] = useState<"pct" | "monto">(initial?.descuentoTipo ?? "pct");
   const [descuentoValor, setDescuentoValor] = useState(initial?.descuentoValor ?? 0);
   const [items, setItems] = useState<ItemRow[]>(
-    initial?.items?.length ? initial.items.map(toRow) : [emptyRow()],
+    initial?.items?.length
+      ? initial.items.map(toRow)
+      : prefill?.items?.length
+        ? prefill.items.map(toRow)
+        : [emptyRow()],
   );
 
   const [clientMsg, setClientMsg] = useState<{ text: string; tone: "info" | "warn" } | null>(null);
@@ -406,6 +430,12 @@ export function QuoteBuilder({
 
   return (
     <div className="space-y-6">
+      {prefill && !initial && (
+        <div className="rounded-2xl border border-[#0477BF]/25 bg-[#0477BF]/8 px-4 py-3 text-sm text-[#04527f]">
+          Datos y productos cargados desde una solicitud de cotización. Revísalos antes de guardar.
+        </div>
+      )}
+
       <section className="rounded-[32px] border border-black/10 bg-white p-6 shadow-sm sm:p-8">
         <div className="grid gap-8 lg:grid-cols-2">
           {/* Cliente */}

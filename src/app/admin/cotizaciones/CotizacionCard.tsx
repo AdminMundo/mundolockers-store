@@ -1,12 +1,13 @@
 "use client";
 
 import { useTransition } from "react";
+import Link from "next/link";
 import {
   updateEstadoAction,
   deleteCotizacionAction,
   type EstadoCotizacion,
 } from "@/app/admin/cotizaciones/actions";
-import { Trash2 } from "lucide-react";
+import { FileText, Trash2 } from "lucide-react";
 
 type QuoteProduct = {
   name?: string;
@@ -104,15 +105,25 @@ export function CotizacionCard({ c }: { c: Cotizacion }) {
           <p className="mt-1 text-xs text-black/40">{formatDate(c.created_at)}</p>
         </div>
 
-        <button
-          type="button"
-          onClick={handleDelete}
-          disabled={isPending}
-          title="Eliminar cotización"
-          className="flex h-8 w-8 items-center justify-center rounded-xl border border-red-100 bg-red-50 text-red-400 transition hover:bg-red-100 hover:text-red-600 disabled:opacity-50"
-        >
-          <Trash2 className="h-4 w-4" />
-        </button>
+        <div className="flex shrink-0 items-center gap-2">
+          <Link
+            href={`/admin/cotizador/nueva?fromCotizacion=${c.id}`}
+            title="Trasladar datos y productos al cotizador"
+            className="inline-flex h-8 items-center gap-1.5 rounded-xl border border-[#0477BF]/30 bg-[#0477BF]/10 px-3 text-xs font-semibold text-[#0477BF] transition hover:bg-[#0477BF]/15"
+          >
+            <FileText className="h-3.5 w-3.5" />
+            Usar en cotizador
+          </Link>
+          <button
+            type="button"
+            onClick={handleDelete}
+            disabled={isPending}
+            title="Eliminar cotización"
+            className="flex h-8 w-8 items-center justify-center rounded-xl border border-red-100 bg-red-50 text-red-400 transition hover:bg-red-100 hover:text-red-600 disabled:opacity-50"
+          >
+            <Trash2 className="h-4 w-4" />
+          </button>
+        </div>
       </div>
 
       {/* Contacto */}
