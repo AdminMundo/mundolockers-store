@@ -63,6 +63,13 @@ const nextConfig: NextConfig = {
   serverExternalPackages: ["sharp"],
   outputFileTracingIncludes: {
     "/api/admin/upload-image": ["./node_modules/@img/**/*"],
+    // Los artículos del blog se leen del disco en runtime (listados, RSS y
+    // sitemap); sin esto el bundle serverless no incluye los .md.
+    "/blog": ["./content/blog/**/*"],
+    "/blog/[slug]": ["./content/blog/**/*"],
+    "/blog/categoria/[categoria]": ["./content/blog/**/*"],
+    "/blog/rss.xml": ["./content/blog/**/*"],
+    "/sitemap.xml": ["./content/blog/**/*"],
   },
   images: {
     remotePatterns: [

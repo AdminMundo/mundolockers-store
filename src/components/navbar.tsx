@@ -104,6 +104,9 @@ export default function Navbar() {
               <Link href="/tienda" className="hover:text-white transition">
                 Tienda
               </Link>
+              <Link href="/blog" className="hover:text-white transition">
+                Blog
+              </Link>
               <Link href="/cotizar" className="hover:text-white transition">
                 Cotizar
               </Link>
@@ -243,6 +246,7 @@ export default function Navbar() {
                 {[
                   { label: "Inicio", href: "/" },
                   { label: "Tienda", href: "/tienda" },
+                  { label: "Blog", href: "/blog" },
                   { label: "Cotizar", href: "/cotizar" },
                   { label: "Carrito", href: "/carrito" },
                 ].map((item) => (
