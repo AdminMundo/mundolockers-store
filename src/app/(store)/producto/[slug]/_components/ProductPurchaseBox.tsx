@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { useCart } from "@/lib/cart/use-cart";
 import type { AddCartLineInput, CartFlow } from "@/lib/cart/types";
 import type { ProductDetail, ProductVariant } from "@/lib/product";
+import { getEffectivePrice, isOnSale } from "@/lib/pricing";
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.lockersstore.cl";
 
@@ -43,13 +44,26 @@ function getDisplayPrice(
   product: ProductDetail,
   selected: ProductVariant | null,
 ): number | null {
-  const raw = selected?.price_clp ?? product.price_from_clp ?? null;
+  const raw =
+    selected?.price_clp ??
+    getEffectivePrice(product.price_from_clp, product.sale_price_clp) ??
+    null;
 
   if (typeof raw !== "number" || raw <= 0) {
     return null;
   }
 
   return raw;
+}
+
+// El precio de oferta es por producto, no por variante: si se eligió una
+// variante con precio propio, esa pasa a mandar y no hay tachado que mostrar.
+function getStrikethroughPrice(
+  product: ProductDetail,
+  selected: ProductVariant | null,
+): number | null {
+  if (selected?.price_clp) return null;
+  return isOnSale(product.price_from_clp, product.sale_price_clp) ? product.price_from_clp : null;
 }
 
 function buildProductCartInput(params: {
@@ -71,7 +85,7 @@ function buildProductCartInput(params: {
     quantity,
     flow,
     unitPrice: canPurchase ? displayPrice : null,
-    compareAtPrice: null,
+    compareAtPrice: getStrikethroughPrice(product, selected),
     variant: selected
       ? {
           id: selected.id,
@@ -109,6 +123,7 @@ export default function ProductPurchaseBox({
   }, [activeVariants, selectedId]);
 
   const displayPrice = getDisplayPrice(product, selected);
+  const strikethroughPrice = getStrikethroughPrice(product, selected);
   const canPurchase =
     displayPrice !== null && (activeVariants.length === 0 || selected !== null);
 
@@ -241,7 +256,12 @@ export default function ProductPurchaseBox({
 
         <div className="text-right">
           <div className="text-sm text-zinc-500">Precio neto</div>
-          <div className="text-lg font-semibold text-zinc-900">
+          {strikethroughPrice !== null && (
+            <div className="text-xs font-medium text-zinc-400 line-through">
+              {formatCLP(strikethroughPrice)}
+            </div>
+          )}
+          <div className={["text-lg font-semibold", strikethroughPrice !== null ? "text-[#0477BF]" : "text-zinc-900"].join(" ")}>
             {displayPrice !== null ? formatCLP(displayPrice) : "Consultar"}
           </div>
           {displayPrice !== null && (

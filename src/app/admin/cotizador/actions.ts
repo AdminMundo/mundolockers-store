@@ -4,6 +4,7 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { createSupabaseServer } from "@/lib/supabase/server";
 import { createSupabaseServerAuthClient } from "@/lib/supabase/auth-server";
+import { getEffectivePrice } from "@/lib/pricing";
 
 export type QuoteItemInput = {
   productId: string | null;
@@ -41,6 +42,7 @@ type ProductRow = {
   name: string;
   sku: string | null;
   price_clp: number | null;
+  sale_price_clp: number | null;
   image_url: string | null;
 };
 
@@ -80,7 +82,7 @@ export async function searchProductsForQuoteAction(
 
   const { data: products, error } = await supabase
     .from("products")
-    .select("id, name, sku, price_clp, image_url")
+    .select("id, name, sku, price_clp, sale_price_clp, image_url")
     .eq("is_active", true)
     .or(`name.ilike.%${q}%,sku.ilike.%${q}%`)
     .limit(8)
@@ -109,14 +111,15 @@ export async function searchProductsForQuoteAction(
     const productVariants = variantsByProduct.get(p.id) ?? [];
 
     if (productVariants.length === 0) {
-      if (typeof p.price_clp === "number" && p.price_clp > 0) {
+      const unitPrice = getEffectivePrice(p.price_clp, p.sale_price_clp);
+      if (typeof unitPrice === "number" && unitPrice > 0) {
         results.push({
           productId: p.id,
           variantId: null,
           sku: p.sku ?? "",
           name: p.name,
           variant: null,
-          unitPrice: p.price_clp,
+          unitPrice,
           imageUrl: p.image_url,
         });
       }
@@ -124,7 +127,7 @@ export async function searchProductsForQuoteAction(
     }
 
     for (const v of productVariants) {
-      const unitPrice = v.price_clp ?? p.price_clp;
+      const unitPrice = v.price_clp ?? getEffectivePrice(p.price_clp, p.sale_price_clp);
       if (typeof unitPrice !== "number" || unitPrice <= 0) continue;
       results.push({
         productId: p.id,

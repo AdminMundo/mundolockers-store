@@ -5,6 +5,7 @@ import { createSupabaseServerAuthClient } from "@/lib/supabase/auth-server";
 import { createFlowPayment } from "@/lib/flow";
 import { escapeHtml, sanitizeHeaderText, parseEmailList } from "@/lib/utils";
 import { sendTransactionalEmail } from "@/lib/resend";
+import { getEffectivePrice } from "@/lib/pricing";
 
 export type CreatePedidoResult =
   | { success: true; orderId: string }
@@ -105,6 +106,7 @@ type ProductRow = {
   sku: string | null;
   slug: string;
   price_clp: number | null;
+  sale_price_clp: number | null;
   is_active: boolean | null;
 };
 
@@ -175,7 +177,7 @@ async function buildValidatedOrder(
   const [productsRes, variantsRes] = await Promise.all([
     supabase
       .from("products")
-      .select("id, name, sku, slug, price_clp, is_active")
+      .select("id, name, sku, slug, price_clp, sale_price_clp, is_active")
       .in("id", productIds)
       .returns<ProductRow[]>(),
     variantIds.length > 0
@@ -211,7 +213,7 @@ async function buildValidatedOrder(
       return { ok: false, error: "Una de las variantes seleccionadas ya no está disponible." };
     }
 
-    const unitPrice = variant?.price_clp ?? product.price_clp;
+    const unitPrice = variant?.price_clp ?? getEffectivePrice(product.price_clp, product.sale_price_clp);
     if (typeof unitPrice !== "number" || unitPrice <= 0) {
       return { ok: false, error: `"${product.name}" no tiene precio de compra directa disponible.` };
     }

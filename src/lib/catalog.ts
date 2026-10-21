@@ -10,6 +10,26 @@ export type CatalogQuery = {
 
 const PAGE_SIZE = 12;
 
+// catalog_products es una vista sin sale_price_clp, así que se completa con
+// una segunda consulta directa a products en vez de tocar la vista.
+async function getSalePrices(
+  supabase: ReturnType<typeof createSupabasePublicServer>,
+  productIds: string[],
+): Promise<Map<string, number | null>> {
+  const map = new Map<string, number | null>();
+  if (productIds.length === 0) return map;
+
+  const { data } = await supabase
+    .from("products")
+    .select("id,sale_price_clp")
+    .in("id", productIds);
+
+  for (const row of data ?? []) {
+    map.set(row.id, row.sale_price_clp ?? null);
+  }
+  return map;
+}
+
 export async function getCatalog(params: CatalogQuery) {
   const supabase = createSupabasePublicServer();
 
@@ -27,6 +47,8 @@ export async function getCatalog(params: CatalogQuery) {
       { count: "exact" },
     )
     .eq("is_active", true);
+
+  // catalog_products (vista) no trae sale_price_clp; se mezcla aparte abajo.
 
   if (cat) {
     query = query.eq("category_slug", cat);
@@ -58,11 +80,14 @@ export async function getCatalog(params: CatalogQuery) {
     throw new Error(error.message);
   }
 
+  const items = data ?? [];
+  const salePrices = await getSalePrices(supabase, items.map((p) => p.product_id));
+
   const total = count ?? 0;
   const totalPages = Math.max(1, Math.ceil(total / PAGE_SIZE));
 
   return {
-    items: data ?? [],
+    items: items.map((p) => ({ ...p, sale_price_clp: salePrices.get(p.product_id) ?? null })),
     total,
     page,
     totalPages,
@@ -127,6 +152,7 @@ export type FeaturedProduct = {
   name: string;
   imageUrl: string | null;
   priceFromClp: number | null;
+  salePriceClp: number | null;
 };
 
 export async function getFeaturedProducts(limit = 8): Promise<FeaturedProduct[]> {
@@ -144,13 +170,17 @@ export async function getFeaturedProducts(limit = 8): Promise<FeaturedProduct[]>
     throw new Error(error.message);
   }
 
-  return (data ?? []).map((p) => ({
+  const items = data ?? [];
+  const salePrices = await getSalePrices(supabase, items.map((p) => p.product_id));
+
+  return items.map((p) => ({
     productId: p.product_id,
     slug: p.slug,
     sku: p.sku,
     name: p.name,
     imageUrl: p.image_url,
     priceFromClp: p.price_from_clp,
+    salePriceClp: salePrices.get(p.product_id) ?? null,
   }));
 }
 
@@ -160,6 +190,7 @@ export type RelatedProduct = {
   name: string;
   imageUrl: string | null;
   priceFromClp: number | null;
+  salePriceClp: number | null;
 };
 
 /**
@@ -190,11 +221,15 @@ export async function getRelatedProducts(
     [all[i], all[j]] = [all[j], all[i]];
   }
 
-  return all.slice(0, limit).map((p) => ({
+  const picked = all.slice(0, limit);
+  const salePrices = await getSalePrices(supabase, picked.map((p) => p.product_id));
+
+  return picked.map((p) => ({
     productId: p.product_id,
     slug: p.slug,
     name: p.name,
     imageUrl: p.image_url,
     priceFromClp: p.price_from_clp,
+    salePriceClp: salePrices.get(p.product_id) ?? null,
   }));
 }

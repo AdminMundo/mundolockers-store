@@ -42,6 +42,7 @@ export type ProductDetail = {
   category_name: string | null;
 
   price_from_clp: number;
+  sale_price_clp: number | null;
   image_url: string | null;
   tech_sheet_image_url: string | null;
   tech_sheet_pdf_url: string | null;
@@ -102,11 +103,12 @@ export async function getProductBySlug(slug: string): Promise<ProductDetail | nu
       .returns<ProductVariantRow[]>(),
     supabase
       .from("products")
-      .select("image_url,price_clp,tech_sheet_image_url,tech_sheet_pdf_url")
+      .select("image_url,price_clp,sale_price_clp,tech_sheet_image_url,tech_sheet_pdf_url")
       .eq("id", p.id)
       .maybeSingle<{
         image_url: string | null;
         price_clp: number | null;
+        sale_price_clp: number | null;
         tech_sheet_image_url: string | null;
         tech_sheet_pdf_url: string | null;
       }>(),
@@ -120,6 +122,7 @@ export async function getProductBySlug(slug: string): Promise<ProductDetail | nu
 
   // Precio: preferimos el de la tabla products directamente (evita null en vistas)
   const resolvedPriceClp = productRes.data?.price_clp ?? p.price_clp ?? null;
+  const resolvedSalePriceClp = productRes.data?.sale_price_clp ?? null;
 
   return {
     id: p.id,
@@ -136,6 +139,7 @@ export async function getProductBySlug(slug: string): Promise<ProductDetail | nu
     category_name: p.category_name ?? null,
 
     price_from_clp: safeNumber(resolvedPriceClp),
+    sale_price_clp: resolvedSalePriceClp,
     image_url: image_url ?? resolveProductImageUrl(p.slug),
     tech_sheet_image_url,
     tech_sheet_pdf_url,

@@ -8,6 +8,7 @@ import Link from "next/link";
 import { useCart } from "@/lib/cart/use-cart";
 import type { AddCartLineInput, CartFlow } from "@/lib/cart/types";
 import type { CategoryNav } from "@/lib/catalog";
+import { getEffectivePrice, isOnSale } from "@/lib/pricing";
 
 function cn(...c: (string | false | null | undefined)[]) {
   return c.filter(Boolean).join(" ");
@@ -20,6 +21,7 @@ type CatalogItem = {
   name: string;
   category_slug: string;
   price_from_clp: number;
+  sale_price_clp: number | null;
   has_in_stock: boolean;
   image_url: string | null;
   hover_image_url: string | null;
@@ -42,6 +44,7 @@ function buildCatalogCartInput(
   flow: CartFlow,
 ): AddCartLineInput {
   const canPurchase = isPurchasable(item);
+  const effectivePrice = getEffectivePrice(item.price_from_clp, item.sale_price_clp);
 
   return {
     productId: item.product_id,
@@ -49,8 +52,8 @@ function buildCatalogCartInput(
     sku: item.sku,
     name: item.name,
     imageUrl: item.image_url,
-    unitPrice: canPurchase ? item.price_from_clp : null,
-    compareAtPrice: null,
+    unitPrice: canPurchase ? effectivePrice : null,
+    compareAtPrice: isOnSale(item.price_from_clp, item.sale_price_clp) ? item.price_from_clp : null,
     quantity: 1,
     flow,
     canPurchase,
@@ -290,9 +293,22 @@ export default function CatalogClient({
                       {p.category_slug}
                     </div>
                     <div className="mt-1 text-sm text-zinc-700">
-                      {canPurchase
-                        ? `$${Number(p.price_from_clp).toLocaleString("es-CL")} + IVA`
-                        : "Consultar precio"}
+                      {canPurchase ? (
+                        isOnSale(p.price_from_clp, p.sale_price_clp) ? (
+                          <span className="inline-flex items-baseline gap-1.5">
+                            <span className="text-xs text-zinc-400 line-through">
+                              ${Number(p.price_from_clp).toLocaleString("es-CL")}
+                            </span>
+                            <span className="font-medium text-[#0477BF]">
+                              ${Number(p.sale_price_clp).toLocaleString("es-CL")} + IVA
+                            </span>
+                          </span>
+                        ) : (
+                          `$${Number(p.price_from_clp).toLocaleString("es-CL")} + IVA`
+                        )
+                      ) : (
+                        "Consultar precio"
+                      )}
                     </div>
                   </div>
 

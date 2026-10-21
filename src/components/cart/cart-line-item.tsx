@@ -86,9 +86,18 @@ export function CartLineItem({
               {isPurchase ? (
                 <div className="text-sm text-neutral-600">
                   Unitario:{" "}
-                  <span className="font-medium text-neutral-950">
-                    {formatClp(unitPrice)}
-                  </span>
+                  {item.pricing.compareAtPrice ? (
+                    <span className="inline-flex items-baseline gap-1.5">
+                      <span className="text-xs text-neutral-400 line-through">
+                        {formatClp(item.pricing.compareAtPrice)}
+                      </span>
+                      <span className="font-medium text-[#0477BF]">{formatClp(unitPrice)}</span>
+                    </span>
+                  ) : (
+                    <span className="font-medium text-neutral-950">
+                      {formatClp(unitPrice)}
+                    </span>
+                  )}
                 </div>
               ) : (
                 <div className="text-sm text-neutral-600">

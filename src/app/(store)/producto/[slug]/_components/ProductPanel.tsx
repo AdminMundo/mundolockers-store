@@ -30,7 +30,7 @@ export default function ProductPanel({
         )}
       </header>
 
-      <PriceLine priceFrom={product.price_from_clp} />
+      <PriceLine priceFrom={product.price_from_clp} salePriceClp={product.sale_price_clp} />
 
       <ProductPurchaseBox product={product} />
 

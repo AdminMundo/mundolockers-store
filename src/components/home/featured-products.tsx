@@ -4,12 +4,14 @@ import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import WhatsAppButton from "@/components/whatsapp-button";
 import { getFeaturedProducts } from "@/lib/catalog";
+import { isOnSale } from "@/lib/pricing";
 
 type CardProduct = {
   title: string;
   href: string;
   image: string;
   price: string | null;
+  salePrice: string | null;
 };
 
 function formatCLP(value: number): string {
@@ -84,12 +86,19 @@ function ProductCard({ p }: { p: CardProduct }) {
 
               <p className="mt-1 text-sm text-zinc-600 min-h-[20px] dark:text-zinc-400">
                 {p.price ? (
-                  <>
-                    Desde{" "}
-                    <span className="font-semibold text-zinc-900 dark:text-zinc-50">
-                      {p.price}
+                  p.salePrice ? (
+                    <span className="inline-flex items-baseline gap-1.5">
+                      <span className="text-xs text-zinc-400 line-through">{p.price}</span>
+                      <span className="font-semibold text-[#0477BF]">{p.salePrice}</span>
                     </span>
-                  </>
+                  ) : (
+                    <>
+                      Desde{" "}
+                      <span className="font-semibold text-zinc-900 dark:text-zinc-50">
+                        {p.price}
+                      </span>
+                    </>
+                  )
                 ) : (
                   <span className="text-zinc-500 dark:text-zinc-400">Consultar precio</span>
                 )}
@@ -124,6 +133,10 @@ export default async function FeaturedProductsSection() {
       href: `/producto/${p.slug}`,
       image: p.imageUrl as string,
       price: p.priceFromClp ? formatCLP(p.priceFromClp) : null,
+      salePrice:
+        p.priceFromClp && isOnSale(p.priceFromClp, p.salePriceClp)
+          ? formatCLP(p.salePriceClp!)
+          : null,
     }));
 
   if (items.length === 0) return null;

@@ -3,6 +3,7 @@ import { requireAdmin } from "@/lib/auth/admin";
 import { createSupabaseServer } from "@/lib/supabase/server";
 import { QuoteBuilder, type QuoteBuilderPrefill } from "@/app/admin/cotizador/QuoteBuilder";
 import type { QuoteItemInput } from "@/app/admin/cotizador/actions";
+import { getEffectivePrice } from "@/lib/pricing";
 
 export const metadata: Metadata = {
   title: "Nueva cotización | Admin",
@@ -30,11 +31,14 @@ async function buildPrefillFromCotizacion(id: string): Promise<QuoteBuilderPrefi
   const productosRaw = Array.isArray(c.productos) ? (c.productos as QuoteProductRaw[]) : [];
   const skus = productosRaw.map((p) => p.sku).filter((s): s is string => !!s);
 
-  const productMap = new Map<string, { id: string; name: string; price_clp: number | null }>();
+  const productMap = new Map<
+    string,
+    { id: string; name: string; price_clp: number | null; sale_price_clp: number | null }
+  >();
   if (skus.length > 0) {
     const { data: products } = await supabase
       .from("products")
-      .select("id,name,sku,price_clp")
+      .select("id,name,sku,price_clp,sale_price_clp")
       .in("sku", skus);
     for (const p of products ?? []) {
       if (p.sku) productMap.set(p.sku, p);
@@ -43,6 +47,7 @@ async function buildPrefillFromCotizacion(id: string): Promise<QuoteBuilderPrefi
 
   const items: QuoteItemInput[] = productosRaw.map((p) => {
     const match = p.sku ? productMap.get(p.sku) : undefined;
+    const matchPrice = match ? getEffectivePrice(match.price_clp, match.sale_price_clp) : null;
     return {
       productId: match?.id ?? null,
       variantId: null,
@@ -50,7 +55,7 @@ async function buildPrefillFromCotizacion(id: string): Promise<QuoteBuilderPrefi
       name: match?.name ?? p.name ?? "Producto",
       variant: p.variant ?? null,
       quantity: p.quantity ?? 1,
-      unitPrice: match?.price_clp ?? p.unitPrice ?? 0,
+      unitPrice: matchPrice ?? p.unitPrice ?? 0,
     };
   });
 

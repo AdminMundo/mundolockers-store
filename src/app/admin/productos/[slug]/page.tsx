@@ -55,7 +55,7 @@ export default async function AdminProductoDetallePage({
 
   const supabase = createSupabaseServer();
 
-  const SELECT = "id, sku, slug, name, description, specs, category_id, price_clp, has_in_stock, is_active, is_featured, image_url, hover_image_url, tech_sheet_image_url, tech_sheet_pdf_url, gallery_urls";
+  const SELECT = "id, sku, slug, name, description, specs, category_id, price_clp, sale_price_clp, has_in_stock, is_active, is_featured, image_url, hover_image_url, tech_sheet_image_url, tech_sheet_pdf_url, gallery_urls";
 
   // Buscar por SKU primero (más estable), luego por slug como fallback
   let { data, error } = await supabase
@@ -172,6 +172,12 @@ export default async function AdminProductoDetallePage({
       {query.error === "invalid_price" ? (
         <div className="rounded-2xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
           El precio ingresado no es válido.
+        </div>
+      ) : null}
+
+      {query.error === "invalid_sale_price" ? (
+        <div className="rounded-2xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+          El precio de oferta debe ser mayor a cero y menor al precio base.
         </div>
       ) : null}
 
@@ -314,6 +320,28 @@ export default async function AdminProductoDetallePage({
                   defaultValue={data.price_clp ?? ""}
                   className="w-full rounded-2xl border border-black/10 bg-white px-4 py-3 text-sm outline-none transition focus:border-black/20"
                 />
+              </div>
+
+              <div className="space-y-2">
+                <label
+                  htmlFor="sale_price_clp"
+                  className="text-sm font-medium text-black/70"
+                >
+                  Precio de oferta (opcional)
+                </label>
+                <input
+                  id="sale_price_clp"
+                  name="sale_price_clp"
+                  type="number"
+                  min="0"
+                  step="1"
+                  defaultValue={data.sale_price_clp ?? ""}
+                  placeholder="Déjalo vacío si no está en oferta"
+                  className="w-full rounded-2xl border border-black/10 bg-white px-4 py-3 text-sm outline-none transition focus:border-black/20"
+                />
+                <p className="text-xs text-black/45">
+                  Se muestra tachado el precio base y en oferta este valor. Debe ser menor al precio base.
+                </p>
               </div>
 
               <div className="space-y-2">
@@ -466,6 +494,13 @@ export default async function AdminProductoDetallePage({
                 <p className="text-sm text-black/45">Precio base</p>
                 <p className="mt-2 text-sm font-medium text-black">
                   {formatPrice(data.price_clp)}
+                </p>
+              </div>
+
+              <div className="rounded-[24px] border border-black/10 bg-[#F8F8FA] p-4">
+                <p className="text-sm text-black/45">Precio de oferta</p>
+                <p className="mt-2 text-sm font-medium text-black">
+                  {data.sale_price_clp ? formatPrice(data.sale_price_clp) : "Sin oferta"}
                 </p>
               </div>
 

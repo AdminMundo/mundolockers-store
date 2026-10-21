@@ -103,6 +103,12 @@ export default async function AdminNuevoProductoPage({
         </div>
       ) : null}
 
+      {query.error === "invalid_sale_price" ? (
+        <div className="rounded-2xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+          El precio de oferta debe ser mayor a cero y menor al precio base.
+        </div>
+      ) : null}
+
       {query.error === "slug_exists" ? (
         <div className="rounded-2xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
           Ya existe un producto con ese slug.
@@ -227,6 +233,24 @@ export default async function AdminNuevoProductoPage({
                 type="number"
                 min="0"
                 step="1"
+                className="w-full rounded-2xl border border-black/10 bg-white px-4 py-3 text-sm outline-none transition focus:border-black/20"
+              />
+            </div>
+
+            <div className="space-y-2">
+              <label
+                htmlFor="sale_price_clp"
+                className="text-sm font-medium text-black/70"
+              >
+                Precio de oferta (opcional)
+              </label>
+              <input
+                id="sale_price_clp"
+                name="sale_price_clp"
+                type="number"
+                min="0"
+                step="1"
+                placeholder="Déjalo vacío si no está en oferta"
                 className="w-full rounded-2xl border border-black/10 bg-white px-4 py-3 text-sm outline-none transition focus:border-black/20"
               />
             </div>

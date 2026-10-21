@@ -66,6 +66,9 @@ export async function updateProductAction(formData: FormData) {
   const priceRaw = String(formData.get("price_clp") ?? "").trim();
   const price_clp = priceRaw.length > 0 ? Number.parseInt(priceRaw, 10) : null;
 
+  const salePriceRaw = String(formData.get("sale_price_clp") ?? "").trim();
+  const sale_price_clp = salePriceRaw.length > 0 ? Number.parseInt(salePriceRaw, 10) : null;
+
   const isActive = formData.get("is_active") === "on";
   const isFeatured = formData.get("is_featured") === "on";
   const hasInStock = formData.get("has_in_stock") === "on";
@@ -76,6 +79,16 @@ export async function updateProductAction(formData: FormData) {
 
   if (priceRaw && Number.isNaN(price_clp)) {
     redirect(`/admin/productos/${originalKey}?error=invalid_price`);
+  }
+
+  if (
+    salePriceRaw &&
+    (Number.isNaN(sale_price_clp) ||
+      sale_price_clp! <= 0 ||
+      !price_clp ||
+      sale_price_clp! >= price_clp)
+  ) {
+    redirect(`/admin/productos/${originalKey}?error=invalid_sale_price`);
   }
 
   const supabase = createSupabaseServer();
@@ -113,6 +126,7 @@ export async function updateProductAction(formData: FormData) {
       description,
       specs,
       price_clp,
+      sale_price_clp,
       image_url,
       hover_image_url,
       tech_sheet_image_url,
@@ -135,6 +149,7 @@ export async function updateProductAction(formData: FormData) {
   revalidatePath("/tienda");
   revalidatePath("/tienda/[categoria]", "page");
   revalidatePath(`/producto/${slug}`);
+  revalidatePath("/");
 
   redirect(`/admin/productos/${sku ?? slug}?saved=1`);
 }
@@ -182,6 +197,9 @@ export async function createProductAction(formData: FormData) {
   const priceRaw = String(formData.get("price_clp") ?? "").trim();
   const price_clp = priceRaw.length > 0 ? Number.parseInt(priceRaw, 10) : null;
 
+  const salePriceRaw = String(formData.get("sale_price_clp") ?? "").trim();
+  const sale_price_clp = salePriceRaw.length > 0 ? Number.parseInt(salePriceRaw, 10) : null;
+
   const hasInStock = formData.get("has_in_stock") === "on";
   const isActive = formData.get("is_active") === "on";
   const isFeatured = formData.get("is_featured") === "on";
@@ -192,6 +210,16 @@ export async function createProductAction(formData: FormData) {
 
   if (priceRaw && Number.isNaN(price_clp)) {
     redirect("/admin/productos/nuevo?error=invalid_price");
+  }
+
+  if (
+    salePriceRaw &&
+    (Number.isNaN(sale_price_clp) ||
+      sale_price_clp! <= 0 ||
+      !price_clp ||
+      sale_price_clp! >= price_clp)
+  ) {
+    redirect("/admin/productos/nuevo?error=invalid_sale_price");
   }
 
   const supabase = createSupabaseServer();
@@ -227,6 +255,7 @@ export async function createProductAction(formData: FormData) {
       description,
       specs,
       price_clp,
+      sale_price_clp,
       image_url,
       hover_image_url,
       tech_sheet_image_url,
@@ -250,6 +279,7 @@ export async function createProductAction(formData: FormData) {
   revalidatePath("/tienda/[categoria]", "page");
   revalidatePath(`/admin/productos/${data.slug}`);
   revalidatePath(`/producto/${data.slug}`);
+  revalidatePath("/");
 
   redirect(`/admin/productos/${data.slug}?created=1`);
 }
@@ -295,6 +325,7 @@ export async function deleteProductAction(formData: FormData) {
   revalidatePath("/tienda/[categoria]", "page");
   revalidatePath(`/admin/productos/${product.slug}`);
   revalidatePath(`/producto/${product.slug}`);
+  revalidatePath("/");
 
   redirect("/admin/productos?deleted=1");
 }
