@@ -6,6 +6,7 @@ import { createFlowPayment } from "@/lib/flow";
 import { escapeHtml, sanitizeHeaderText, parseEmailList } from "@/lib/utils";
 import { sendTransactionalEmail } from "@/lib/resend";
 import { getEffectivePrice } from "@/lib/pricing";
+import { getShippingCost } from "@/lib/shipping";
 
 export type CreatePedidoResult =
   | { success: true; orderId: string }
@@ -163,7 +164,7 @@ async function buildValidatedOrder(
   supabase: ReturnType<typeof createSupabaseServer>,
   productosJson: string,
 ): Promise<
-  | { ok: true; productos: Record<string, unknown>[]; subtotal: number; total: number }
+  | { ok: true; productos: Record<string, unknown>[]; subtotal: number }
   | { ok: false; error: string }
 > {
   const requested = parseRequestedLines(productosJson);
@@ -232,10 +233,7 @@ async function buildValidatedOrder(
     });
   }
 
-  const iva = Math.round(subtotal * 0.19);
-  const total = subtotal + iva;
-
-  return { ok: true, productos, subtotal, total };
+  return { ok: true, productos, subtotal };
 }
 
 export async function createPedidoAction(
@@ -248,7 +246,14 @@ export async function createPedidoAction(
     if (!validated.ok) {
       return { success: false, error: validated.error };
     }
-    const { productos, subtotal, total } = validated;
+    const { productos, subtotal } = validated;
+
+    // Costo de despacho real: se recalcula aquí (nunca se confía en un monto
+    // que venga del navegador) a partir de la región/comuna enviadas.
+    const costoDespacho =
+      input.tipo_entrega === "despacho" ? getShippingCost(input.region, input.ciudad) : 0;
+    const iva = Math.round(subtotal * 0.19);
+    const total = subtotal + iva + costoDespacho;
 
     const authClient = await createSupabaseServerAuthClient();
     const {
@@ -279,7 +284,7 @@ export async function createPedidoAction(
         direccion: input.direccion || null,
         productos,
         subtotal,
-        costo_despacho: 0,
+        costo_despacho: costoDespacho,
         total,
         tipo_pago: input.tipo_pago,
         estado: "recibido",
@@ -324,6 +329,7 @@ export async function createPedidoAction(
               ${input.empresa ? `<p><strong>Empresa:</strong> ${escapeHtml(input.empresa)}</p>` : ""}
               <p><strong>Método de pago:</strong> ${metodoPago}</p>
               <p><strong>Entrega:</strong> ${entrega}</p>
+              <p><strong>Costo de despacho:</strong> ${costoDespacho > 0 ? `$${costoDespacho.toLocaleString("es-CL")}` : (input.tipo_entrega === "despacho" ? "Gratis o por coordinar" : "—")}</p>
               <p><strong>Total:</strong> $${total.toLocaleString("es-CL")}</p>
               ${input.notas ? `<p><strong>Notas:</strong> ${escapeHtml(input.notas)}</p>` : ""}
               <hr/>

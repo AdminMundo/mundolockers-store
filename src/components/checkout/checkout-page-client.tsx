@@ -11,6 +11,12 @@ import { useCart } from "@/lib/cart/use-cart";
 import type { CartLine, CartState } from "@/lib/cart/types";
 import { CartHero } from "@/components/cart/cart-hero";
 import { createPedidoAction, createFlowPaymentAction } from "@/app/(store)/checkout/actions";
+import {
+  COMUNAS_RM,
+  REGIONES_CHILE,
+  esRegionMetropolitana,
+  getShippingQuote,
+} from "@/lib/shipping";
 
 type Props = {
   initialState: CartState;
@@ -82,7 +88,7 @@ function validateCheckoutForm(form: CheckoutFormState): CheckoutFormErrors {
 
   if (form.shippingMode === "despacho") {
     if (!form.region.trim()) {
-      errors.region = "Selecciona o escribe la región.";
+      errors.region = "Selecciona la región.";
     }
 
     if (!form.commune.trim()) {
@@ -127,6 +133,38 @@ function TextInput(props: {
         placeholder={placeholder}
         className="min-h-12 w-full rounded-2xl border border-black/10 bg-white px-4 text-sm text-neutral-950 outline-none transition placeholder:text-neutral-400 focus:border-neutral-900"
       />
+      <FieldError message={error} />
+    </label>
+  );
+}
+
+function SelectInput(props: {
+  label: string;
+  value: string;
+  onChange: (value: string) => void;
+  options: readonly string[];
+  placeholder: string;
+  error?: string;
+}) {
+  const { label, value, onChange, options, placeholder, error } = props;
+
+  return (
+    <label className="block">
+      <span className="mb-2 block text-sm font-medium text-neutral-800">
+        {label}
+      </span>
+      <select
+        value={value}
+        onChange={(event) => onChange(event.target.value)}
+        className="min-h-12 w-full rounded-2xl border border-black/10 bg-white px-4 text-sm text-neutral-950 outline-none transition focus:border-neutral-900"
+      >
+        <option value="">{placeholder}</option>
+        {options.map((option) => (
+          <option key={option} value={option}>
+            {option}
+          </option>
+        ))}
+      </select>
       <FieldError message={error} />
     </label>
   );
@@ -189,6 +227,41 @@ function RadioCard<T extends string>(props: {
   );
 }
 
+function ShippingQuoteNotice({ region, commune }: { region: string; commune: string }) {
+  if (!region.trim()) return null;
+  // En RM la comuna es un selector: mientras no elija ninguna, no hay nada
+  // que avisar todavía (distinto de "esta comuna no tiene tarifa").
+  if (esRegionMetropolitana(region) && !commune.trim()) return null;
+
+  const quote = getShippingQuote(region, commune);
+
+  if (quote.status === "sin_region") return null;
+
+  if (quote.status === "gratis") {
+    return (
+      <div className="mt-3 rounded-2xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm font-medium text-emerald-700">
+        ¡Despacho gratis!
+      </div>
+    );
+  }
+
+  if (quote.status === "pagado") {
+    return (
+      <div className="mt-3 rounded-2xl border border-[#0477BF]/30 bg-[#0477BF]/10 px-4 py-3 text-sm font-medium text-[#04395c]">
+        Costo de despacho: {formatClp(quote.cost)}
+      </div>
+    );
+  }
+
+  return (
+    <div className="mt-3 rounded-2xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm leading-6 text-amber-800">
+      {esRegionMetropolitana(region)
+        ? "Aún no tenemos una tarifa definida para esta comuna. Un vendedor se contactará contigo para coordinar el valor del envío."
+        : "Para despachos fuera de la RM un vendedor se contactará contigo para coordinar el valor del envío."}
+    </div>
+  );
+}
+
 function CheckoutLineItem({ item }: { item: CartLine }) {
   const subtotal = getPurchaseLineSubtotal(item);
 
@@ -245,8 +318,25 @@ export function CheckoutPageClient({ initialState }: Props) {
 
   const subtotal = summary.purchaseSubtotal;
   const iva = Math.round(subtotal * 0.19);
-  const total = subtotal + iva;
-  const shippingLabel = "Se confirma según comuna y volumen";
+
+  const shippingQuote = useMemo(
+    () => getShippingQuote(form.region, form.commune),
+    [form.region, form.commune],
+  );
+  const shippingCost =
+    form.shippingMode === "despacho" && shippingQuote.status === "pagado"
+      ? shippingQuote.cost
+      : 0;
+  const shippingLabel =
+    form.shippingMode === "retiro"
+      ? "Retiro en bodega"
+      : shippingQuote.status === "gratis"
+        ? "Gratis"
+        : shippingQuote.status === "pagado"
+          ? formatClp(shippingQuote.cost)
+          : "Se confirma según comuna";
+
+  const total = subtotal + iva + shippingCost;
   const totalLabel = formatClp(total);
 
   const purchaseCountLabel = useMemo(() => {
@@ -492,25 +582,43 @@ export function CheckoutPageClient({ initialState }: Props) {
 
               {form.shippingMode === "despacho" ? (
                 <div className="mt-5 grid gap-4 sm:grid-cols-2">
-                  <TextInput
+                  <SelectInput
                     label="Región"
                     value={form.region}
                     onChange={(value) =>
-                      setForm((current) => ({ ...current, region: value }))
+                      setForm((current) => ({ ...current, region: value, commune: "" }))
                     }
-                    placeholder="Región Metropolitana"
+                    options={REGIONES_CHILE}
+                    placeholder="Selecciona tu región"
                     error={errors.region}
                   />
 
-                  <TextInput
-                    label="Comuna"
-                    value={form.commune}
-                    onChange={(value) =>
-                      setForm((current) => ({ ...current, commune: value }))
-                    }
-                    placeholder="Santiago"
-                    error={errors.commune}
-                  />
+                  {esRegionMetropolitana(form.region) ? (
+                    <SelectInput
+                      label="Comuna"
+                      value={form.commune}
+                      onChange={(value) =>
+                        setForm((current) => ({ ...current, commune: value }))
+                      }
+                      options={COMUNAS_RM.map((c) => c.nombre)}
+                      placeholder="Selecciona tu comuna"
+                      error={errors.commune}
+                    />
+                  ) : (
+                    <TextInput
+                      label="Comuna"
+                      value={form.commune}
+                      onChange={(value) =>
+                        setForm((current) => ({ ...current, commune: value }))
+                      }
+                      placeholder="Nombre de tu comuna"
+                      error={errors.commune}
+                    />
+                  )}
+
+                  <div className="sm:col-span-2">
+                    <ShippingQuoteNotice region={form.region} commune={form.commune} />
+                  </div>
 
                   <div className="sm:col-span-2">
                     <TextInput
