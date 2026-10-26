@@ -1,6 +1,9 @@
 "use server";
 
+import { after } from "next/server";
 import { Resend } from "resend";
+import { enviarLeadAlCrm } from "@/lib/crm";
+import { CANTIDADES_LOCKERS, PLAZOS, TIPOS_CLIENTE, etiqueta } from "@/lib/crm-preguntas";
 import { createSupabaseServer } from "@/lib/supabase/server";
 import { createSupabaseServerAuthClient } from "@/lib/supabase/auth-server";
 import { escapeHtml, sanitizeHeaderText, parseEmailList } from "@/lib/utils";
@@ -178,8 +181,27 @@ export async function submitQuoteAction(
   const correo = String(formData.get("correo") ?? "").trim();
   const telefono = String(formData.get("telefono") ?? "").trim();
   const tipo_proyecto = String(formData.get("tipo_proyecto") ?? "").trim();
-  const mensaje = String(formData.get("mensaje") ?? "").trim();
+  const mensajeCliente = String(formData.get("mensaje") ?? "").trim();
   const productosRaw = String(formData.get("productos") ?? "").trim();
+
+  // Preguntas del puntaje del CRM: solo se aceptan los valores de la lista.
+  const opcion = (opciones: readonly (readonly [string, string])[], campo: string) => {
+    const valor = String(formData.get(campo) ?? "");
+    return opciones.some(([v]) => v === valor) ? valor : "";
+  };
+  const tipo_cliente = opcion(TIPOS_CLIENTE, "tipo_cliente");
+  const cantidad_lockers = opcion(CANTIDADES_LOCKERS, "cantidad_lockers");
+  const plazo = opcion(PLAZOS, "plazo");
+
+  // Las respuestas también quedan en la cotización y en el correo de aviso.
+  const mensaje = [
+    mensajeCliente,
+    tipo_cliente && `Tipo de lugar: ${etiqueta(TIPOS_CLIENTE, tipo_cliente)}`,
+    cantidad_lockers && `Cantidad de lockers: ${etiqueta(CANTIDADES_LOCKERS, cantidad_lockers)}`,
+    plazo && `Lo necesita: ${etiqueta(PLAZOS, plazo)}`,
+  ]
+    .filter(Boolean)
+    .join("\n");
 
   if (!nombre || !correo) {
     return { success: false, error: "Nombre y correo son obligatorios." };
@@ -220,6 +242,30 @@ export async function submitQuoteAction(
         "No se pudo guardar la solicitud. Intenta por WhatsApp o vuelve a intentarlo.",
     };
   }
+
+  // Copia al CRM de ventas, después de responder al cliente (no lo hace esperar).
+  const montoCotizado = (productos ?? []).reduce(
+    (total, p) => (p.unitPrice != null ? total + p.unitPrice * p.quantity : total),
+    0,
+  );
+  after(() =>
+    enviarLeadAlCrm({
+      nombre,
+      empresa,
+      correo,
+      telefono,
+      rut,
+      tipo_cliente,
+      cantidad_lockers,
+      plazo,
+      productos: productos
+        ?.map((p) => `${p.name}${p.variant ? ` (${p.variant})` : ""} x${p.quantity}`)
+        .join("; "),
+      monto_cotizado: montoCotizado > 0 ? montoCotizado : undefined,
+      mensaje: [tipo_proyecto && `Proyecto: ${tipo_proyecto}`, mensajeCliente].filter(Boolean).join("\n"),
+      canal: productos ? "cotizacion_directa" : undefined,
+    }),
+  );
 
   // Notificación por email (no bloquea si falla)
   const resendKey = process.env.RESEND_API_KEY;

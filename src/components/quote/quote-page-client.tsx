@@ -7,6 +7,7 @@ import { CartHero } from "@/components/cart/cart-hero";
 import { CartLineItem } from "@/components/cart/cart-line-item";
 import { useCart } from "@/lib/cart/use-cart";
 import type { CartState } from "@/lib/cart/types";
+import { CANTIDADES_LOCKERS, PLAZOS, TIPOS_CLIENTE } from "@/lib/crm-preguntas";
 import {
   submitQuoteAction,
   type QuoteActionState,
@@ -262,6 +263,32 @@ export function QuotePageClient({ initialState }: Props) {
                         className="min-h-12 w-full rounded-2xl border border-black/10 bg-white px-4 text-sm text-neutral-950 outline-none transition placeholder:text-neutral-400 focus:border-neutral-900"
                       />
                     </label>
+
+                    {(
+                      [
+                        ["tipo_cliente", "Tipo de lugar", TIPOS_CLIENTE],
+                        ["cantidad_lockers", "Cantidad aproximada de lockers", CANTIDADES_LOCKERS],
+                        ["plazo", "¿Para cuándo lo necesitas?", PLAZOS],
+                      ] as const
+                    ).map(([name, label, opciones]) => (
+                      <label key={name} className={`block ${name === "plazo" ? "sm:col-span-2" : ""}`}>
+                        <span className="mb-2 block text-sm font-medium text-neutral-800">
+                          {label}
+                        </span>
+                        <select
+                          name={name}
+                          defaultValue=""
+                          className="min-h-12 w-full rounded-2xl border border-black/10 bg-white px-4 text-sm text-neutral-950 outline-none transition focus:border-neutral-900"
+                        >
+                          <option value="">Selecciona</option>
+                          {opciones.map(([v, texto]) => (
+                            <option key={v} value={v}>
+                              {texto}
+                            </option>
+                          ))}
+                        </select>
+                      </label>
+                    ))}
 
                     <label className="block sm:col-span-2">
                       <span className="mb-2 block text-sm font-medium text-neutral-800">
