@@ -57,6 +57,9 @@ const COMUNAS_25000 = [
   "La Reina",
   "Las Condes",
   "Vitacura",
+  "El Bosque",
+  "La Pintana",
+  "Lo Barnechea",
 ];
 
 const COMUNAS_30000 = [
@@ -82,19 +85,15 @@ const COMUNAS_30000 = [
   "Talagante",
 ];
 
-// Comunas de la Región Metropolitana sin tarifa confirmada todavía (El Bosque,
-// La Pintana y Lo Barnechea no vinieron en ninguna de las 3 listas que nos
-// pasaron). Igual aparecen en el selector para que el cliente elija su comuna
-// real, pero el costo queda "por coordinar" hasta tener el valor correcto.
-const COMUNAS_SIN_TARIFA = ["El Bosque", "La Pintana", "Lo Barnechea"];
+type ComunaRM = { nombre: string; costoDespacho: number };
 
-type ComunaRM = { nombre: string; costoDespacho: number | null };
-
+// Las 52 comunas de la Región Metropolitana, cada una con su tarifa: gratis,
+// $25.000 o $30.000 (todas las que no son "gratis" ni "$30.000" quedan en
+// "$25.000", como se definió).
 export const COMUNAS_RM: ComunaRM[] = [
   ...COMUNAS_GRATIS.map((nombre) => ({ nombre, costoDespacho: 0 })),
   ...COMUNAS_25000.map((nombre) => ({ nombre, costoDespacho: 25000 })),
   ...COMUNAS_30000.map((nombre) => ({ nombre, costoDespacho: 30000 })),
-  ...COMUNAS_SIN_TARIFA.map((nombre) => ({ nombre, costoDespacho: null })),
 ].sort((a, b) => a.nombre.localeCompare(b.nombre, "es"));
 
 export function esRegionMetropolitana(region: string): boolean {
@@ -113,7 +112,7 @@ export function getShippingQuote(region: string, comuna: string): ShippingQuote 
   if (!esRegionMetropolitana(region)) return { status: "coordinar" };
 
   const match = COMUNAS_RM.find((c) => c.nombre === comuna);
-  if (!match || match.costoDespacho === null) return { status: "coordinar" };
+  if (!match) return { status: "coordinar" };
 
   return match.costoDespacho === 0
     ? { status: "gratis", cost: 0 }
