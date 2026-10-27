@@ -7,6 +7,7 @@ import { CANTIDADES_LOCKERS, PLAZOS, TIPOS_CLIENTE, etiqueta } from "@/lib/crm-p
 import { createSupabaseServer } from "@/lib/supabase/server";
 import { createSupabaseServerAuthClient } from "@/lib/supabase/auth-server";
 import { escapeHtml, sanitizeHeaderText, parseEmailList } from "@/lib/utils";
+import { getEffectivePrice } from "@/lib/pricing";
 
 export type QuoteActionState = {
   success: boolean;
@@ -59,6 +60,66 @@ function parseQuoteProducts(raw: string): QuoteProduct[] | null {
   }
 
   return products.length > 0 ? products : null;
+}
+
+type PrecioProducto = { id: string; sku: string | null; slug: string; price_clp: number | null; sale_price_clp: number | null };
+type PrecioVariante = {
+  product_id: string;
+  name: string | null;
+  color: string | null;
+  door_color: string | null;
+  price_clp: number | null;
+};
+
+// Mismo nombre de variante que muestra ProductPurchaseBox y que llega en la cotización.
+function nombreVariante(v: PrecioVariante): string {
+  return v.door_color || v.color || v.name || "Variante";
+}
+
+/**
+ * Monto neto (sin IVA) de la cotización con los precios del catálogo, no con los
+ * del navegador, igual que el checkout. Cada producto se busca por su SKU o slug, y
+ * la variante por su nombre. Si alguno no se encuentra o no tiene precio, no hay monto.
+ */
+async function montoNetoCatalogo(
+  supabase: ReturnType<typeof createSupabaseServer>,
+  productos: QuoteProduct[] | null,
+): Promise<number | undefined> {
+  if (!productos) return undefined;
+  const skus = [...new Set(productos.map((p) => p.sku))];
+  if (skus.some((s) => !s)) return undefined;
+  const lista = skus as string[];
+
+  const columnas = "id, sku, slug, price_clp, sale_price_clp";
+  const [porSku, porSlug] = await Promise.all([
+    supabase.from("products").select(columnas).eq("is_active", true).in("sku", lista).returns<PrecioProducto[]>(),
+    supabase.from("products").select(columnas).eq("is_active", true).in("slug", lista).returns<PrecioProducto[]>(),
+  ]);
+  if (porSku.error || porSlug.error) return undefined;
+  const catalogo = [...(porSku.data ?? []), ...(porSlug.data ?? [])];
+  if (catalogo.length === 0) return undefined;
+
+  const variantes = await supabase
+    .from("product_variants")
+    .select("product_id, name, color, door_color, price_clp")
+    .eq("is_active", true)
+    .in("product_id", [...new Set(catalogo.map((p) => p.id))])
+    .returns<PrecioVariante[]>();
+  if (variantes.error) return undefined;
+
+  let total = 0;
+  for (const item of productos) {
+    const producto = catalogo.find((p) => p.sku === item.sku || p.slug === item.sku);
+    if (!producto) return undefined;
+    const variante = item.variant
+      ? variantes.data?.find((v) => v.product_id === producto.id && nombreVariante(v) === item.variant)
+      : undefined;
+    if (item.variant && !variante) return undefined;
+    const precio = variante?.price_clp ?? getEffectivePrice(producto.price_clp, producto.sale_price_clp);
+    if (typeof precio !== "number" || precio <= 0) return undefined;
+    total += precio * item.quantity;
+  }
+  return total;
 }
 
 function buildNotificationHtml(data: {
@@ -244,19 +305,21 @@ export async function submitQuoteAction(
   }
 
   // Copia al CRM de ventas, después de responder al cliente (no lo hace esperar).
-  // Sin monto: los productos cotizados no traen precio (unitPrice es null fuera de la compra).
-  after(() =>
+  after(async () =>
     enviarLeadAlCrm({
       nombre,
       empresa,
       correo,
       telefono,
+      rut,
+      tipo_proyecto,
       tipo_cliente,
       cantidad_lockers,
       plazo,
       productos: productos
         ?.map((p) => `${p.name}${p.variant ? ` (${p.variant})` : ""} x${p.quantity}`)
         .join("; "),
+      monto_cotizado: await montoNetoCatalogo(supabase, productos),
       mensaje: [tipo_proyecto && `Proyecto: ${tipo_proyecto}`, mensajeCliente].filter(Boolean).join("\n"),
       canal: "cotizacion_directa",
     }),

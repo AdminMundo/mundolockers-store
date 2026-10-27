@@ -6,11 +6,14 @@ export type LeadCrm = {
   empresa?: string;
   correo?: string;
   telefono?: string;
+  rut?: string;
+  tipo_proyecto?: string;
   tipo_cliente?: string;
   cantidad_lockers?: string;
   plazo?: string;
   mensaje?: string;
   productos?: string;
+  /** Neto, sin IVA. */
   monto_cotizado?: number;
   /** "cotizacion_directa", "organico", "google_ads"… Si falta, el CRM lo deduce. */
   canal?: string;
