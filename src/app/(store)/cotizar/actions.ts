@@ -244,26 +244,21 @@ export async function submitQuoteAction(
   }
 
   // Copia al CRM de ventas, después de responder al cliente (no lo hace esperar).
-  const montoCotizado = (productos ?? []).reduce(
-    (total, p) => (p.unitPrice != null ? total + p.unitPrice * p.quantity : total),
-    0,
-  );
+  // Sin monto: los productos cotizados no traen precio (unitPrice es null fuera de la compra).
   after(() =>
     enviarLeadAlCrm({
       nombre,
       empresa,
       correo,
       telefono,
-      rut,
       tipo_cliente,
       cantidad_lockers,
       plazo,
       productos: productos
         ?.map((p) => `${p.name}${p.variant ? ` (${p.variant})` : ""} x${p.quantity}`)
         .join("; "),
-      monto_cotizado: montoCotizado > 0 ? montoCotizado : undefined,
       mensaje: [tipo_proyecto && `Proyecto: ${tipo_proyecto}`, mensajeCliente].filter(Boolean).join("\n"),
-      canal: productos ? "cotizacion_directa" : undefined,
+      canal: "cotizacion_directa",
     }),
   );
 

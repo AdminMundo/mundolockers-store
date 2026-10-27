@@ -14,8 +14,10 @@ export type LeadCrm = {
   monto_cotizado?: number;
   /** "cotizacion_directa", "organico", "google_ads"… Si falta, el CRM lo deduce. */
   canal?: string;
-  [campo: string]: string | number | undefined;
 };
+
+// Largo máximo de cada texto que se envía; los demás campos se cortan en 200.
+const LIMITES: Record<string, number> = { mensaje: 2000, productos: 2000 };
 
 /**
  * Nunca lanza error: si el CRM no responde, la cotización ya quedó guardada en el sitio
@@ -26,7 +28,11 @@ export async function enviarLeadAlCrm(lead: LeadCrm): Promise<void> {
   const clave = process.env.CRM_LEADS_KEY;
   if (!url || !clave) return;
 
-  const datos = Object.fromEntries(Object.entries(lead).filter(([, v]) => v !== undefined && v !== ""));
+  const datos = Object.fromEntries(
+    Object.entries(lead)
+      .filter(([, v]) => v !== undefined && v !== "")
+      .map(([k, v]) => [k, typeof v === "string" ? v.slice(0, LIMITES[k] ?? 200) : v]),
+  );
 
   try {
     const respuesta = await fetch(url, {
@@ -36,7 +42,7 @@ export async function enviarLeadAlCrm(lead: LeadCrm): Promise<void> {
       signal: AbortSignal.timeout(8000),
     });
     if (!respuesta.ok) {
-      console.error("[crm] El CRM rechazó el lead", respuesta.status, await respuesta.text());
+      console.error("[crm] El CRM rechazó el lead", respuesta.status, (await respuesta.text()).slice(0, 300));
     }
   } catch (error) {
     console.error("[crm] No se pudo enviar el lead", error);
