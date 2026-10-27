@@ -169,7 +169,20 @@ export function QuotePageClient({ initialState }: Props) {
                     </p>
                   </div>
 
-                  <form action={formAction} className="mt-8 grid gap-4 sm:grid-cols-2">
+                  <form
+                    onSubmit={(event) => {
+                      // No se usa <form action={formAction}> a propósito: React
+                      // vacía los campos no controlados apenas la acción
+                      // termina, incluso cuando el resultado es un error de
+                      // validación (solo ve que la función no lanzó una
+                      // excepción). Enviando la acción manualmente, el
+                      // formulario mantiene lo que la persona ya escribió
+                      // cuando el error es, por ejemplo, un correo inválido.
+                      event.preventDefault();
+                      formAction(new FormData(event.currentTarget));
+                    }}
+                    className="mt-8 grid gap-4 sm:grid-cols-2"
+                  >
                     {productosJson && (
                       <input type="hidden" name="productos" value={productosJson} />
                     )}
