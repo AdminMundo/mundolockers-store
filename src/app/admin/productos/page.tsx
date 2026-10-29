@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
+import { requireAdmin } from "@/lib/auth/admin";
 import { createSupabaseServer } from "@/lib/supabase/server";
 import DeleteProductButton from "@/components/admin/delete-product-button";
 
@@ -62,6 +63,7 @@ function statusLabel(value: boolean | null) {
 export default async function AdminProductosPage({
   searchParams,
 }: AdminProductosPageProps) {
+  await requireAdmin();
   const params = await searchParams;
 
   const q = (params.q ?? "").trim();

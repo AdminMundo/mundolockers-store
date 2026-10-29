@@ -2,6 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
+import { requireAdmin } from "@/lib/auth/admin";
 import { createSupabaseServer } from "@/lib/supabase/server";
 
 /** Convierte cualquier texto a slug limpio: minúsculas, sin acentos, solo guiones */
@@ -20,6 +21,7 @@ function sanitizeSku(value: string): string {
   return value.replace(/\s+/g, "").toUpperCase();
 }
 export async function updateProductAction(formData: FormData) {
+  await requireAdmin();
   const productId = String(formData.get("product_id") ?? "").trim();
   const originalSlug = String(formData.get("original_slug") ?? "").trim();
   const originalSku = String(formData.get("original_sku") ?? "").trim();
@@ -154,6 +156,7 @@ export async function updateProductAction(formData: FormData) {
   redirect(`/admin/productos/${sku ?? slug}?saved=1`);
 }
 export async function createProductAction(formData: FormData) {
+  await requireAdmin();
   const name = String(formData.get("name") ?? "").trim();
   const slug = sanitizeSlug(String(formData.get("slug") ?? ""));
 
@@ -284,6 +287,7 @@ export async function createProductAction(formData: FormData) {
   redirect(`/admin/productos/${data.slug}?created=1`);
 }
 export async function deleteProductAction(formData: FormData) {
+  await requireAdmin();
   const sku = String(formData.get("sku") ?? "").trim();
 
   if (!sku) {

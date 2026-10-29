@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
+import { requireStaff } from "@/lib/auth/admin";
 import { createSupabaseServer } from "@/lib/supabase/server";
 import { QuoteViewClient } from "./QuoteViewClient";
 import type { QuoteItemInput } from "@/app/admin/cotizador/actions";
@@ -46,6 +47,7 @@ type PageProps = {
 };
 
 export default async function VerCotizacionPage({ params }: PageProps) {
+  await requireStaff();
   const { folio: folioParam } = await params;
   const folio = Number(folioParam);
   if (!Number.isFinite(folio)) return notFound();

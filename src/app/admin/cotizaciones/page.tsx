@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Image from "next/image";
+import { requireStaff } from "@/lib/auth/admin";
 import { createSupabaseServer } from "@/lib/supabase/server";
 import { CotizacionCard } from "@/app/admin/cotizaciones/CotizacionCard";
 
@@ -32,6 +33,7 @@ type PageProps = {
 };
 
 export default async function AdminCotizacionesPage({ searchParams }: PageProps) {
+  await requireStaff();
   const params = await searchParams;
   const q = (params.q ?? "").trim();
   const estado = (params.estado ?? "").trim();

@@ -2,20 +2,20 @@
 
 import { revalidatePath } from "next/cache";
 import { requireAdmin } from "@/lib/auth/admin";
-import { addDbAdmin, isEnvAdminEmail, removeDbAdmin } from "@/lib/auth/roles";
+import { addDbAdmin, isEnvAdminEmail, removeDbAdmin, type StaffRole } from "@/lib/auth/roles";
 import { createSupabaseServer } from "@/lib/supabase/server";
 
-export async function promoteToAdminAction(email: string): Promise<void> {
+export async function promoteStaffAction(email: string, role: StaffRole): Promise<void> {
   const admin = await requireAdmin();
 
   const target = email.trim().toLowerCase();
   if (!target) return;
 
-  await addDbAdmin(target, admin.email ?? null);
+  await addDbAdmin(target, role, admin.email ?? null);
   revalidatePath("/admin/usuarios");
 }
 
-export async function demoteAdminAction(email: string): Promise<void> {
+export async function revokeStaffAction(email: string): Promise<void> {
   await requireAdmin();
 
   const target = email.trim().toLowerCase();
@@ -89,20 +89,103 @@ export async function adminUpdateEmailAction(
     return { error: message, success: false };
   }
 
-  // Si el correo anterior tenía admin asignado desde el panel, se traslada al correo nuevo.
+  // Si el correo anterior tenía rol asignado desde el panel, se traslada al correo nuevo.
   if (prevLower && !isEnvAdminEmail(prevLower)) {
     const { data: existingAdminRow } = await supabase
       .from("admin_users")
-      .select("added_by")
+      .select("role, added_by")
       .eq("email", prevLower)
       .maybeSingle();
 
     if (existingAdminRow) {
       await removeDbAdmin(prevLower);
-      await addDbAdmin(newEmail, existingAdminRow.added_by ?? null);
+      await addDbAdmin(
+        newEmail,
+        (existingAdminRow.role as StaffRole | null) ?? "admin",
+        existingAdminRow.added_by ?? null,
+      );
     }
   }
 
   revalidatePath("/admin/usuarios");
   return { error: null, success: true };
+}
+
+export type CreateStaffUserState = {
+  error: string | null;
+  success: boolean;
+};
+
+export async function createStaffUserAction(
+  _prevState: CreateStaffUserState,
+  formData: FormData,
+): Promise<CreateStaffUserState> {
+  const admin = await requireAdmin();
+
+  const email = String(formData.get("email") ?? "").trim().toLowerCase();
+  const password = String(formData.get("password") ?? "");
+  const fullName = String(formData.get("full_name") ?? "").trim();
+  const role = String(formData.get("role") ?? "");
+
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    return { error: "Correo inválido.", success: false };
+  }
+  if (password.length < 6) {
+    return { error: "La contraseña debe tener al menos 6 caracteres.", success: false };
+  }
+  if (role !== "admin" && role !== "vendedor") {
+    return { error: "Selecciona un rol válido.", success: false };
+  }
+
+  const supabase = createSupabaseServer();
+  const { error } = await supabase.auth.admin.createUser({
+    email,
+    password,
+    email_confirm: true,
+    user_metadata: fullName ? { full_name: fullName } : undefined,
+  });
+
+  if (error) {
+    const message = /already|registered|exists/i.test(error.message)
+      ? "Ese correo ya tiene una cuenta."
+      : "No se pudo crear el usuario. Intenta nuevamente.";
+    return { error: message, success: false };
+  }
+
+  await addDbAdmin(email, role, admin.email ?? null);
+
+  revalidatePath("/admin/usuarios");
+  return { error: null, success: true };
+}
+
+export type DeleteUserState = {
+  error: string | null;
+};
+
+export async function deleteUserAction(
+  userId: string,
+  email: string,
+  _prevState: DeleteUserState,
+  _formData: FormData,
+): Promise<DeleteUserState> {
+  const admin = await requireAdmin();
+
+  const target = email.trim().toLowerCase();
+  if (isEnvAdminEmail(target)) {
+    return { error: "No puedes eliminar un admin fijo definido por variable de entorno." };
+  }
+  if (admin.email && target === admin.email.toLowerCase()) {
+    return { error: "No puedes eliminar tu propia cuenta." };
+  }
+
+  const supabase = createSupabaseServer();
+  const { error } = await supabase.auth.admin.deleteUser(userId);
+
+  if (error) {
+    return { error: "No se pudo eliminar el usuario. Intenta nuevamente." };
+  }
+
+  await removeDbAdmin(target);
+  revalidatePath("/admin/usuarios");
+  return { error: null };
 }

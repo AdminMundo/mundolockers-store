@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { requireAdmin } from "@/lib/auth/admin";
 import { createSupabaseServer } from "@/lib/supabase/server";
 import { createProductAction } from "@/app/admin/productos/[slug]/actions";
 import ProductImageUpload from "@/components/admin/product-image-upload";
@@ -29,6 +30,7 @@ type CategoryRow = {
 export default async function AdminNuevoProductoPage({
   searchParams,
 }: AdminNuevoProductoPageProps) {
+  await requireAdmin();
   const query = await searchParams;
   const supabase = createSupabaseServer();
 

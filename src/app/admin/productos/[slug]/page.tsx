@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
 import { notFound } from "next/navigation";
+import { requireAdmin } from "@/lib/auth/admin";
 import { createSupabaseServer } from "@/lib/supabase/server";
 import { updateProductAction } from "@/app/admin/productos/[slug]/actions";
 import ProductImageUpload from "@/components/admin/product-image-upload";
@@ -50,6 +51,7 @@ export default async function AdminProductoDetallePage({
   params,
   searchParams,
 }: AdminProductoDetallePageProps) {
+  await requireAdmin();
   const { slug } = await params;
   const query = await searchParams;
 

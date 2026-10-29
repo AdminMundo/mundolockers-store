@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { requireStaff } from "@/lib/auth/admin";
 import { createSupabaseServer } from "@/lib/supabase/server";
 import { CotizacionFormalRow } from "./CotizacionFormalRow";
 
@@ -54,6 +55,7 @@ type PageProps = {
 };
 
 export default async function CotizadorPage({ searchParams }: PageProps) {
+  await requireStaff();
   const params = await searchParams;
   const folio = (params.folio ?? "").trim();
   const rut = (params.rut ?? "").trim();

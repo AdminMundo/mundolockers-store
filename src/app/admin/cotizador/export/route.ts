@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { requireAdmin } from "@/lib/auth/admin";
+import { requireStaff } from "@/lib/auth/admin";
 import { createSupabaseServer } from "@/lib/supabase/server";
 
 type ExportRow = {
@@ -32,7 +32,7 @@ function csvField(value: string | number | null | undefined): string {
 }
 
 export async function GET(req: NextRequest) {
-  await requireAdmin();
+  await requireStaff();
 
   const sp = req.nextUrl.searchParams;
   const folio = sp.get("folio")?.trim() ?? "";

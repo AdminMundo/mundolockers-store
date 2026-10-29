@@ -1,9 +1,12 @@
 import type { Metadata } from "next";
+import { requireAdmin } from "@/lib/auth/admin";
 import { createSupabaseServer } from "@/lib/supabase/server";
-import { getAdminEmailSet, isEnvAdminEmail } from "@/lib/auth/roles";
-import { promoteToAdminAction, demoteAdminAction } from "./actions";
+import { getStaffRoleMap, isEnvAdminEmail } from "@/lib/auth/roles";
+import { promoteStaffAction, revokeStaffAction } from "./actions";
 import { ResetPasswordControl } from "./reset-password-form";
 import { EditEmailControl } from "./edit-email-form";
+import { CreateUserForm } from "./create-user-form";
+import { DeleteUserControl } from "./delete-user-control";
 
 export const metadata: Metadata = {
   title: "Usuarios | Admin",
@@ -27,6 +30,7 @@ function formatDate(iso: string | null | undefined) {
 }
 
 export default async function AdminUsuariosPage({ searchParams }: PageProps) {
+  const currentAdmin = await requireAdmin();
   const params = await searchParams;
   const q = (params.q ?? "").trim().toLowerCase();
 
@@ -63,8 +67,13 @@ export default async function AdminUsuariosPage({ searchParams }: PageProps) {
     })
     .sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime());
 
-  const adminEmails = await getAdminEmailSet();
-  const totalAdmins = allUsers.filter((u) => u.email && adminEmails.has(u.email.toLowerCase())).length;
+  const roleMap = await getStaffRoleMap();
+  const totalAdmins = allUsers.filter(
+    (u) => u.email && roleMap.get(u.email.toLowerCase()) === "admin",
+  ).length;
+  const totalVendedores = allUsers.filter(
+    (u) => u.email && roleMap.get(u.email.toLowerCase()) === "vendedor",
+  ).length;
 
   return (
     <div className="space-y-6">
@@ -77,18 +86,23 @@ export default async function AdminUsuariosPage({ searchParams }: PageProps) {
           <h1 className="text-4xl font-semibold tracking-tight md:text-5xl">Usuarios</h1>
           <p className="mt-1 max-w-2xl text-sm leading-6 text-white/80">
             {allUsers.length} cuenta{allUsers.length !== 1 ? "s" : ""} registrada
-            {allUsers.length !== 1 ? "s" : ""} · {totalAdmins} con acceso admin
+            {allUsers.length !== 1 ? "s" : ""} · {totalAdmins} admin
+            {totalAdmins !== 1 ? "s" : ""} · {totalVendedores} vendedor
+            {totalVendedores !== 1 ? "es" : ""}
           </p>
         </div>
       </section>
 
       {/* Nota sobre rol admin */}
       <section className="rounded-[28px] border border-amber-200 bg-amber-50 px-6 py-4 text-sm text-amber-900">
-        Puedes hacer admin a cualquier cliente registrado desde la tabla de abajo. Los admins
-        definidos por la variable de entorno{" "}
+        Puedes hacer admin o vendedor a cualquier cliente registrado desde la tabla de abajo, o
+        crear una cuenta nueva directamente. Los admins definidos por la variable de entorno{" "}
         <code className="rounded bg-amber-100 px-1.5 py-0.5">ADMIN_EMAILS</code> son fijos y no se
-        pueden quitar desde aquí.
+        pueden quitar ni eliminar desde aquí.
       </section>
+
+      {/* Crear usuario */}
+      <CreateUserForm />
 
       {/* Filtro */}
       <section className="rounded-[32px] border border-black/10 bg-white p-6 shadow-sm">
@@ -158,8 +172,17 @@ export default async function AdminUsuariosPage({ searchParams }: PageProps) {
                 {users.map((u) => {
                   const name = (u.user_metadata?.full_name as string | undefined) || null;
                   const email = u.email ?? null;
-                  const admin = !!email && adminEmails.has(email.toLowerCase());
+                  const role = email ? roleMap.get(email.toLowerCase()) ?? null : null;
                   const fixedAdmin = isEnvAdminEmail(email);
+                  const isSelf = !!email && email.toLowerCase() === currentAdmin.email?.toLowerCase();
+                  const roleBadge =
+                    role === "admin"
+                      ? fixedAdmin
+                        ? "Admin (fijo)"
+                        : "Admin"
+                      : role === "vendedor"
+                        ? "Vendedor"
+                        : "Cliente";
                   return (
                     <tr key={u.id} className="border-b border-black/5 last:border-0">
                       <td className="px-6 py-4">
@@ -170,12 +193,14 @@ export default async function AdminUsuariosPage({ searchParams }: PageProps) {
                         <span
                           className={[
                             "inline-flex rounded-full px-2.5 py-1 text-xs font-medium",
-                            admin
+                            role === "admin"
                               ? "bg-[#0477BF]/10 text-[#0477BF]"
-                              : "bg-black/5 text-black/70",
+                              : role === "vendedor"
+                                ? "bg-emerald-50 text-emerald-700"
+                                : "bg-black/5 text-black/70",
                           ].join(" ")}
                         >
-                          {admin ? (fixedAdmin ? "Admin (fijo)" : "Admin") : "Cliente"}
+                          {roleBadge}
                         </span>
                       </td>
                       <td className="px-6 py-4 text-black/60">{formatDate(u.created_at)}</td>
@@ -189,28 +214,41 @@ export default async function AdminUsuariosPage({ searchParams }: PageProps) {
                       <td className="px-6 py-4">
                         <div className="flex flex-col items-end gap-2">
                           {email && !fixedAdmin ? (
-                            admin ? (
-                              <form action={demoteAdminAction.bind(null, email)}>
+                            role ? (
+                              <form action={revokeStaffAction.bind(null, email)}>
                                 <button
                                   type="submit"
                                   className="inline-flex items-center rounded-xl border border-black/10 px-3 py-1.5 text-xs font-medium text-black/70 transition hover:border-red-200 hover:bg-red-50 hover:text-red-700"
                                 >
-                                  Quitar admin
+                                  Quitar acceso
                                 </button>
                               </form>
                             ) : (
-                              <form action={promoteToAdminAction.bind(null, email)}>
-                                <button
-                                  type="submit"
-                                  className="inline-flex items-center rounded-xl bg-[#0477BF] px-3 py-1.5 text-xs font-medium text-white transition hover:brightness-110"
-                                >
-                                  Hacer admin
-                                </button>
-                              </form>
+                              <div className="flex gap-1.5">
+                                <form action={promoteStaffAction.bind(null, email, "vendedor")}>
+                                  <button
+                                    type="submit"
+                                    className="inline-flex items-center rounded-xl bg-emerald-600 px-3 py-1.5 text-xs font-medium text-white transition hover:brightness-110"
+                                  >
+                                    Hacer vendedor
+                                  </button>
+                                </form>
+                                <form action={promoteStaffAction.bind(null, email, "admin")}>
+                                  <button
+                                    type="submit"
+                                    className="inline-flex items-center rounded-xl bg-[#0477BF] px-3 py-1.5 text-xs font-medium text-white transition hover:brightness-110"
+                                  >
+                                    Hacer admin
+                                  </button>
+                                </form>
+                              </div>
                             )
                           ) : null}
                           {email && <EditEmailControl userId={u.id} email={email} />}
                           <ResetPasswordControl userId={u.id} />
+                          {email && !fixedAdmin && !isSelf && (
+                            <DeleteUserControl userId={u.id} email={email} />
+                          )}
                         </div>
                       </td>
                     </tr>

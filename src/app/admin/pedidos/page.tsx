@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Image from "next/image";
+import { requireAdmin } from "@/lib/auth/admin";
 import { createSupabaseServer } from "@/lib/supabase/server";
 import { PedidoCard, type Pedido } from "@/app/admin/pedidos/PedidoCard";
 
@@ -35,6 +36,7 @@ const ESTADO_LABELS: Record<string, string> = {
 export default async function AdminPedidosPage({
   searchParams,
 }: AdminPedidosPageProps) {
+  await requireAdmin();
   const params = await searchParams;
   const estado = (params.estado ?? "").trim();
   const pago = (params.pago ?? "").trim();

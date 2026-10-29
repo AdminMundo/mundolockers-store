@@ -1,6 +1,7 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
+import { requireAdmin } from "@/lib/auth/admin";
 import { createSupabaseServer } from "@/lib/supabase/server";
 
 export type EstadoPedido =
@@ -18,6 +19,7 @@ export async function updateEstadoPedidoAction(
   id: string,
   estado: EstadoPedido,
 ) {
+  await requireAdmin();
   const supabase = createSupabaseServer();
   await supabase
     .from("pedidos")
@@ -27,6 +29,7 @@ export async function updateEstadoPedidoAction(
 }
 
 export async function updateEstadoPagoAction(id: string, estado_pago: EstadoPago) {
+  await requireAdmin();
   const supabase = createSupabaseServer();
   await supabase
     .from("pedidos")
@@ -36,6 +39,7 @@ export async function updateEstadoPagoAction(id: string, estado_pago: EstadoPago
 }
 
 export async function deletePedidoAction(id: string) {
+  await requireAdmin();
   const supabase = createSupabaseServer();
   await supabase.from("pedidos").delete().eq("id", id);
   revalidatePath("/admin/pedidos");

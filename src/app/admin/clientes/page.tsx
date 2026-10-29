@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { requireAdmin } from "@/lib/auth/admin";
 import { createSupabaseServer } from "@/lib/supabase/server";
 
 export const metadata: Metadata = {
@@ -38,6 +39,7 @@ function formatFecha(iso: string): string {
 }
 
 export default async function ClientesPage({ searchParams }: PageProps) {
+  await requireAdmin();
   const params = await searchParams;
   const q = (params.q ?? "").trim();
   const page = Math.max(1, parseInt(params.page ?? "1", 10));

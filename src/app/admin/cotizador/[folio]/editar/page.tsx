@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { requireAdmin } from "@/lib/auth/admin";
+import { requireStaff } from "@/lib/auth/admin";
 import { createSupabaseServer } from "@/lib/supabase/server";
 import { QuoteBuilder, type QuoteBuilderInitial } from "@/app/admin/cotizador/QuoteBuilder";
 import type { QuoteItemInput } from "@/app/admin/cotizador/actions";
@@ -36,7 +36,7 @@ type PageProps = {
 };
 
 export default async function EditarCotizacionPage({ params }: PageProps) {
-  await requireAdmin();
+  await requireStaff();
   const { folio: folioParam } = await params;
   const folio = Number(folioParam);
   if (!Number.isFinite(folio)) return notFound();

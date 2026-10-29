@@ -2,23 +2,31 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import type { StaffRole } from "@/lib/auth/roles";
 
 type AdminSidebarProps = {
   userEmail?: string;
+  role?: StaffRole;
 };
 
 const navItems = [
-  { href: "/admin", label: "Dashboard" },
-  { href: "/admin/productos", label: "Productos" },
-  { href: "/admin/pedidos", label: "Pedidos" },
-  { href: "/admin/cotizaciones", label: "Cotizaciones" },
-  { href: "/admin/cotizador", label: "Cotizador" },
-  { href: "/admin/clientes", label: "Clientes" },
-  { href: "/admin/usuarios", label: "Usuarios" },
-];
+  { href: "/admin", label: "Dashboard", roles: ["admin"] },
+  { href: "/admin/productos", label: "Productos", roles: ["admin"] },
+  { href: "/admin/pedidos", label: "Pedidos", roles: ["admin"] },
+  { href: "/admin/cotizaciones", label: "Cotizaciones", roles: ["admin", "vendedor"] },
+  { href: "/admin/cotizador", label: "Cotizador", roles: ["admin", "vendedor"] },
+  { href: "/admin/clientes", label: "Clientes", roles: ["admin"] },
+  { href: "/admin/usuarios", label: "Usuarios", roles: ["admin"] },
+] satisfies { href: string; label: string; roles: StaffRole[] }[];
 
-export function AdminSidebar({ userEmail }: AdminSidebarProps) {
+const ROLE_LABEL: Record<StaffRole, string> = {
+  admin: "Admin",
+  vendedor: "Vendedor",
+};
+
+export function AdminSidebar({ userEmail, role = "admin" }: AdminSidebarProps) {
   const pathname = usePathname();
+  const items = navItems.filter((item) => item.roles.includes(role));
 
   return (
     <div className="sticky top-6 overflow-hidden rounded-[32px] border border-black/10 bg-white shadow-[0_12px_35px_rgba(15,23,42,0.06)]">
@@ -36,7 +44,7 @@ export function AdminSidebar({ userEmail }: AdminSidebarProps) {
 
       <div className="px-4 py-4">
         <nav className="space-y-2">
-          {navItems.map((item) => {
+          {items.map((item) => {
             const isActive =
               item.href === "/admin"
                 ? pathname === "/admin"
@@ -60,9 +68,14 @@ export function AdminSidebar({ userEmail }: AdminSidebarProps) {
         </nav>
 
         <div className="mt-5 rounded-[24px] border border-black/8 bg-[#F8F8FA] p-4">
-          <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-black/35">
-            Sesión activa
-          </p>
+          <div className="flex items-center justify-between gap-2">
+            <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-black/35">
+              Sesión activa
+            </p>
+            <span className="rounded-full bg-[#0477BF]/10 px-2 py-0.5 text-[10px] font-semibold text-[#0477BF]">
+              {ROLE_LABEL[role]}
+            </span>
+          </div>
           <p className="mt-2 break-all text-sm text-black/65">
             {userEmail ?? "admin"}
           </p>

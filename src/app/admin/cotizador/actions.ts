@@ -2,8 +2,8 @@
 
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
+import { requireStaff } from "@/lib/auth/admin";
 import { createSupabaseServer } from "@/lib/supabase/server";
-import { createSupabaseServerAuthClient } from "@/lib/supabase/auth-server";
 import { getEffectivePrice } from "@/lib/pricing";
 
 export type QuoteItemInput = {
@@ -75,6 +75,7 @@ function getVariantLabel(variant: VariantRow): string | null {
 export async function searchProductsForQuoteAction(
   query: string,
 ): Promise<ProductSearchResult[]> {
+  await requireStaff();
   const q = query.trim();
   if (q.length < 2) return [];
 
@@ -155,6 +156,7 @@ export type ClienteCotizacion = {
 export async function searchClientByRutAction(
   rut: string,
 ): Promise<ClienteCotizacion | null> {
+  await requireStaff();
   const rutTrim = rut.trim();
   if (!rutTrim) return null;
 
@@ -201,6 +203,7 @@ function validateInput(input: SaveCotizacionFormalInput): string | null {
 export async function createCotizacionFormalAction(
   input: SaveCotizacionFormalInput,
 ): Promise<SaveCotizacionFormalResult> {
+  await requireStaff();
   const validationError = validateInput(input);
   if (validationError) return { success: false, error: validationError };
 
@@ -265,6 +268,7 @@ export async function updateCotizacionFormalAction(
   id: string,
   input: SaveCotizacionFormalInput,
 ): Promise<SaveCotizacionFormalResult & { folio?: number }> {
+  await requireStaff();
   const validationError = validateInput(input);
   if (validationError) return { success: false, error: validationError };
 
@@ -338,6 +342,7 @@ export async function updateEstadoFormalAction(
   id: string,
   estado: EstadoCotizacionFormal,
 ): Promise<{ error: string | null }> {
+  await requireStaff();
   const supabase = createSupabaseServer();
 
   const { error } = await supabase
@@ -352,6 +357,7 @@ export async function updateEstadoFormalAction(
 }
 
 export async function deleteCotizacionFormalAction(id: string) {
+  await requireStaff();
   const supabase = createSupabaseServer();
   await supabase.from("cotizaciones_formales").delete().eq("id", id);
   revalidatePath("/admin/cotizador");
@@ -377,12 +383,9 @@ export async function setTrasladadoKameAction(
   trasladado: boolean,
   numeroPedido?: string,
 ): Promise<TrasladadoKameResult> {
-  const authClient = await createSupabaseServerAuthClient();
-  const {
-    data: { user },
-  } = await authClient.auth.getUser();
+  const { user } = await requireStaff();
 
-  const trasladadoPor = trasladado ? (user?.email ?? "Admin") : null;
+  const trasladadoPor = trasladado ? (user.email ?? "Admin") : null;
   const trasladadoEn = trasladado ? new Date().toISOString() : null;
   const numeroPedidoFinal = trasladado ? (numeroPedido?.trim() || null) : null;
 

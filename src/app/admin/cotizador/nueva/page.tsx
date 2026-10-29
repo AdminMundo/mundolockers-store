@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { requireAdmin } from "@/lib/auth/admin";
+import { requireStaff } from "@/lib/auth/admin";
 import { createSupabaseServer } from "@/lib/supabase/server";
 import { QuoteBuilder, type QuoteBuilderPrefill } from "@/app/admin/cotizador/QuoteBuilder";
 import type { QuoteItemInput } from "@/app/admin/cotizador/actions";
@@ -79,7 +79,7 @@ export default async function NuevaCotizacionPage({
 }: {
   searchParams: Promise<{ fromCotizacion?: string }>;
 }) {
-  const user = await requireAdmin();
+  const { user } = await requireStaff();
   const { fromCotizacion } = await searchParams;
   const prefill = fromCotizacion ? await buildPrefillFromCotizacion(fromCotizacion) : undefined;
 
