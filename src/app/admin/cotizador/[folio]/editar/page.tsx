@@ -76,7 +76,7 @@ export default async function EditarCotizacionPage({ params }: PageProps) {
       <div>
         <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-black/40">Cotizador</p>
         <h1 className="mt-1 text-3xl font-semibold tracking-tight text-black md:text-4xl">
-          Editar cotización N° {String(data.folio).padStart(4, "0")}
+          Editar cotización LS-{String(data.folio).padStart(4, "0")}
         </h1>
       </div>
 

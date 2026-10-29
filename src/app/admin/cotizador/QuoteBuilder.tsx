@@ -370,7 +370,7 @@ export function QuoteBuilder({
         try {
           const html2pdfModule = await import("html2pdf.js");
           const html2pdf = html2pdfModule.default;
-          const folioStr = String(folio).padStart(4, "0");
+          const folioStr = "LS-" + String(folio).padStart(4, "0");
           await document.fonts?.ready;
           await new Promise((resolve) => setTimeout(resolve, 200));
           await html2pdf()
@@ -399,10 +399,10 @@ export function QuoteBuilder({
   }
 
   const folioLabel = savedFolio
-    ? `N° ${String(savedFolio).padStart(4, "0")}`
+    ? `LS-${String(savedFolio).padStart(4, "0")}`
     : initial
-      ? `N° ${String(initial.folio).padStart(4, "0")}`
-      : "N° ————";
+      ? `LS-${String(initial.folio).padStart(4, "0")}`
+      : "LS-————";
 
   const documentData: QuoteDocumentData = {
     folioLabel,

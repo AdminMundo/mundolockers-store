@@ -54,7 +54,7 @@ export function CotizacionFormalRow({ c }: { c: Row }) {
   }
 
   function handleDelete() {
-    if (!window.confirm(`¿Eliminar la cotización N° ${String(c.folio).padStart(4, "0")}? Esta acción no se puede deshacer.`)) return;
+    if (!window.confirm(`¿Eliminar la cotización LS-${String(c.folio).padStart(4, "0")}? Esta acción no se puede deshacer.`)) return;
     setDeleting(true);
     startTransition(async () => {
       await deleteCotizacionFormalAction(c.id);
@@ -71,7 +71,7 @@ export function CotizacionFormalRow({ c }: { c: Row }) {
     <tr className="border-b border-black/5 transition hover:bg-black/[0.02] last:border-b-0">
       <td className="px-4 py-3">
         <span className="rounded-lg bg-[#0477BF]/10 px-2 py-1 font-mono text-xs font-bold text-[#0477BF]">
-          #{String(c.folio).padStart(4, "0")}
+          LS-{String(c.folio).padStart(4, "0")}
         </span>
       </td>
       <td className="px-4 py-3 text-xs text-black/50">{formatDate(c.fecha_emision)}</td>

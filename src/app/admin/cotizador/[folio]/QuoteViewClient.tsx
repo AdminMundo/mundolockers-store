@@ -114,7 +114,7 @@ export function QuoteViewClient({ cotizacion: c }: { cotizacion: CotizacionForma
     try {
       const html2pdfModule = await import("html2pdf.js");
       const html2pdf = html2pdfModule.default;
-      const folioStr = String(c.folio).padStart(4, "0");
+      const folioStr = "LS-" + String(c.folio).padStart(4, "0");
       await document.fonts?.ready;
       await new Promise((resolve) => setTimeout(resolve, 200));
       await html2pdf()
@@ -135,7 +135,7 @@ export function QuoteViewClient({ cotizacion: c }: { cotizacion: CotizacionForma
   }
 
   const documentData: QuoteDocumentData = {
-    folioLabel: `N° ${String(c.folio).padStart(4, "0")}`,
+    folioLabel: `LS-${String(c.folio).padStart(4, "0")}`,
     clienteNombre: c.cliente_nombre,
     clienteRut: c.cliente_rut,
     clienteDireccion: c.cliente_direccion ?? "",

@@ -67,7 +67,7 @@ export default async function VerCotizacionPage({ params }: PageProps) {
         <div>
           <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-black/40">Cotizador</p>
           <h1 className="mt-1 text-3xl font-semibold tracking-tight text-black md:text-4xl">
-            Cotización N° {String(data.folio).padStart(4, "0")}
+            Cotización LS-{String(data.folio).padStart(4, "0")}
           </h1>
         </div>
         <Link
