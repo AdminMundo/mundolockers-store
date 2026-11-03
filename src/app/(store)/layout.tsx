@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import Script from "next/script";
 import Navbar from "@/components/navbar";
 import Footer from "@/components/footer";
 import WhatsAppFloatingButton from "@/components/whatsapp-floating-button";
@@ -17,6 +18,8 @@ export default function StoreLayout({ children }: StoreLayoutProps) {
       {children}
       <Footer />
       <WhatsAppFloatingButton />
+      {/* Asistente del CRM (crm.lockersstore.cl): separa ventas, pedidos, postventa y facturación. A la izquierda por el botón de WhatsApp. */}
+      <Script src="https://crm.lockersstore.cl/asistente.js" data-lado="izquierda" strategy="lazyOnload" />
     </>
   );
 }

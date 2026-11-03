@@ -6,16 +6,16 @@ const securityHeaders = [
     key: "Content-Security-Policy",
     value: [
       "default-src 'self'",
-      // Scripts: propio sitio + Next.js inline + Flow + Google Ads (gtag.js)
-      "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.flow.cl https://sandbox.flow.cl https://www.googletagmanager.com",
+      // Scripts: propio sitio + Next.js inline + Flow + Google Ads (gtag.js) + asistente del CRM
+      "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.flow.cl https://sandbox.flow.cl https://www.googletagmanager.com https://crm.lockersstore.cl",
       // Estilos: propio sitio + inline (Tailwind necesita esto)
       "style-src 'self' 'unsafe-inline'",
       // Imágenes: propio sitio + Supabase Storage + data URIs + píxeles de Google Ads
-      "img-src 'self' data: blob: https://mnoybuethuabjzlmxmmo.supabase.co https://www.google.com https://www.googletagmanager.com",
+      "img-src 'self' data: blob: https://mnoybuethuabjzlmxmmo.supabase.co https://www.google.com https://www.googletagmanager.com https://crm.lockersstore.cl",
       // Fuentes
       "font-src 'self' data:",
-      // Conexiones fetch/XHR: propio sitio + Supabase + Flow + Google Ads (conversión)
-      "connect-src 'self' https://mnoybuethuabjzlmxmmo.supabase.co https://www.flow.cl https://sandbox.flow.cl https://www.googletagmanager.com https://www.google-analytics.com https://analytics.google.com https://www.google.com https://googleads.g.doubleclick.net",
+      // Conexiones fetch/XHR: propio sitio + Supabase + Flow + Google Ads (conversión) + asistente del CRM
+      "connect-src 'self' https://crm.lockersstore.cl https://mnoybuethuabjzlmxmmo.supabase.co https://www.flow.cl https://sandbox.flow.cl https://www.googletagmanager.com https://www.google-analytics.com https://analytics.google.com https://www.google.com https://googleads.g.doubleclick.net",
       // Frames: Flow (pago) + Supabase Storage (vista previa de fichas técnicas en PDF)
       "frame-src 'self' https://www.flow.cl https://sandbox.flow.cl https://mnoybuethuabjzlmxmmo.supabase.co",
       // Forms solo al mismo origen
