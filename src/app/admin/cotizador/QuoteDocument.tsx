@@ -16,9 +16,9 @@ const COMPANY = {
 const BANK = {
   banco: "Banco Santander",
   tipoCuenta: "Cuenta Corriente",
-  numero: "000097545618",
-  titular: "Roco Import SpA",
-  rut: "78.124.096-6",
+  numero: "000101597032",
+  titular: "LOCKERS STORE",
+  rut: "78.422.139-3",
   email: "ventas@lockersstore.cl",
 };
 

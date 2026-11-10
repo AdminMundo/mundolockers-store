@@ -26,10 +26,10 @@ export default function MediosDePagoPage() {
               </p>
               <ul>
                 <li>
-                  <strong>Titular:</strong> Roco Import SpA
+                  <strong>Titular:</strong> LOCKERS STORE
                 </li>
                 <li>
-                  <strong>RUT:</strong> 78.124.096-6
+                  <strong>RUT:</strong> 78.422.139-3
                 </li>
                 <li>
                   <strong>Banco:</strong> Banco Santander
@@ -38,7 +38,7 @@ export default function MediosDePagoPage() {
                   <strong>Tipo de cuenta:</strong> Cuenta Corriente
                 </li>
                 <li>
-                  <strong>N° de cuenta:</strong> 000097545618
+                  <strong>N° de cuenta:</strong> 000101597032
                 </li>
                 <li>
                   <strong>Email para comprobante:</strong>{" "}
@@ -74,8 +74,8 @@ export default function MediosDePagoPage() {
           title: "Cheque al día",
           content: (
             <p>
-              Aceptamos cheques al día emitidos a nombre de <strong>Roco Import SpA</strong>{" "}
-              (RUT 78.124.096-6), sujeto a acuerdo previo. El despacho se realiza una vez
+              Aceptamos cheques al día emitidos a nombre de <strong>LOCKERS STORE</strong>{" "}
+              (RUT 78.422.139-3), sujeto a acuerdo previo. El despacho se realiza una vez
               verificado el cheque. Este medio aplica principalmente para pedidos de empresa o
               proyectos de mayor volumen.
             </p>
@@ -147,7 +147,7 @@ export default function MediosDePagoPage() {
           title: "Seguridad",
           content: (
             <p>
-              Todos los pagos se realizan directamente a la cuenta bancaria de Roco Import SpA.
+              Todos los pagos se realizan directamente a la cuenta bancaria de LOCKERS STORE.
               Nunca solicitamos datos de tarjetas de crédito ni claves bancarias. Si recibes una
               comunicación sospechosa solicitando datos bancarios en nombre de LockerStore, no
               respondas y repórtalo a{" "}

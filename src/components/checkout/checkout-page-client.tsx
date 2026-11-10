@@ -687,7 +687,7 @@ export function CheckoutPageClient({ initialState }: Props) {
               )}
               {form.paymentMethod === "transferencia" && (
                 <p className="mt-3 text-xs text-neutral-500">
-                  Banco Santander · CTA CTE 000097545618 · Roco Import SpA · RUT 78.124.096-6
+                  Banco Santander · CTA CTE 000101597032 · LOCKERS STORE · RUT 78.422.139-3
                 </p>
               )}
             </section>

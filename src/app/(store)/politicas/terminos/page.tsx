@@ -81,7 +81,7 @@ export default function TerminosPage() {
             <>
               <p>Aceptamos los siguientes medios de pago:</p>
               <ul>
-                <li>Transferencia bancaria / depósito (Banco Santander CTA CTE 000097545618).</li>
+                <li>Transferencia bancaria / depósito (Banco Santander CTA CTE 000101597032).</li>
                 <li>Cheque al día (según acuerdo previo).</li>
                 <li>Efectivo en bodega (con cita previa).</li>
               </ul>
