@@ -252,8 +252,9 @@ export async function createPedidoAction(
     // que venga del navegador) a partir de la región/comuna enviadas.
     const costoDespacho =
       input.tipo_entrega === "despacho" ? getShippingCost(input.region, input.ciudad) : 0;
-    const iva = Math.round(subtotal * 0.19);
-    const total = subtotal + iva + costoDespacho;
+    // El despacho es un servicio afecto: paga IVA igual que los productos.
+    const iva = Math.round((subtotal + costoDespacho) * 0.19);
+    const total = subtotal + costoDespacho + iva;
 
     const authClient = await createSupabaseServerAuthClient();
     const {

@@ -317,7 +317,6 @@ export function CheckoutPageClient({ initialState }: Props) {
   const [submitError, setSubmitError] = useState<string>("");
 
   const subtotal = summary.purchaseSubtotal;
-  const iva = Math.round(subtotal * 0.19);
 
   const shippingQuote = useMemo(
     () => getShippingQuote(form.region, form.commune),
@@ -336,7 +335,9 @@ export function CheckoutPageClient({ initialState }: Props) {
           ? formatClp(shippingQuote.cost)
           : "Se confirma según comuna";
 
-  const total = subtotal + iva + shippingCost;
+  // El despacho paga IVA igual que los productos (mismo cálculo que en el servidor).
+  const iva = Math.round((subtotal + shippingCost) * 0.19);
+  const total = subtotal + shippingCost + iva;
   const totalLabel = formatClp(total);
 
   const purchaseCountLabel = useMemo(() => {
@@ -763,16 +764,16 @@ export function CheckoutPageClient({ initialState }: Props) {
                 </div>
 
                 <div className="flex items-center justify-between gap-3">
-                  <span className="text-neutral-600">IVA (19%)</span>
-                  <span className="font-medium text-neutral-950">
-                    {formatClp(iva)}
+                  <span className="text-neutral-600">Despacho (neto)</span>
+                  <span className="text-right font-medium text-neutral-950">
+                    {shippingLabel}
                   </span>
                 </div>
 
                 <div className="flex items-center justify-between gap-3">
-                  <span className="text-neutral-600">Despacho</span>
-                  <span className="text-right font-medium text-neutral-950">
-                    {shippingLabel}
+                  <span className="text-neutral-600">IVA (19%)</span>
+                  <span className="font-medium text-neutral-950">
+                    {formatClp(iva)}
                   </span>
                 </div>
               </div>
